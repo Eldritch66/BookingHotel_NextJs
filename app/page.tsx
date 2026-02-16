@@ -6,6 +6,7 @@ import { IoCameraOutline } from "react-icons/io5";
 import { IoLocationOutline } from "react-icons/io5";
 import { PiCurrencyCircleDollarLight } from "react-icons/pi";
 import { VscArrowSmallRight } from "react-icons/vsc";
+import { BiSolidRightTopArrowCircle } from "react-icons/bi";
 
 const dataTypeHotel = [
   {
@@ -92,6 +93,21 @@ export default function Home() {
         <h2 className="text-5xl font-light text-center tracking-wide leading-tight">
           Explore Stays, About Comfort, Your Stay, <br /> Our Priority
         </h2>
+        <div className="mt-10 grid grid-cols-3 gap-10">
+          <div className="flex flex-col">
+            <p className="w-20 py-2 border-2 rounded-full border-gray-200 shadow-sm text-sm hover:bg-gray-100 tracking-tight leading-tight text-center">
+              About Us
+            </p>
+            <h3 className="text-2xl font-light mt-4 mb-2 tracking-wide leading-tight">
+              We specialize in the best hotels and stays across Indonesia, from
+              luxury resorts in Bali to cozy villas in Yogyakarta.
+            </h3>
+            <div className="mt-8 flex items-center justify-between bg-black text-white rounded-full px-6 py-2 w-44 cursor-pointer hover:bg-gray-800">
+              <span>Learn More</span>
+              <BiSolidRightTopArrowCircle className="text-4xl -mr-4" />
+            </div>
+          </div>
+        </div>
       </section>
       {/* </div> */}
     </>
