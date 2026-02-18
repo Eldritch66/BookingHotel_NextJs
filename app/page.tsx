@@ -59,12 +59,6 @@ export default function Home() {
             <div className="absolute -bottom-14  bg-white max-w-5xl w-full h-40 rounded-md z-50 ">
               <section className="flex justify-start w-full h-full shadow-xl">
                 <div className="flex items-center justify-center gap-4 px-4 py-6 w-full">
-                  {/* {dataTypeHotel.map((item) => (
-                    <div key={item.label} className="flex flex-col gap-2">
-                      <span>{item.label}</span>
-                      <DropDown icon={item.icon} options={item.options} />
-                    </div>
-                  ))} */}
                   {dataTypeHotel.map((item) => (
                     <div key={item.label} className="flex flex-col gap-2">
                       <span className="font-light">{item.label}</span>
