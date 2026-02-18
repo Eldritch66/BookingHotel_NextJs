@@ -34,24 +34,38 @@ const slides = [
 ];
 export default function AboutImageCarousel() {
   // const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
+  const [animate, setAnimate] = useState(false);
 
   const [index, setIndex] = useState(0);
 
   const next = () => {
-    setIndex((prev) => (prev + 1) % slides.length);
+    setAnimate(true);
+    setTimeout(() => {
+      setIndex((prev) => (prev + 1) % slides.length);
+      setAnimate(false);
+    }, 200);
   };
 
   const prev = () => {
-    setIndex((prev) => (prev - 1 + slides.length) % slides.length);
+    setAnimate(true);
+    setTimeout(() => {
+      setIndex((prev) => (prev - 1 + slides.length) % slides.length);
+      setAnimate(false);
+    }, 300);
   };
 
   const current = slides[index];
+
   // const goToPrev = () => emblaApi?.scrollPrev();
   // const goToNext = () => emblaApi?.scrollNext();
 
   return (
     <>
-      <article className="image_one relative w-full h-full">
+      <article
+        className={`relative transition-transform duration-300 ease-in-out ${
+          animate ? "scale-95" : "scale-100"
+        }`}
+      >
         <Image
           src={current.bigImage}
           alt="best place to stay"
@@ -76,8 +90,12 @@ export default function AboutImageCarousel() {
           className="absolute bottom-4 right-4 z-10 text-white cursor-pointer hover:text-gray-300"
         />
       </article>
-      <article className="image_two flex flex-col justify-evenly relative">
-        <div className="h-[70%] relative">
+      <article className="relative">
+        <div
+          className={`h-[70%] relative transition-all duration-300 ease-in-out ${
+            animate ? "opacity-0 scale-105" : "opacity-100 scale-100"
+          }`}
+        >
           <span className="px-3 py-1 text-sm rounded-full border-2 border-amber-50 text-white drop-shadow-md left-4 top-4 absolute z-10">
             out door
           </span>
@@ -99,11 +117,24 @@ export default function AboutImageCarousel() {
           {current.description}
         </p>
         <div className="absolute right-4 bottom-0 flex flex-row gap-2">
-          <button className="cursor-pointer" onClick={prev}>
-            <SlArrowLeftCircle size={32} />
+          <button
+            onClick={prev}
+            className="group cursor-pointer transition-all duration-300 ease-out hover:scale-110 hover:-translate-y-1 active:scale-95 "
+          >
+            <SlArrowLeftCircle
+              size={32}
+              className="text-gray-700 transition-colors duration-300 group-hover:text-black"
+            />
           </button>
-          <button className="cursor-pointer" onClick={next}>
-            <SlArrowRightCircle size={32} />
+
+          <button
+            onClick={next}
+            className="group cursor-pointer transition-all duration-300 ease-out hover:scale-110 hover:-translate-y-1 active:scale-95"
+          >
+            <SlArrowRightCircle
+              size={32}
+              className="text-gray-700 transition-colors duration-300 group-hover:text-black"
+            />
           </button>
         </div>
       </article>
