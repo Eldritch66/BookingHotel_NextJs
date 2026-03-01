@@ -1,10 +1,8 @@
 "use client";
-
 import { SlArrowLeftCircle } from "react-icons/sl";
 import { SlArrowRightCircle } from "react-icons/sl";
 import { BsArrowUpRightCircleFill } from "react-icons/bs";
 import { IoLocationOutline } from "react-icons/io5";
-import useEmblaCarousel from "embla-carousel-react";
 import room_one from "@/public/room1.jpg";
 import room_two from "@/public/room2.jpg";
 import room_three from "@/public/room3.jpg";
@@ -113,7 +111,7 @@ export default function AboutImageCarousel() {
             className="rounded-3xl object-cover object-center w-full h-full block brightness-90 row-span-2"
           />
         </div>
-        <p className="text-md font-light tracking-wide leading-tight mb-10">
+        <p className="text-base font-light tracking-wide leading-tight mb-4 mt-2">
           {current.description}
         </p>
         <div className="absolute right-4 bottom-0 flex flex-row gap-2">
