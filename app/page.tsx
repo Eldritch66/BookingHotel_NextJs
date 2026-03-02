@@ -9,6 +9,7 @@ import { BsArrowUpRightCircleFill } from "react-icons/bs";
 import { VscArrowSmallRight } from "react-icons/vsc";
 import AboutImageCarousel from "./components/AboutImageCarousel";
 import WhyChoseUs from "./components/WhyChoseUs";
+import TestiMonial from "./components/Testimonial";
 
 const dataTypeHotel = [
   {
@@ -37,7 +38,7 @@ const dataTypeHotel = [
 export default function Home() {
   return (
     <>
-      <div className="h-[2000px]">
+      <div className="h-[4000px]">
         <Header />
         <div className="min-h-screen w-full max-w-7xl mx-auto text-center relative">
           <Image
@@ -109,9 +110,8 @@ export default function Home() {
           </div>
         </section>
         <hr className="w-min-h-screen w-full max-w-7xl mx-auto my-20 text-gray-300" />
-        {/* ====== WHY CHOSE US START ====== */}
         <WhyChoseUs />
-        {/* ====== WHY CHOSE US END ====== */}
+        <TestiMonial />
       </div>
     </>
   );

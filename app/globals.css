@@ -2,6 +2,7 @@
 
 :root {
   --background: #f9fafb;
+  /* --background: #ffffff; */
   --foreground: #111111;
 
   --secondary: #f5f5f5;
@@ -45,4 +46,7 @@ body {
   flex: 0 0 var(--slide-size);
   min-width: 0;
   position: relative;
+}
+.embla__dots {
+  opacity: 1;
 }
