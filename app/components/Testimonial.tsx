@@ -18,21 +18,22 @@ const testimonials = [
       "Booking was seamless and the resort exceeded expectations. Highly recommended for families.",
     name: "Rina Putri",
     role: "Travel Blogger",
+    avatar: "/avatar1.jpg",
+  },
+  {
+    comment:
+      "We’ve stayed in many resorts across Indonesia, but this one stood out. The atmosphere was calm, the rooms were comfortable, and the service felt sincere. It created a memorable stay that we would gladly experience again.",
+    name: "Clara Wijaya",
+    role: "Lifestyle Content Creator",
     avatar: "/avatar3.jpg",
   },
   {
     comment:
-      "What impressed me the most was how effortless the entire process was. The platform made it easy to compare options and choose the perfect villa for our family getaway. The property matched the photos beautifully and the service exceeded expectations in every way.",
-    name: "Clara Wijaya",
-    role: "Lifestyle Content Creator",
-    avatar: "/avatar4.jpg",
-  },
-  {
-    comment:
-      "We’ve stayed in many resorts across Indonesia, but this experience felt different. The attention to detail, comfort of the rooms, and the sense of calm throughout the property created a memorable stay. It truly reflects a commitment to quality and authentic hospitality.",
+      "The entire experience was effortless from start to finish. The platform helped us find the perfect villa, and the property matched the photos beautifully. Every detail reflected comfort, quality, and genuine hospitality.",
+
     name: "Rizky Mahendra",
     role: "Business Consultant",
-    avatar: "/avatar5.jpg",
+    avatar: "/avatar4.jpg",
   },
 ];
 
@@ -59,9 +60,9 @@ export default function TestiMonial() {
   }, [emblaApi]);
 
   return (
-    <section className="relative py-32 overflow-hidden">
+    <section className="relative py-32">
       {/* Circle Background */}
-      <div className="absolute top-1/2 left-1/2 w-[900px] h-[900px] "></div>
+      <div className="absolute top-1/3 left-1/2 w-[800px] h-[800px] border border-gray-200 rounded-full -translate-x-1/2 -translate-y-1/2 opacity-80"></div>
 
       <div className="max-w-3xl mx-auto text-center relative z-10">
         <p className="text-sm tracking-widest uppercase text-gray-500 mb-6">
@@ -76,7 +77,7 @@ export default function TestiMonial() {
                   “{item.comment}”
                 </p>
 
-                <div className="flex flex-col items-center gap-3">
+                <div className="flex flex-row justify-center items-center gap-3">
                   <Image
                     src={item.avatar}
                     alt={item.name}

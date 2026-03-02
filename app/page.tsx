@@ -10,6 +10,7 @@ import { VscArrowSmallRight } from "react-icons/vsc";
 import AboutImageCarousel from "./components/AboutImageCarousel";
 import WhyChoseUs from "./components/WhyChoseUs";
 import TestiMonial from "./components/Testimonial";
+import Faq from "./components/Faq";
 
 const dataTypeHotel = [
   {
@@ -38,7 +39,7 @@ const dataTypeHotel = [
 export default function Home() {
   return (
     <>
-      <div className="h-[4000px]">
+      <div className="h-[5000px]">
         <Header />
         <div className="min-h-screen w-full max-w-7xl mx-auto text-center relative">
           <Image
@@ -112,6 +113,7 @@ export default function Home() {
         <hr className="w-min-h-screen w-full max-w-7xl mx-auto my-20 text-gray-300" />
         <WhyChoseUs />
         <TestiMonial />
+        <Faq />
       </div>
     </>
   );
