@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CgProfile } from "react-icons/cg";
 
 export default function Login() {
   return (
@@ -6,8 +7,8 @@ export default function Login() {
       className="flex gap-2
       justify-end items-center text-sm"
     >
-      <div className="border-black border-2 px-4 py-2 rounded-full">
-        <Link href="#">Sign Up</Link>
+      <div className="flex items-center">
+        <CgProfile size={36} />
       </div>
       <div className="bg-black border-2 px-4 py-2 rounded-full text-white">
         <Link href="#">Login</Link>

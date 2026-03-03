@@ -25,7 +25,7 @@ const testimonials = [
       "We’ve stayed in many resorts across Indonesia, but this one stood out. The atmosphere was calm, the rooms were comfortable, and the service felt sincere. It created a memorable stay that we would gladly experience again.",
     name: "Clara Wijaya",
     role: "Lifestyle Content Creator",
-    avatar: "/avatar3.jpg",
+    avatar: "/avatar5.jpg",
   },
   {
     comment:

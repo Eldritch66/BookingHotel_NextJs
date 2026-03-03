@@ -27,101 +27,56 @@ const faqList = [
 ];
 
 export default function Faq() {
-  const [activeIndex, setActiveIndex] = useState(null);
-  const handleClick = (index: number | null) => {
+  const [activeIndex, setActiveIndex] = useState<number | null>(null); //activeIndex can be number or null FUCK IT I ALWAYS FORGET ABOUT THISS!!
+  const handleClick = (index: number) => {
     if (activeIndex === index) {
-      setActiveIndex(null); // tutup jika klik yang sama
+      setActiveIndex(null);
     } else {
       setActiveIndex(index); // buka yang baru (yang lama otomatis tertutup)
     }
   };
   return (
-    <section className="min-h-screen w-full max-w-7xl grid grid-cols-3 mt-40 mx-auto text-black gap-20">
-      <div className="col-span-1">
-        <h2 className="text-6xl mt-20 mb-8 ml-8">
+    <section className="min-h-screen w-full max-w-7xl grid grid-rows-none md:grid-cols-3 mt-40 mx-auto text-black md:gap-20">
+      <div className="md:col-span-1">
+        <h2 className="text-6xl text-center mt-20 mb-8 mx-4 md:text-left md:ml-8">
           General FAQ <br /> By Clients
         </h2>
-        <p className="text-gray-400 ml-8">
+        <p className="text-gray-400 text-center mx-4 md:text-left md:ml-8">
           Here is a list of frequently asked questions (FAQ) titles that you can
           use as a reference
         </p>
       </div>
-      <div className="col-span-2">
-        <ul className="h-full grid grid-row-5  mt-20 mb-8 ml-8">
+      <div className="md:col-span-2">
+        <ul className="h-full grid grid-row-5 mt-4 md:mt-20 mb-8 ml-8">
           {faqList.map((faq, index) => (
-            <>
-              <li key={index} className="cursor-pointer">
-                <div
-                  className="flex justify-between items-center "
-                  onClick={() => handleClick(index)}
-                >
-                  <h3 className="text-2xl font-extralight">{faq.h3}</h3>
+            <li key={index} className="cursor-pointer">
+              <div
+                className="flex justify-between items-center "
+                onClick={() => handleClick(index)}
+              >
+                <h3 className="text-2xl font-extralight">{faq.h3}</h3>
 
-                  {/* Icon */}
-                  {activeIndex === index ? (
-                    <MdKeyboardArrowDown size={30} />
-                  ) : (
-                    <MdKeyboardArrowRight size={30} />
-                  )}
-                </div>
+                {/* Icon */}
+                {activeIndex === index ? (
+                  <MdKeyboardArrowDown size={30} />
+                ) : (
+                  <MdKeyboardArrowRight size={30} />
+                )}
+              </div>
 
-                {/* Answer */}
-                <div
-                  className={`overflow-hidden transition-all duration-300 ${
-                    activeIndex === index
-                      ? "max-h-40 mt-4 opacity-100"
-                      : "max-h-0 opacity-0"
-                  }`}
-                >
-                  <p className="text-gray-500">{faq.p}</p>
-                </div>
-                <hr className="w-9/10 mt-4 " />
-              </li>
-            </>
+              {/* Answer */}
+              <div
+                className={`overflow-hidden transition-all duration-300 ${
+                  activeIndex === index
+                    ? "max-h-40 mt-4 opacity-100"
+                    : "max-h-2 opacity-0"
+                }`}
+              >
+                <p className="text-gray-500">{faq.p}</p>
+              </div>
+              <hr className="w-full mt-4 " />
+            </li>
           ))}
-          {/* <li>
-            <h3 className="text-2xl">How do i modify or cancel my booking</h3>
-            <hr className="w-9/10 mt-2" />
-          </li>
-          <li>
-            <h3 className="text-2xl">Is breakfast included in the price</h3>
-            <hr className="w-9/10 mt-2" />
-          </li>
-          <li>
-            <h3 className="text-2xl">
-              How does the &ldquo;Best Price Guarantee&ldquo;Work?
-            </h3>
-            <hr className="w-9/10 mt-2" />
-          </li>
-          <li>
-            <h3 className="text-2xl" onClick={() => setIsClicked(!isClicked)}>
-              What is your refund policy?
-            </h3>
-            {isClicked && (
-              <p className="py-4">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                Officia debitis rem consequatur facere excepturi delectus?
-                Sapiente fuga necessitatibus modi placeat.
-              </p>
-            )}
-            <hr className="w-9/10 mt-2" />
-          </li>
-          <li>
-            <h3
-              className="text-2xl cursor-pointer"
-              onClick={() => setIsClicked(!isClicked)}
-            >
-              What payment methods do you accept?
-            </h3>
-            {isClicked && (
-              <p className="py-4">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                Officia debitis rem consequatur facere excepturi delectus?
-                Sapiente fuga necessitatibus modi placeat.
-              </p>
-            )}
-            <hr className="w-9/10 mt-2" />
-          </li> */}
         </ul>
       </div>
     </section>
