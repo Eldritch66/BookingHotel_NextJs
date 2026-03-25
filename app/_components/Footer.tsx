@@ -7,11 +7,11 @@ import { FaXTwitter } from "react-icons/fa6";
 export default function Footer() {
   return (
     <footer className="min-h-fit w-full max-w-7xl mx-auto mt-60 mb-8">
-      <h2 className=" text-center text-[7rem] font-black leading-none tracking-tighter uppercase">
+      <h2 className=" text-center text-3xl md:text-[7rem] font-black leading-none tracking-tighter uppercase">
         LOKASTAY- CONTACT
       </h2>
       <div className="flex flex-col items-center mt-8">
-        <div className="flex gap-20 items-center flex-row font-semibold">
+        <div className="flex gap-8 sm:gap-20 items-center flex-row font-semibold">
           <p className="flex flex-row items-center">
             About us <TiArrowRight size={20} className="ml-2" />
           </p>
@@ -27,7 +27,7 @@ export default function Footer() {
           stays that go beyond just a room, providing a comforting journey
           toward relaxation and unforgettable experiences
         </p>
-        <div className="flex flex-row w-full justify-between relative mt-8">
+        <div className="flex flex-row w-full justify-around sm:justify-between relative mt-8 text-xs sm:text-md">
           <a href="#">Helpline: +1234 567 890</a>
           <nav
             aria-label="Social media"

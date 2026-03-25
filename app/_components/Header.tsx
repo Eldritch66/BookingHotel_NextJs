@@ -4,7 +4,7 @@ import Navbar from "./navigation";
 function Header() {
   return (
     <header className=" px-4 py-5">
-      <div className="flex justify-between items-center mx-auto w-full max-w-7xl h-16">
+      <div className="flex justify-between items-center mx-auto w-full max-w-7xl h-16 rounded-full">
         <Navbar />
         <Login />
       </div>

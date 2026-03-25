@@ -28,23 +28,29 @@ function DropDown({ icon, options }: DropDownProps) {
     <Dropdown>
       <DropdownTrigger className="h-12 px-12 rounded-md bg-white shadow-md cursor-pointer">
         <Button className="capitalize flex flex-row" variant="bordered">
-          {icon}
+          {/* === LOCATION === */}
+          <span className="text-gray-500">{icon}</span>
           {selectedValue}
-          <IoIosArrowDown className="ml-2 flex flex-end" />
+          {/* <IoIosArrowDown className="ml-2 flex flex-end" /> */}
+          <IoIosArrowDown className="ml-auto flex flex-end" />
         </Button>
       </DropdownTrigger>
       <DropdownMenu
         disallowEmptySelection
-        aria-label="Multiple selection example"
-        closeOnSelect={false}
+        aria-label="Location selection"
+        closeOnSelect={true}
         selectedKeys={selectedKeys}
         selectionMode="single"
-        variant="flat"
         onSelectionChange={setSelectedKeys}
-        className="flex flex-col border text-black rounded-md shadow-md px-10 py-2 hover:bg-gray-100 text-sm"
+        className="p-2 rounded-xl shadow-lg border border-gray-200 bg-white min-w-[220px]"
       >
         {options.map((option) => (
-          <DropdownItem key={option}>{option}</DropdownItem>
+          <DropdownItem
+            key={option}
+            className="px-3 py-2 text-sm text-gray-700 rounded-lg hover:bg-gray-100 cursor-pointer"
+          >
+            {option}
+          </DropdownItem>
         ))}
       </DropdownMenu>
     </Dropdown>

@@ -67,7 +67,7 @@ export default function AboutImageCarousel() {
         <Image
           src={current.bigImage}
           alt="best place to stay"
-          className="rounded-3xl object-cover object-center w-full h-full absolute brightness-90 "
+          className="rounded-3xl object-cover object-center w-full h-full absolute brightness-90 aspect-square "
         />
         <span className="px-3 py-1 text-sm rounded-full border-2 border-amber-50 text-white drop-shadow-md left-4 top-4 absolute">
           Outdoor Area
@@ -108,7 +108,7 @@ export default function AboutImageCarousel() {
           <Image
             src={current.smallImage}
             alt="best place to stay"
-            className="rounded-3xl object-cover object-center w-full h-full block brightness-90 row-span-2"
+            className="rounded-3xl object-cover object-center w-full h-full block brightness-90 row-span-2 aspect-square"
           />
         </div>
         <p className="text-base font-light tracking-wide leading-tight mb-4 mt-2">

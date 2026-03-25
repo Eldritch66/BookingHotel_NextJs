@@ -7,7 +7,7 @@ export default function Navbar() {
     <nav className="flex flex-row items-center">
       <ul className="flex items-center gap-4 text-sm">
         <li className="mr-14">
-          <Link href="#">
+          <Link href="/">
             <Image
               src={Logo}
               alt="Logo"
@@ -17,7 +17,7 @@ export default function Navbar() {
           </Link>
         </li>
         <li>
-          <Link href="#">facilities</Link>
+          <Link href="/bookings">Booking</Link>
         </li>
         <li>
           <Link href="#">About Us</Link>

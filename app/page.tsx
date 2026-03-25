@@ -1,17 +1,18 @@
 import Image from "next/image";
-import Header from "./components/Header";
+import Header from "./_components/Header";
 import image1 from "@/public/hero-section.jpg";
-import DropDown from "./components/DropDown";
+import DropDown from "./_components/DropDown";
 import { IoCameraOutline } from "react-icons/io5";
 import { IoLocationOutline } from "react-icons/io5";
 import { PiCurrencyCircleDollarLight } from "react-icons/pi";
 import { BsArrowUpRightCircleFill } from "react-icons/bs";
 import { VscArrowSmallRight } from "react-icons/vsc";
-import AboutImageCarousel from "./components/AboutImageCarousel";
-import WhyChoseUs from "./components/WhyChoseUs";
-import TestiMonial from "./components/Testimonial";
-import Faq from "./components/Faq";
-import Footer from "./components/Footer";
+
+import AboutImageCarousel from "./_components/AboutImageCarousel";
+import WhyChoseUs from "./_components/WhyChoseUs";
+import TestiMonial from "./_components/Testimonial";
+import Faq from "./_components/Faq";
+import Footer from "./_components/Footer";
 
 const dataTypeHotel = [
   {
@@ -40,14 +41,14 @@ const dataTypeHotel = [
 export default function Home() {
   return (
     <>
-      <Header />
-      <div className="min-h-screen w-full max-w-7xl mx-auto text-center relative">
+      <main className="min-h-screen w-full max-w-7xl mx-auto text-center relative">
         <Image
           src={image1}
           alt="best place to stay"
+          placeholder="blur"
           className="rounded-3xl object-cover object-center w-full h-175 block brightness-90"
         />
-        <div className="absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white w-full px-4 ">
+        <section className="absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white w-full px-4 ">
           <h1 className="text-5xl font-light mb-4">
             Find Amazing Hotels, compare prices, and <br />
             book your dream vacation easily
@@ -57,7 +58,7 @@ export default function Home() {
             bookings. <br /> Find the best options near you in seconds with ease
             and confidence.
           </p>
-        </div>
+        </section>
         <div className="w-full flex justify-center">
           <div className="absolute bottom-30 bg-white max-w-5xl w-full h-40 rounded-md z-50 ">
             <section className="flex justify-start w-full h-full shadow-xl">
@@ -79,7 +80,7 @@ export default function Home() {
             </section>
           </div>
         </div>
-      </div>
+      </main>
       {/* ===== ABOUT US PAGE ====== */}
       <section className="min-h-screen w-full max-w-7xl mx-auto mt-10">
         <div className="flex justify-center text-center mb-14">
@@ -110,7 +111,7 @@ export default function Home() {
           <AboutImageCarousel />
         </div>
       </section>
-      <hr className="w-min-h-screen w-full max-w-7xl mx-auto my-20 text-gray-300" />
+      <hr className="w-min-h-screen w-full max-w-7xl mx-auto my-40 text-gray-300" />
       <WhyChoseUs />
       <TestiMonial />
       <Faq />
