@@ -37,7 +37,7 @@ const ratingOptions = ["All", "1", "2", "3", "4", "5"];
 
 export default async function Bookings() {
   const dataProperties = await properties();
-  console.log(dataProperties);
+  // console.log(dataProperties);
   return (
     <main className="min-h-screen w-full">
       <section className="max-w-6xl mx-auto mt-12 px-6 relative h-20">
@@ -52,7 +52,7 @@ export default async function Bookings() {
           ))}
           {/* Search button */}
           <div className="px-6 col-span-2">
-            <button className="flex items-center justify-center w-12 h-12 rounded-xl bg-[#a67f71] text-white hover:bg-orange-600 transition">
+            <button className="flex items-center justify-center w-12 h-12 rounded-xl bg-orange-600 text-white hover:bg-[##a67f71] transition">
               <IoSearch size={20} />
             </button>
           </div>
@@ -123,7 +123,7 @@ export default async function Bookings() {
         <div className="flex flex-row items-center justify-between">
           <h2 className="font-bold text-xl">Properties In Indonesia</h2>
           <p className="font-extralight text-sm text-gray-400">
-            {properties.length} properties found
+            {dataProperties.length} properties found
           </p>
         </div>
         <div className="w-full h-full grid grid-cols-3 grid-rows-2 gap-4 mt-4">
@@ -133,7 +133,7 @@ export default async function Bookings() {
           <div className="bg-blue-400 col-span-1 row-span-1"></div>
           <div className="bg-gray-600 col-span-1 row-span-1"></div>
           <div className="bg-green-600 col-span-1 row-span-1"></div> */}
-          {dataProperties.map((properti) => (
+          {dataProperties.slice(0, 6).map((properti) => (
             <Card property={properti} key={properti.id} />
           ))}
         </div>

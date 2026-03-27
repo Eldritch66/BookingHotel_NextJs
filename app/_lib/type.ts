@@ -8,10 +8,14 @@ export type Property = {
   address: string;
   rating: number;
   review_count: number;
-  host_id: string;
   created_at: string;
+  description: string;
   property_images: {
     id: number;
     image_url: string;
+  }[];
+  rooms: {
+    id: number;
+    name: string;
   }[];
 };
