@@ -17,7 +17,7 @@ export const properties = async function () {
     )
 
     .order("title");
-
+  await new Promise((res) => setTimeout(res, 2000));
   if (error) {
     console.error(error);
     throw new Error("Cabins could not be loaded");
@@ -25,3 +25,21 @@ export const properties = async function () {
 
   return data;
 };
+
+export async function getRooms(id: number) {
+  const { data, error } = await supabase
+    .from("rooms")
+    // We actually also need data on the cabins as well. But let's ONLY take the data that we actually need, in order to reduce downloaded data.
+    .select(
+      "id, property_id, name, price_per_night, bed_type, quantity,created_at, size,properties(id,title,city,province)",
+    )
+    .eq("id", id)
+    .single();
+
+  if (error) {
+    console.error(error);
+    throw new Error("Bookings could not get loaded");
+  }
+
+  return data;
+}

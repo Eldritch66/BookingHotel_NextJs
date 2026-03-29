@@ -8,6 +8,9 @@ import { MdOutlineStarPurple500 } from "react-icons/md";
 import { BsCurrencyDollar } from "react-icons/bs";
 import { properties } from "../_lib/data-services";
 import Card from "../_components/Card";
+import PropertiesList from "../_components/PropertiesList";
+import { Suspense } from "react";
+import Spinner from "../_components/Spinner";
 
 export const metadata = {
   title: "cabins",
@@ -119,23 +122,33 @@ export default async function Bookings() {
       {/*===== FILTER FEATURES PROPERTIES END =======  */}
 
       <hr className="w-min-h-screen w-full max-w-7xl mx-auto text-gray-200" />
-      <section className="h-screen w-full max-w-7xl mx-auto mt-10 ">
+      {/* <section className="h-screen w-full max-w-7xl mx-auto mt-10 "> */}
+      <section className="w-full max-w-7xl mx-auto mt-10">
         <div className="flex flex-row items-center justify-between">
           <h2 className="font-bold text-xl">Properties In Indonesia</h2>
           <p className="font-extralight text-sm text-gray-400">
             {dataProperties.length} properties found
           </p>
         </div>
-        <div className="w-full h-full grid grid-cols-3 grid-rows-2 gap-4 mt-4">
+        {/* <div className="w-full h-full grid grid-cols-3 grid-rows-2 gap-4 mt-4"> */}
+        <div
+          className="grid gap-6 mt-4 
+  grid-cols-1 
+  sm:grid-cols-2 
+  lg:grid-cols-3"
+        >
           {/* <div className="bg-white col-span-1 row-span-1 rounded-2xl shadow-md"></div>
           <div className="bg-amber-200 col-span-1 row-span-1"></div>
           <div className="bg-amber-600 col-span-1 row-span-1"></div>
           <div className="bg-blue-400 col-span-1 row-span-1"></div>
           <div className="bg-gray-600 col-span-1 row-span-1"></div>
           <div className="bg-green-600 col-span-1 row-span-1"></div> */}
-          {dataProperties.slice(0, 6).map((properti) => (
+          {/* {dataProperties.slice(0, 6).map((properti) => (
             <Card property={properti} key={properti.id} />
-          ))}
+          ))} */}
+          <Suspense fallback={<Spinner />}>
+            <PropertiesList properties={dataProperties} />
+          </Suspense>
         </div>
       </section>
     </main>

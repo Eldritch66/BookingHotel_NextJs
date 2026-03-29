@@ -19,3 +19,20 @@ export type Property = {
     name: string;
   }[];
 };
+
+export type PropertyPreview = Pick<
+  Property,
+  "id" | "title" | "city" | "province"
+>;
+
+export type Room = {
+  id: number;
+  property_id: number;
+  name: string;
+  price_per_night: number;
+  bed_type: string;
+  quantity: number;
+  created_at: string;
+  size: number;
+  properties: PropertyPreview[] | null;
+};

@@ -1,5 +1,5 @@
 import Login from "./Login";
-import Navbar from "./navigation";
+import Navbar from "./Navigation";
 
 function Header() {
   return (
