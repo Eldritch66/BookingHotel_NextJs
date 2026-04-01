@@ -26,15 +26,16 @@ export const properties = async function () {
   return data;
 };
 
-export async function getRooms(id: number) {
+export async function getRooms(propertyId: string) {
   const { data, error } = await supabase
     .from("rooms")
     // We actually also need data on the cabins as well. But let's ONLY take the data that we actually need, in order to reduce downloaded data.
     .select(
       "id, property_id, name, price_per_night, bed_type, quantity,created_at, size,properties(id,title,city,province)",
     )
-    .eq("id", id)
+    .eq("property_id", propertyId)
     .single();
+  // .order("created_at", { ascending: false });
 
   if (error) {
     console.error(error);

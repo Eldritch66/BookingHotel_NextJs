@@ -34,5 +34,10 @@ export type Room = {
   quantity: number;
   created_at: string;
   size: number;
-  properties: PropertyPreview[] | null;
+  properties: {
+    id: number;
+    title: string;
+    city: string;
+    province: string;
+  }[];
 };

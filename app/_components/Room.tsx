@@ -1,6 +1,7 @@
+import Image from "next/image";
 import { Room } from "../_lib/type";
 
-export default function DetailRoom({ rooms }: { rooms: Room }) {
+export default function DetailRoom({ room }: { room: Room }) {
   const {
     id,
     property_id,
@@ -11,13 +12,20 @@ export default function DetailRoom({ rooms }: { rooms: Room }) {
     created_at,
     size,
     properties,
-  } = rooms;
+  } = room;
   const property = properties?.[0];
 
   const { title, city, province } = property || {};
   return (
-    <div className="flex items-center justify-center h-screen text-4xl">
-      <span className="bg-amber-300 text-2xl">Room Details</span>
-    </div>
+    <main className="min-h-screen w-full">
+      <section className="max-w-[1320px] mx-auto mt-12 px-6 relative h-[60dvh]">
+        <div className="w-full h-full  grid grid-cols-2">
+          <div className="col-span-1 bg-amber-500 rounded-tl-4xl rounded-bl-2xl"></div>
+          <div>
+            <div className="col-span-1 grid grid-cols-2 rows-2"></div>
+          </div>
+        </div>
+      </section>
+    </main>
   );
 }
