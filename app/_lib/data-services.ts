@@ -1,4 +1,5 @@
 import { supabase } from "./supabase";
+import { Room } from "./type";
 
 export const properties = async function () {
   const { data, error } = await supabase
@@ -29,18 +30,21 @@ export const properties = async function () {
 export async function getRooms(propertyId: string) {
   const { data, error } = await supabase
     .from("rooms")
-    // We actually also need data on the cabins as well. But let's ONLY take the data that we actually need, in order to reduce downloaded data.
+
     .select(
-      "id, property_id, name, price_per_night, bed_type, quantity,created_at, size,properties(id,title,city,province)",
+      `id, property_id, name, price_per_night, bed_type, quantity,created_at, size,properties(id,title,city,province,  property_images(
+          id,
+          image_url
+        ) )`,
     )
     .eq("property_id", propertyId)
-    .single();
-  // .order("created_at", { ascending: false });
+    // .single();
+    .order("created_at", { ascending: false });
 
   if (error) {
     console.error(error);
     throw new Error("Bookings could not get loaded");
   }
 
-  return data;
+  return data as unknown as Room[]; // ✅ unknown first, then Room[]
 }

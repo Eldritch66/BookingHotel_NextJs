@@ -25,9 +25,29 @@ export type PropertyPreview = Pick<
   "id" | "title" | "city" | "province"
 >;
 
+// export type Room = {
+//   id: number;
+//   property_id: number;
+//   name: string;
+//   price_per_night: number;
+//   bed_type: string;
+//   quantity: number;
+//   created_at: string;
+//   size: number;
+//   properties: {
+//     id: number;
+//     title: string;
+//     city: string;
+//     province: string;
+//     property_images: {
+//       id: number;
+//       image_url: string;
+//     }[];
+//   }[];
+// };
 export type Room = {
-  id: number;
-  property_id: number;
+  id: string;
+  property_id: string;
   name: string;
   price_per_night: number;
   bed_type: string;
@@ -35,9 +55,14 @@ export type Room = {
   created_at: string;
   size: number;
   properties: {
-    id: number;
+    // ← make this an array
+    id: string;
     title: string;
     city: string;
     province: string;
-  }[];
+    property_images: {
+      id: string;
+      image_url: string;
+    }[];
+  };
 };
