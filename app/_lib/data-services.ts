@@ -46,5 +46,5 @@ export async function getRooms(propertyId: string) {
     throw new Error("Bookings could not get loaded");
   }
 
-  return data as unknown as Room[]; // ✅ unknown first, then Room[]
+  return data as unknown as Room[];
 }

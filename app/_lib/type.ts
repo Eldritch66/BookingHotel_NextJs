@@ -55,7 +55,6 @@ export type Room = {
   created_at: string;
   size: number;
   properties: {
-    // ← make this an array
     id: string;
     title: string;
     city: string;

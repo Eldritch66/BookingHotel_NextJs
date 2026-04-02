@@ -10,7 +10,6 @@ export default async function Page({
   console.log("ID dari URL:", id);
 
   const rooms = await getRooms(id);
-  console.log(JSON.stringify(rooms, null, 2));
 
   return (
     <div className="flex items-center justify-center h-screen text-4xl">
