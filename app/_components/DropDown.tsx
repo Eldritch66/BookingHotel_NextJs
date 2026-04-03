@@ -13,7 +13,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import { useMemo, useState } from "react";
 
 type DropDownProps = {
-  icon: React.ReactNode;
+  icon?: React.ReactNode;
   options: string[];
 };
 function DropDown({ icon, options }: DropDownProps) {

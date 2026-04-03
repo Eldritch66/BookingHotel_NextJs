@@ -59,6 +59,8 @@ export type Room = {
     title: string;
     city: string;
     province: string;
+    rating: number;
+    review_count: number;
     property_images: {
       id: string;
       image_url: string;

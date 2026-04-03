@@ -7,7 +7,6 @@ import { MdPool } from "react-icons/md";
 import { MdOutlineStarPurple500 } from "react-icons/md";
 import { BsCurrencyDollar } from "react-icons/bs";
 import { properties } from "../_lib/data-services";
-import Card from "../_components/Card";
 import PropertiesList from "../_components/PropertiesList";
 import { Suspense } from "react";
 import Spinner from "../_components/Spinner";

@@ -61,3 +61,57 @@ body {
   border-right-color: transparent;
   animation: rotate 1s infinite linear;
 }
+
+/* ===== DayPicker custom theme to match #a67f71 palette ===== */
+/* ===== react-day-picker v9 — match #a67f71 theme ===== */
+
+/* Selected day circles (range start/end) */
+.rdp-day_button[aria-selected="true"],
+.rdp-range_start .rdp-day_button,
+.rdp-range_end .rdp-day_button {
+  background-color: #a67f71 !important;
+  color: #fff !important;
+  border-color: #a67f71 !important;
+}
+
+/* Days inside the range */
+.rdp-range_middle .rdp-day_button {
+  background-color: #f5ede9 !important;
+  color: #5c3d35 !important;
+}
+
+/* Hover */
+.rdp-day_button:hover {
+  background-color: #f5ede9 !important;
+  color: #a67f71 !important;
+  border-color: #a67f71 !important;
+}
+
+/* Today */
+.rdp-today .rdp-day_button {
+  color: #a67f71 !important;
+  font-weight: 700;
+}
+
+/* Nav arrows */
+.rdp-nav button {
+  color: #a67f71 !important;
+}
+.rdp-nav button:hover {
+  background-color: #f5ede9 !important;
+}
+
+/* Month heading */
+.rdp-month_caption {
+  color: #5c3d35;
+  font-weight: 600;
+}
+
+/* Weekday labels */
+.rdp-weekday {
+  color: #a67f71 !important;
+}
+.rdp-chevron {
+  fill: #a67f71 !important;
+  stroke: #a67f71 !important;
+}
