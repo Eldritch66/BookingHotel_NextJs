@@ -41,14 +41,14 @@ const dataTypeHotel = [
 export default function Home() {
   return (
     <>
-      <main className="min-h-screen w-full max-w-7xl mx-auto text-center relative">
+      <main className="min-h-screen w-full md:max-w-[1500px] lg:max-w-[1750px] mx-auto text-center relative overflow-x-hidden">
         <Image
           src={image1}
           alt="best place to stay"
           placeholder="blur"
           className="rounded-3xl object-cover object-center w-full h-175 block brightness-90"
         />
-        <section className="absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white w-full px-4 ">
+        <section className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[90%] max-w-3xl px-4 text-white">
           <h1 className="text-5xl font-light mb-4">
             Find Amazing Hotels, compare prices, and <br />
             book your dream vacation easily
@@ -82,7 +82,7 @@ export default function Home() {
         </div>
       </main>
       {/* ===== ABOUT US PAGE ====== */}
-      <section className="min-h-screen w-full max-w-7xl mx-auto mt-10">
+      <section className="min-h-screen w-full max-w-[1700px] mx-auto mt-10">
         <div className="flex justify-center text-center mb-14">
           <p className="w-36 py-2 border-2 border-gray-200 rounded-full text-sm cursor-pointer hover:bg-gray-100">
             Let&apos;s know us
@@ -93,13 +93,13 @@ export default function Home() {
           Explore Stays, About Comfort, Your Stay, <br />
           Our Priority
         </h2>
-        <div className="mt-40 grid grid-cols-1 lg:grid-cols-[1fr_1.4fr_1.1fr] gap-10">
+        <div className="mt-40 grid grid-cols-1 lg:grid-cols-[1fr_1.4fr_1.1fr] gap-10 mx-4">
           {/* <div className="mt-30 grid grid-cols-[300px_480px_360px]"> */}
           <div className="flex flex-col col-span-1">
-            <p className="w-20 py-2 border-2 rounded-full border-gray-200 shadow-sm text-sm hover:shadow-none tracking-tight leading-tight text-center">
+            <p className="w-30 py-2 border-2 rounded-full border-gray-200 shadow-sm text-lg hover:shadow-none tracking-tight leading-tight text-center">
               About Us
             </p>
-            <h3 className="text-xl font-light mt-4 mb-2 tracking-wide leading-tight">
+            <h3 className="text-2xl font-sans font-semibold mt-4 mb-2 tracking-wide leading-tight">
               We specialize in the best hotels and stays across Indonesia, from
               luxury resorts in Bali to cozy villas in Yogyakarta.
             </h3>
@@ -111,7 +111,7 @@ export default function Home() {
           <AboutImageCarousel />
         </div>
       </section>
-      <hr className="w-min-h-screen w-full max-w-7xl mx-auto my-40 text-gray-300" />
+      <hr className="w-min-h-screen w-full max-w-[1700px] mx-auto my-40 text-gray-300" />
       <WhyChoseUs />
       <TestiMonial />
       <Faq />

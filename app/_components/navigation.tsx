@@ -4,7 +4,7 @@ import Logo from "@/public/logo.png";
 
 export default function Navbar() {
   return (
-    <nav className="flex flex-row items-center">
+    <nav className="flex flex-row items-center z-50 sticky">
       <ul className="flex items-center gap-4 text-sm">
         <li className="mr-14">
           <Link href="/">

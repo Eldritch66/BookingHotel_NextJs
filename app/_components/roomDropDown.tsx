@@ -52,7 +52,7 @@ function RoomDropDown({ icon, options, onChange }: RoomDropDownProps) {
           const index = options.indexOf(Array.from(newKeys)[0]);
           onChange?.(index + 1);
         }}
-        className="p-2 rounded-xl shadow-lg border border-gray-200 bg-white min-w-full"
+        className="p-2 rounded-xl shadow-lg border border-gray-200 bg-white w-[300px] md:w-[460px] mt-2"
       >
         {options.map((option: string) => (
           <DropdownItem

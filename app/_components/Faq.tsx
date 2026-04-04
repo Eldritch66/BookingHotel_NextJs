@@ -36,10 +36,10 @@ export default function Faq() {
     }
   };
   return (
-    <section className="min-h-screen w-full max-w-7xl grid grid-rows-none md:grid-cols-3 mt-40 mx-auto text-black md:gap-20">
+    <section className="min-h-screen w-full md:max-w-[1400px] lg:max-w-[1600px] grid grid-rows-none md:grid-cols-3 mt-10 sm:mt-30 mx-auto text-black md:gap-20">
       <div className="md:col-span-1">
         <h2 className="text-6xl text-center mt-20 mb-8 mx-4 md:text-left md:ml-8">
-          General FAQ <br /> By Clients
+          General <br /> FAQ <br /> By Clients
         </h2>
         <p className="text-gray-400 text-center mx-4 md:text-left md:ml-8">
           Here is a list of frequently asked questions (FAQ) titles that you can

@@ -5,7 +5,7 @@ export default function Login() {
   return (
     <div
       className="flex gap-2
-      justify-end items-center text-sm"
+      justify-end items-center text-sm z-50"
     >
       <div className="flex items-center">
         <CgProfile size={36} />

@@ -60,8 +60,8 @@ export default function AboutImageCarousel() {
   return (
     <>
       <article
-        className={`relative transition-transform duration-300 ease-in-out ${
-          animate ? "scale-95" : "scale-100"
+        className={`relative  h-[400px] md:h-[450px] transition-transform duration-300 ease-in-out ${
+          animate ? "scale-90" : "scale-100"
         }`}
       >
         <Image
@@ -69,35 +69,55 @@ export default function AboutImageCarousel() {
           alt="best place to stay"
           className="rounded-3xl object-cover object-center w-full h-full absolute brightness-90 aspect-square "
         />
-        <span className="px-3 py-1 text-sm rounded-full border-2 border-amber-50 text-white drop-shadow-md left-4 top-4 absolute">
+        <span className="px-3 py-1 text-lg rounded-full border-2 border-amber-50 text-white drop-shadow-md left-4 top-4 absolute">
           Outdoor Area
         </span>
         <span
-          className="absolute right-4 top-4 text-lg font-extralight tracking-wide leading-[1.425] text-white drop-shadow-md
-          w-[60%]"
+          className="absolute right-0 sm:right-4 top-4 text-lg sm:text-xl font-extralight tracking-wide leading-[1.425] text-white drop-shadow-md
+          w-55 sm:w-[60%]"
         >
           {current.description}
         </span>
-        <p className="px-3 py-1 text-xs rounded-full border-2 border-amber-50 text-white backdrop-blur drop-shadow-md left-4 bottom-4 absolute tracking-tight flex flex-row gap-2 items-center">
+        <p className="px-3 py-1 text-base rounded-full border-2 border-amber-50 text-white backdrop-blur drop-shadow-md left-4 bottom-4 absolute tracking-tight flex flex-row gap-2 items-center">
           <IoLocationOutline size={20} />
           <span>{current.location}</span>
         </p>
 
         <BsArrowUpRightCircleFill
-          size={40}
+          size={44}
           className="absolute bottom-4 right-4 z-10 text-white cursor-pointer hover:text-gray-300"
         />
+        <div className="absolute md:hidden right-4 bottom-0 flex flex-row gap-2 -mb-10">
+          <button
+            onClick={prev}
+            className="group cursor-pointer transition-all duration-300 ease-out hover:scale-110 hover:-translate-y-1 active:scale-95 "
+          >
+            <SlArrowLeftCircle
+              size={32}
+              className="text-gray-700 transition-colors duration-300 group-hover:text-black"
+            />
+          </button>
+          <button
+            onClick={next}
+            className="group cursor-pointer transition-all duration-300 ease-out hover:scale-110 hover:-translate-y-1 active:scale-95"
+          >
+            <SlArrowRightCircle
+              size={32}
+              className="text-gray-700 transition-colors duration-300 group-hover:text-black"
+            />
+          </button>
+        </div>
       </article>
-      <article className="relative">
+      <article className="relative overflow-hidden h-[300px] md:h-[400px] lg:h-[450px] hidden md:block mt-2">
         <div
           className={`h-[70%] relative transition-all duration-300 ease-in-out ${
             animate ? "opacity-0 scale-105" : "opacity-100 scale-100"
           }`}
         >
-          <span className="px-3 py-1 text-sm rounded-full border-2 border-amber-50 text-white drop-shadow-md left-4 top-4 absolute z-10">
+          <span className="px-3 py-1 text-lg rounded-full border-2 border-amber-50 text-white drop-shadow-md left-4 top-4 absolute z-10">
             out door
           </span>
-          <p className="px-3 py-1 text-xs rounded-full border-2 border-amber-50 text-white backdrop-blur drop-shadow-md left-4 bottom-4 absolute tracking-tight flex flex-row gap-2 items-center z-10">
+          <p className="px-3 py-1 text-base rounded-full border-2 border-amber-50 text-white backdrop-blur drop-shadow-md left-4 bottom-4 absolute tracking-tight flex flex-row gap-2 items-center z-10">
             <IoLocationOutline size={20} />
             <span>{current.location}</span>
           </p>
@@ -111,10 +131,11 @@ export default function AboutImageCarousel() {
             className="rounded-3xl object-cover object-center w-full h-full block brightness-90 row-span-2 aspect-square"
           />
         </div>
-        <p className="text-base font-light tracking-wide leading-tight mb-4 mt-2">
+        <p className="text-xl font-light tracking-wide leading-tight mb-4 mt-2">
           {current.description}
         </p>
         <div className="absolute right-4 bottom-0 flex flex-row gap-2">
+          {" "}
           <button
             onClick={prev}
             className="group cursor-pointer transition-all duration-300 ease-out hover:scale-110 hover:-translate-y-1 active:scale-95 "
@@ -124,7 +145,6 @@ export default function AboutImageCarousel() {
               className="text-gray-700 transition-colors duration-300 group-hover:text-black"
             />
           </button>
-
           <button
             onClick={next}
             className="group cursor-pointer transition-all duration-300 ease-out hover:scale-110 hover:-translate-y-1 active:scale-95"

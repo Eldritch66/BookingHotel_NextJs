@@ -6,12 +6,12 @@ import { FaXTwitter } from "react-icons/fa6";
 
 export default function Footer() {
   return (
-    <footer className="min-h-fit w-full max-w-7xl mx-auto mt-60 mb-8">
-      <h2 className=" text-center text-3xl md:text-[7rem] font-black leading-none tracking-tighter uppercase">
+    <footer className="min-h-fit w-full md:max-w-[1500px] lg:max-w-[1800px] mx-auto mt-30 mb-8">
+      <h2 className=" text-center text-3xl md:text-[9rem] font-black leading-none tracking-tighter uppercase">
         LOKASTAY- CONTACT
       </h2>
       <div className="flex flex-col items-center mt-8">
-        <div className="flex gap-8 sm:gap-20 items-center flex-row font-semibold">
+        <div className="flex gap-8 text-lg sm:gap-20 items-center flex-row font-semibold">
           <p className="flex flex-row items-center">
             About us <TiArrowRight size={20} className="ml-2" />
           </p>

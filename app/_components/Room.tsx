@@ -195,16 +195,24 @@ export default function DetailRoom({ room }: { room: Room }) {
 
           {/* CALENDAR */}
           {open && (
-            <div className="relative">
-              <div className="absolute z-50 mt-2 left-1/2 -translate-x-1/2 bg-white shadow-xl rounded-xl p-4 border border-gray-200">
+            <div className="relative ">
+              <div className="absolute z-20 mt-2 left-1/2 -translate-x-1/2 bg-white shadow-xl rounded-xl p-4 border border-gray-200">
                 <DayPicker
                   mode="range"
                   selected={range}
                   onSelect={(value) => {
                     setRange(value);
 
-                    // AUTO CLOSE kalau sudah pilih range lengkap
                     if (value?.from && value?.to) {
+                      const nights =
+                        (value.to.getTime() - value.from.getTime()) /
+                        (1000 * 60 * 60 * 24);
+
+                      if (nights < 1) {
+                        setRange({ from: value.from, to: undefined });
+                        return;
+                      }
+
                       setOpen(false);
                     }
                   }}
