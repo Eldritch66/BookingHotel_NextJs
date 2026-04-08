@@ -41,15 +41,15 @@ const dataTypeHotel = [
 export default function Home() {
   return (
     <>
-      <main className="min-h-screen w-full md:max-w-[1500px] lg:max-w-[1750px] mx-auto text-center relative overflow-x-hidden">
+      <main className="min-h-screen h-auto w-full md:max-w-[1500px] lg:max-w-[1750px] mx-auto text-center relative overflow-x-hidden">
         <Image
           src={image1}
           alt="best place to stay"
           placeholder="blur"
-          className="rounded-3xl object-cover object-center w-full h-175 block brightness-90"
+          className="rounded-3xl object-cover object-center w-full h-175 block brightness-80"
         />
-        <section className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[90%] max-w-3xl px-4 text-white">
-          <h1 className="text-5xl font-light mb-4">
+        <section className="absolute top-1/5 sm:top-1/4 left-1/2 -translate-x-1/2 w-[90%] max-w-7xl px-4 text-white">
+          <h1 className="text-4xl lg:text-6xl font-light mb-4">
             Find Amazing Hotels, compare prices, and <br />
             book your dream vacation easily
           </h1>
@@ -59,20 +59,27 @@ export default function Home() {
             and confidence.
           </p>
         </section>
-        <div className="w-full flex justify-center">
-          <div className="absolute bottom-30 bg-white max-w-5xl w-full h-40 rounded-md z-50 ">
+        {/* Card wrapper */}
+        <div className="w-full flex justify-center px-4">
+          <div className="relative md:absolute md:bottom-40 bg-white max-w-xl md:max-w-5xl w-full h-auto rounded-md z-50">
             <section className="flex justify-start w-full h-full shadow-xl">
-              <div className="flex items-center justify-center gap-4 px-4 py-6 w-full">
+              <div className="flex flex-col md:flex-row items-stretch md:items-center justify-center gap-4 px-4 py-6 w-full">
                 {dataTypeHotel.map((item) => (
-                  <div key={item.label} className="flex flex-col gap-2">
+                  <div
+                    key={item.label}
+                    className="flex flex-col gap-2 w-full md:w-auto"
+                  >
                     <span className="font-light">{item.label}</span>
-                    <DropDown icon={item.icon} options={item.options} />
+                    {/* Tell DropDown to go full width on mobile */}
+                    <div className="w-full md:w-auto">
+                      <DropDown icon={item.icon} options={item.options} />
+                    </div>
                   </div>
                 ))}
-                <div className="flex flex-col gap-2"></div>
-                <div className="flex flex-col gap-2">
-                  <span className="opacity-0">Label</span>
-                  <button className="h-12 px-6 rounded-md bg-black text-white cursor-pointer">
+
+                <div className="flex flex-col gap-2 w-full md:w-auto">
+                  <span className="opacity-0 hidden md:block">Label</span>
+                  <button className="h-12 px-6 rounded-md bg-black text-white cursor-pointer w-full md:w-auto">
                     Search Hotel
                   </button>
                 </div>

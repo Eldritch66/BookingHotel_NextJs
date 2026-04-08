@@ -42,8 +42,8 @@ export default async function Bookings() {
   // console.log(dataProperties);
   return (
     <main className="min-h-screen w-full">
-      <section className="max-w-6xl mx-auto mt-12 px-6 relative h-20">
-        <div className="flex items-center w-full  bg-white border-gray-200 rounded-2xl shadow-sm divide-gray-200 h-full">
+      <section className="w-full max-w-6xl mx-auto mt-4 sm:mt-12 px-2 sm:px-6 relative h-24 sm:h-20">
+        <div className="flex items-center w-full h-full bg-white border-gray-200 rounded-2xl shadow-sm divide-gray-200">
           {dataTypeHotel.map((item, index) => (
             <NavCabins
               key={item.label}
@@ -53,8 +53,8 @@ export default async function Bookings() {
             />
           ))}
           {/* Search button */}
-          <div className="px-6 col-span-2">
-            <button className="flex items-center justify-center w-12 h-12 rounded-xl bg-orange-600 text-white hover:bg-[##a67f71] transition">
+          <div className="px-2 sm:px-6">
+            <button className="flex items-center justify-center w-10 sm:w-12 h-12 rounded-xl bg-orange-600 text-white hover:bg-[##a67f71] transition">
               <IoSearch size={20} />
             </button>
           </div>
@@ -62,7 +62,7 @@ export default async function Bookings() {
       </section>
 
       {/*===== FILTER FEATURES PROPERTIES START =======  */}
-      <section className="w-full max-w-7xl mx-auto h-20 mt-10 relative">
+      <section className="hidden md:flex w-full max-w-7xl mx-auto h-20 mt-10 relative">
         <form className="flex items-center gap-3">
           <FilterFeaturesProperties
             icon={<BsCurrencyDollar size="16" />}

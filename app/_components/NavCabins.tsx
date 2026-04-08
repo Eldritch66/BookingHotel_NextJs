@@ -33,7 +33,7 @@ export default function NavCabins({ label, options, isLast }: DropDownProps) {
         >
           <span className="text-xs text-gray-400 uppercase">{label}</span>
 
-          <div className="flex items-center gap-2 text-sm text-gray-70">
+          <div className="flex items-center mt-2 text-xs sm:text-sm text-gray-70">
             {selectedValue}
           </div>
         </div>
@@ -45,12 +45,12 @@ export default function NavCabins({ label, options, isLast }: DropDownProps) {
         selectedKeys={selectedKeys}
         selectionMode="single"
         onSelectionChange={setSelectedKeys}
-        className="p-2 rounded-xl shadow-lg border border-gray-200 bg-white w-[150px] sm:w-[200px] md:w-[300px]"
+        className="p-2 rounded-xl shadow-lg border border-gray-200 bg-white w-[100px] sm:w-[200px] md:w-[300px]"
       >
         {options.map((option) => (
           <DropdownItem
             key={option}
-            className="px-3 py-2 text-sm text-gray-700 rounded-lg hover:bg-gray-100 cursor-pointer"
+            className="px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer border-b border-black/10 last:border-0"
           >
             {option}
           </DropdownItem>

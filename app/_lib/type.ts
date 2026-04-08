@@ -54,6 +54,7 @@ export type Room = {
   quantity: number;
   created_at: string;
   size: number;
+  description_full: string;
   properties: {
     id: string;
     title: string;

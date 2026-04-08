@@ -32,7 +32,7 @@ export async function getRooms(propertyId: string) {
     .from("rooms")
 
     .select(
-      `id, property_id, name, price_per_night, bed_type, quantity,created_at, size,properties(id,title,city, rating, review_count , province,  property_images(
+      `id, property_id, name, price_per_night, bed_type, quantity,created_at, description_full, size,properties(id,title,city, rating, review_count , province, property_images(
           id,
           image_url
         ) )`,

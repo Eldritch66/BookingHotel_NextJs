@@ -4,7 +4,6 @@ import {
   Dropdown,
   DropdownTrigger,
   DropdownMenu,
-  DropdownSection,
   DropdownItem,
 } from "@heroui/dropdown";
 import { Button } from "@heroui/button";
@@ -27,12 +26,12 @@ function DropDown({ icon, options }: DropDownProps) {
   return (
     <Dropdown>
       <DropdownTrigger className="h-12 px-12 rounded-md bg-white shadow-md cursor-pointer">
-        <Button className="capitalize flex flex-row" variant="bordered">
+        <Button className="capitalize flex flex-row w-full" variant="bordered">
           {/* === LOCATION === */}
           <span className="text-gray-500">{icon}</span>
           {selectedValue}
           {/* <IoIosArrowDown className="ml-2 flex flex-end" /> */}
-          <IoIosArrowDown className="ml-auto flex flex-end" />
+          <IoIosArrowDown className="ml-auto" />
         </Button>
       </DropdownTrigger>
       <DropdownMenu

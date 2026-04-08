@@ -60,7 +60,7 @@ export default function TestiMonial() {
   }, [emblaApi]);
 
   return (
-    <section className="relative py-32 mt-30">
+    <section className="relative py-32 mt-30 overflow-hidden">
       {/* Circle Background */}
       <div className="absolute top-1/3 left-1/2 w-[800px] h-[800px] border border-gray-200 rounded-full -translate-x-1/2 -translate-y-1/2 opacity-80"></div>
 

@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { Room } from "../_lib/type";
-import useEmblaCarousel from "embla-carousel-react";
 import { useEffect, useState } from "react";
 import { IoLocationSharp } from "react-icons/io5";
 import { IoStar } from "react-icons/io5";
@@ -10,30 +9,13 @@ import { DayPicker, DateRange } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 import { format } from "date-fns";
 import RoomDropDown from "./roomDropDown";
+import { formatRupiah } from "../_lib/currency";
+import ImageCarouselRoomDetail from "./ImageCarouselRoomDetail";
 
 export default function DetailRoom({ room }: { room: Room }) {
   const [range, setRange] = useState<DateRange | undefined>();
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false });
-  const [currentIndex, setCurrentIndex] = useState(1);
   const [open, setOpen] = useState(false);
   const [guests, setGuests] = useState(1);
-
-  useEffect(() => {
-    if (!emblaApi) return;
-
-    const onSelect = () => {
-      setCurrentIndex(emblaApi.selectedScrollSnap() + 1);
-    };
-
-    emblaApi.on("select", onSelect);
-
-    // set awal
-    onSelect();
-
-    return () => {
-      emblaApi.off("select", onSelect);
-    };
-  }, [emblaApi]);
 
   const {
     id,
@@ -44,6 +26,7 @@ export default function DetailRoom({ room }: { room: Room }) {
     quantity,
     created_at,
     size,
+    description_full,
     properties,
   } = room;
 
@@ -59,8 +42,8 @@ export default function DetailRoom({ room }: { room: Room }) {
 
   let nights = 0;
   let total = 0;
-  const service = 140;
-  const tax = 84;
+  const service = 25000;
+  const tax = price_per_night * 0.1;
 
   if (range?.from && range?.to) {
     nights =
@@ -70,29 +53,11 @@ export default function DetailRoom({ room }: { room: Room }) {
   }
 
   return (
-    <main className="min-h-screen w-full">
+    <div className="min-h-screen w-full mt-40 overflow-hidden">
       {/* ================= MOBILE (EMBLA) ================= */}
-      <section className="block md:hidden relative">
-        <div className="embla" ref={emblaRef}>
-          <div className="flex">
-            {images.map((img, i) => (
-              <div key={i} className="min-w-full relative h-[50vh] md:h-[60vh]">
-                <Image
-                  src={img.image_url}
-                  alt=""
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="absolute bottom-2 right-2 bg-black/50 text-white px-3 py-1 rounded-full text-sm">
-          {currentIndex} / {images.length}
-        </div>
-      </section>
+      <ImageCarouselRoomDetail images={images} />
 
-      <section className="hidden max-w-[1320px] mx-auto px-6 relative h-[60dvh] md:grid grid-cols-2 gap-2">
+      <section className="hidden w-full max-w-[1320px] mx-auto px-6 relative h-[60vh] md:grid grid-cols-2 gap-2 overflow-hidden">
         <div className="relative">
           <Image
             src={mainImage ?? ""}
@@ -131,7 +96,10 @@ export default function DetailRoom({ room }: { room: Room }) {
         </div>
       </section>
 
-      <section className="w-full max-w-[1320px] mx-auto mt-6 px-6 grid grid-cols-1 md:grid-cols-[1.2fr_0.8fr] gap-6">
+      <section
+        className="w-full max-w-[1320px] bg-white border-white rounde
+      d-t-2xl mx-auto mt-6 px-6 grid grid-cols-1 md:grid-cols-[1.2fr_0.8fr] gap-6"
+      >
         <header className="flex gap-2 flex-col">
           <h1 className="text-4xl font-semibold">{title}</h1>
           <p className="text-sm text-gray-400 flex flex-row items-center gap-1">
@@ -153,13 +121,17 @@ export default function DetailRoom({ room }: { room: Room }) {
               </span>
             </div>
           </div>
+          <p className="text-base text-gray-600 w-full md:w-[80%] text-pretty">
+            {description_full}
+          </p>
         </header>
 
         <div className="shadow-lg w-full rounded-2xl px-4 py-4 border border-gray-200 sticky h-fit bg-white">
+          {/* <div className="shadow-lg w-full rounded-2xl px-4 py-4 border border-gray-200 sticky top-20 h-fit bg-white"> */}
           {/* PRICE */}
           <div className="flex justify-between items-center px-2">
             <p className="font-semibold text-2xl">
-              ${price_per_night}{" "}
+              {formatRupiah(price_per_night)}
               <span className="text-gray-400 font-light text-lg">/ night</span>
             </p>
 
@@ -168,7 +140,6 @@ export default function DetailRoom({ room }: { room: Room }) {
               <span>{rating}</span>
             </div>
           </div>
-
           {/* DATE INPUT */}
           <div
             onClick={() => setOpen(true)}
@@ -192,7 +163,6 @@ export default function DetailRoom({ room }: { room: Room }) {
               </div>
             </div>
           </div>
-
           {/* CALENDAR */}
           {open && (
             <div className="relative ">
@@ -222,7 +192,6 @@ export default function DetailRoom({ room }: { room: Room }) {
               </div>
             </div>
           )}
-
           {/* GUEST DROP DOWN */}
           <RoomDropDown
             options={["1 Guest", "2 Guests", "3 Guests", "4 Guests"]}
@@ -231,36 +200,34 @@ export default function DetailRoom({ room }: { room: Room }) {
           <button className="w-full text-2xl bg-[#a67f71] text-white py-3 rounded-xl mt-4 font-semibold hover:opacity-90 transition">
             Reserve Now
           </button>
-
           <p className="text-center text-sm text-gray-400 mt-2">
             You won&apos;t be charged yet
           </p>
-
           {/* PRICE DETAIL */}
           {range?.from && range?.to && (
             <div className="mt-4 text-sm text-gray-600 space-y-2">
               <div className="flex justify-between text-base">
                 <span>
-                  ${price_per_night} × {nights} nights
+                  {formatRupiah(price_per_night)} × {nights} nights
                 </span>
-                <span>${total}</span>
+                <span>{formatRupiah(total)}</span>
               </div>
               <div className="flex justify-between text-base">
                 <span>Service fee</span>
-                <span>${service}</span>
+                <span>{formatRupiah(service)}</span>
               </div>
               <div className="flex justify-between text-base">
                 <span>Taxes</span>
-                <span>${tax}</span>
+                <span>{formatRupiah(tax)}</span>
               </div>
               <div className="border-t pt-2 flex justify-between font-semibold text-black text-lg">
                 <span>Total</span>
-                <span>${total + service + tax}</span>
+                <span>{formatRupiah(total + service + tax)}</span>
               </div>
             </div>
           )}
         </div>
       </section>
-    </main>
+    </div>
   );
 }
