@@ -80,7 +80,7 @@ export default function WhyChoseUs() {
                         key={image.alt}
                         alt="awesome vila"
                         fill
-                        className="object-cover rounded-2xl shadow-md"
+                        className="object-cover rounded-t-2xl shadow-md"
                       />
                     </div>
                   ))}
@@ -151,7 +151,7 @@ export default function WhyChoseUs() {
             <Image
               src={room_khusus}
               alt="discover our best hotels"
-              className="h-[250px] w-full sm:h-[354px] sm:w-[380px] object-cover rounded-4xl"
+              className="h-[250px] w-full sm:h-[354px] sm:w-[380px] object-cover rounded-t-4xl"
             />
             <div className="w-full h-85 hidden sm:flex flex-col justify-center">
               {/* <div className="w-full flex flex-col justify-center gap-4"> */}

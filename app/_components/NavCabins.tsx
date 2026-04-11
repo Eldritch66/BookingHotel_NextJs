@@ -44,7 +44,9 @@ export default function NavCabins({ label, options, isLast }: DropDownProps) {
         aria-label="selection"
         selectedKeys={selectedKeys}
         selectionMode="single"
-        onSelectionChange={setSelectedKeys}
+        onSelectionChange={(keys) =>
+          keys !== "all" && setSelectedKeys(keys as Set<string>)
+        }
         className="p-2 rounded-xl shadow-lg border border-gray-200 bg-white w-[100px] sm:w-[200px] md:w-[300px]"
       >
         {options.map((option) => (

@@ -27,13 +27,11 @@ export default function Footer() {
           stays that go beyond just a room, providing a comforting journey
           toward relaxation and unforgettable experiences
         </p>
-        <div className="flex flex-row w-full justify-around sm:justify-between relative mt-8 text-xs sm:text-md">
+        <div className="flex flex-col sm:flex-row w-full items-center justify-between gap-4 mt-8 text-xs sm:text-md">
           <a href="#">Helpline: +1234 567 890</a>
-          <nav
-            aria-label="Social media"
-            className="absolute left-1/2 -translate-x-1/2"
-          >
-            <ul className="flex gap-4">
+
+          <nav aria-label="Social media">
+            <ul className="flex gap-6">
               <li>
                 <a
                   href="https://linkedin.com"
@@ -76,6 +74,7 @@ export default function Footer() {
               </li>
             </ul>
           </nav>
+
           <p>© {new Date().getFullYear()} Lokastay. All rights reserved.</p>
         </div>
       </div>

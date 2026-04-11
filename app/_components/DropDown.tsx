@@ -40,7 +40,9 @@ function DropDown({ icon, options }: DropDownProps) {
         closeOnSelect={true}
         selectedKeys={selectedKeys}
         selectionMode="single"
-        onSelectionChange={setSelectedKeys}
+        onSelectionChange={(keys) =>
+          keys !== "all" && setSelectedKeys(keys as Set<string>)
+        }
         className="p-2 rounded-xl shadow-lg border border-gray-200 bg-white min-w-[220px]"
       >
         {options.map((option) => (

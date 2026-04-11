@@ -53,7 +53,7 @@ export default function DetailRoom({ room }: { room: Room }) {
   }
 
   return (
-    <div className="min-h-screen w-full mt-40 overflow-hidden">
+    <div className="min-h-screen w-full mt-40 overflow-x-hidden">
       {/* ================= MOBILE (EMBLA) ================= */}
       <ImageCarouselRoomDetail images={images} />
 

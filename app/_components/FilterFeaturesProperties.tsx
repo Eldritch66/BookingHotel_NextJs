@@ -20,7 +20,7 @@ export default function FilterDropdown({
   options,
   icon,
 }: DropDownProps) {
-  const [selectedKeys, setSelectedKeys] = useState(new Set());
+  const [selectedKeys, setSelectedKeys] = useState<Set<string>>(new Set());
 
   const selectedValue = useMemo(() => {
     if (selectedKeys.size === 0) return label;
@@ -42,7 +42,9 @@ export default function FilterDropdown({
         aria-label={label}
         selectedKeys={selectedKeys}
         selectionMode="single"
-        onSelectionChange={setSelectedKeys}
+        onSelectionChange={(keys) =>
+          keys !== "all" && setSelectedKeys(keys as Set<string>)
+        }
         className="p-2 rounded-xl shadow-lg border border-gray-200 bg-white min-w-[180px]"
       >
         {options.map((option) => (
