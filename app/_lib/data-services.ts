@@ -1,6 +1,35 @@
 import { supabase } from "./supabase";
 import { Room } from "./type";
 
+export async function getGuest(email: string) {
+  const { data, error } = await supabase
+    .from("guests")
+    .select("*")
+    .eq("email", email)
+    .single();
+
+  if (error && error.code !== "PGRST116") {
+    // PGRST116 = no rows found, not a real error
+    console.error(error);
+    throw new Error("Guest could not be loaded");
+  }
+
+  return data;
+}
+
+export async function createGuest(guestData: { email: string }) {
+  const { data, error } = await supabase.from("guests").insert([guestData]);
+  // .select()
+  // .single();
+
+  if (error) {
+    console.error(error);
+    throw new Error("Guest could not be created");
+  }
+
+  return data;
+}
+
 export const properties = async function () {
   const { data, error } = await supabase
     .from("properties")
@@ -18,7 +47,6 @@ export const properties = async function () {
     )
 
     .order("title");
-  await new Promise((res) => setTimeout(res, 2000));
   if (error) {
     console.error(error);
     throw new Error("Cabins could not be loaded");
@@ -26,6 +54,31 @@ export const properties = async function () {
 
   return data;
 };
+
+export async function getPropertyLocationTypePrice(
+  location: string,
+  type: string,
+  price: number,
+) {
+  const { data, error } = await supabase
+    .from("properties")
+    .select(
+      `
+      city, province, type, rooms (
+       name
+       )
+    `,
+    )
+    .eq("city", location)
+    .eq("type", type);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Cabins could not be loaded");
+  }
+
+  return data;
+}
 
 export async function getRooms(propertyId: string) {
   const { data, error } = await supabase

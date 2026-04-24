@@ -4,8 +4,10 @@ import Navbar from "./Navigation";
 import Image from "next/image";
 import Logo from "@/public/logo.png";
 import HamburgerMenu from "./HumbergerMenu";
+import { auth } from "../_lib/auth";
 
-function Header() {
+async function Header() {
+  const session = await auth();
   return (
     <header className="flex px-4 py-5 justify-between items-center mx-auto w-full lg:max-w-[1750px] h-16 sticky top-0 z-50 bg-white shadow-sm rounded-none sm:rounded-full">
       {/* Logo */}
@@ -29,7 +31,7 @@ function Header() {
       </div>
 
       <div className="flex sm:hidden">
-        <HamburgerMenu />
+        <HamburgerMenu session={session} />
       </div>
     </header>
   );

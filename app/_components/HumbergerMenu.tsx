@@ -7,8 +7,13 @@ import Logo from "@/public/logo.png";
 
 import { CgProfile } from "react-icons/cg";
 import Image from "next/image";
+import { Session } from "next-auth";
 
-export default function HamburgerMenu() {
+export default function HamburgerMenu({
+  session,
+}: {
+  session: Session | null;
+}) {
   const [isOpen, setIsOpen] = useState(false);
 
   // Prevent body scroll when menu is open
@@ -109,16 +114,39 @@ export default function HamburgerMenu() {
             ${isOpen ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
           style={{ transitionDelay: isOpen ? "420ms" : "0ms" }}
         >
-          <Link
-            href="#"
-            onClick={() => setIsOpen(false)}
-            className="flex items-center gap-3 w-full px-5 py-3.5 rounded-full
-              bg-stone-900 text-white text-sm font-medium
-              hover:bg-stone-700 transition-colors duration-200"
-          >
-            <CgProfile size={20} />
-            Login to your account
-          </Link>
+          {" "}
+          {session?.user?.image ? (
+            // ✅ Logged in: show avatar + guest area link
+            <Link
+              href="/account"
+              onClick={() => setIsOpen(false)}
+              className="flex items-center gap-3 w-full px-5 py-3.5 rounded-full
+                bg-stone-900 text-white text-sm font-medium
+                hover:bg-stone-700 transition-colors duration-200"
+            >
+              <Image
+                className="h-8 rounded-full"
+                src={session.user.image}
+                width={32}
+                height={32}
+                alt={session.user.name || "User avatar"}
+                referrerPolicy="no-referrer"
+              />
+              <span>Guest area</span>
+            </Link>
+          ) : (
+            // ✅ Not logged in: show login button
+            <Link
+              href="/login"
+              onClick={() => setIsOpen(false)}
+              className="flex items-center gap-3 w-full px-5 py-3.5 rounded-full
+                bg-stone-900 text-white text-sm font-medium
+                hover:bg-stone-700 transition-colors duration-200"
+            >
+              <CgProfile size={20} />
+              Login to your account
+            </Link>
+          )}
         </div>
       </div>
     </>

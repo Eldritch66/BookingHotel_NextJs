@@ -8,7 +8,7 @@ export default function PropertiesList({
 }) {
   return (
     <>
-      {properties.slice(0, 9).map((properti) => (
+      {properties.slice(0, 6).map((properti) => (
         <Card property={properti} key={properti.id} />
       ))}
     </>

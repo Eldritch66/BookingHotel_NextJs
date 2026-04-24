@@ -1,47 +1,19 @@
 import Image from "next/image";
-import Header from "./_components/Header";
 import image1 from "@/public/hero-section.jpg";
-import DropDown from "./_components/DropDown";
-import { IoCameraOutline } from "react-icons/io5";
-import { IoLocationOutline } from "react-icons/io5";
-import { PiCurrencyCircleDollarLight } from "react-icons/pi";
 import { BsArrowUpRightCircleFill } from "react-icons/bs";
 import { VscArrowSmallRight } from "react-icons/vsc";
-
 import AboutImageCarousel from "./_components/AboutImageCarousel";
 import WhyChoseUs from "./_components/WhyChoseUs";
 import TestiMonial from "./_components/Testimonial";
 import Faq from "./_components/Faq";
 import Footer from "./_components/Footer";
+import FilterMethodLandingPage from "./_components/FilterMethodLandingPage";
+import MainRootTagPage from "./_components/MainRootTagPage";
 
-const dataTypeHotel = [
-  {
-    label: "Location",
-    icon: <IoLocationOutline />,
-    options: [
-      "Bogor, Jawa Barat",
-      "Bali, Indonesia",
-      "Yogyakarta, Indonesia",
-      "Bandung, Indonesia",
-      "Jakarta, Indonesia",
-    ],
-  },
-  {
-    label: "Type",
-    icon: <IoCameraOutline />,
-    options: ["Hotel", "Villa", "Resort"],
-  },
-  {
-    label: "Price",
-    icon: <PiCurrencyCircleDollarLight />,
-    options: ["Budget", "Mid-range", "Luxury", "All"],
-  },
-];
-
-export default function Home() {
+export default async function Home() {
   return (
     <>
-      <main className="min-h-screen h-auto w-full md:max-w-[1500px] lg:max-w-[1750px] mx-auto text-center relative overflow-x-hidden">
+      <MainRootTagPage>
         <Image
           src={image1}
           alt="best place to stay"
@@ -62,32 +34,10 @@ export default function Home() {
         {/* Card wrapper */}
         <div className="w-full flex justify-center px-4">
           <div className="relative md:absolute md:bottom-40 bg-white max-w-xl md:max-w-5xl w-full h-auto rounded-md z-50">
-            <section className="flex justify-start w-full h-full shadow-xl">
-              <div className="flex flex-col md:flex-row items-stretch md:items-center justify-center gap-4 px-4 py-6 w-full">
-                {dataTypeHotel.map((item) => (
-                  <div
-                    key={item.label}
-                    className="flex flex-col gap-2 w-full md:w-auto"
-                  >
-                    <span className="font-light">{item.label}</span>
-                    {/* Tell DropDown to go full width on mobile */}
-                    <div className="w-full md:w-auto">
-                      <DropDown icon={item.icon} options={item.options} />
-                    </div>
-                  </div>
-                ))}
-
-                <div className="flex flex-col gap-2 w-full md:w-auto">
-                  <span className="opacity-0 hidden md:block">Label</span>
-                  <button className="h-12 px-6 rounded-md bg-black text-white cursor-pointer w-full md:w-auto">
-                    Search Hotel
-                  </button>
-                </div>
-              </div>
-            </section>
+            <FilterMethodLandingPage />
           </div>
         </div>
-      </main>
+      </MainRootTagPage>
       {/* ===== ABOUT US PAGE ====== */}
       <section className="min-h-screen w-full max-w-[1700px] mx-auto mt-10">
         <div className="flex justify-center text-center mb-14">
