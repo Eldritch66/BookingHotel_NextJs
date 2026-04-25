@@ -13,7 +13,6 @@ type NavCabinsProps = {
   label: string;
   options: readonly string[];
   paramKey: "location" | "type" | "price";
-  fallbackValue: string;
   isLast?: boolean;
 };
 
@@ -21,13 +20,12 @@ export default function NavCabins2({
   label,
   options,
   paramKey,
-  fallbackValue,
   isLast,
 }: NavCabinsProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const currentValue = searchParams.get(paramKey) ?? fallbackValue;
+  const currentValue = searchParams.get(paramKey) ?? "All";
   const selectedKeys = useMemo(() => new Set([currentValue]), [currentValue]);
 
   const updateUrl = (value: string) => {
@@ -52,7 +50,7 @@ export default function NavCabins2({
         >
           <span className="text-xs text-gray-400 uppercase">{label}</span>
 
-          <div className="flex items-center mt-2 text-xs sm:text-sm text-gray-70">
+          <div className="flex items-center mt-2 text-xs sm:text-sm text-gray-700">
             {currentValue}
           </div>
         </div>

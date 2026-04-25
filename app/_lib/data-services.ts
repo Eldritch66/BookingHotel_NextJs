@@ -90,13 +90,12 @@ export async function getFilteredProperties({
     `,
     )
     .order("title");
-
   if (location && location !== "All") {
     query = query.eq("city", location);
   }
 
   if (type && type !== "All") {
-    query = query.eq("type", type);
+    query = query.eq("type", type.toLowerCase());
   }
 
   if (price && price !== "All") {

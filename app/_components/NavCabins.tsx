@@ -48,7 +48,7 @@ export default function NavCabins({ label, options, isLast }: DropDownProps) {
         onSelectionChange={(keys) =>
           keys !== "all" && setSelectedKeys(keys as Set<string>)
         }
-        className="p-2 rounded-xl shadow-lg border border-gray-200 bg-white w-[100px] sm:w-[200px] md:w-[300px]"
+        className="p-2 rounded-xl shadow-lg border border-gray-200 bg-white w-25 sm:w-50 md:w-75"
       >
         {options.map((option) => (
           <DropdownItem

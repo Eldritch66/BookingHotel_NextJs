@@ -2,6 +2,7 @@ export const dataTypeProperties = [
   {
     label: "Location",
     options: [
+      "All",
       "Bogor, Jawa Barat",
       "Bali, Indonesia",
       "Yogyakarta, Indonesia",
@@ -11,10 +12,10 @@ export const dataTypeProperties = [
   },
   {
     label: "Budget Range",
-    options: ["Low Budget", "Mid-range", "Luxury", "All"],
+    options: ["All", "Budget", "Mid-range", "Luxury"],
   },
   {
     label: "Property Type",
-    options: ["Hotel", "Villa", "Resort"],
+    options: ["All", "Hotel", "Villa", "Resort"],
   },
 ];

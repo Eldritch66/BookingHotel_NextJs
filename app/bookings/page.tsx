@@ -11,6 +11,7 @@ import Spinner from "../_components/Spinner";
 import { getFilteredProperties } from "../_lib/data-services";
 import { dataTypeProperties } from "../_lib/dataTypeProperties";
 import NavCabins2 from "../_components/NavCabins2";
+import MyPagination from "@/components/paginationBooking";
 
 export const metadata = {
   title: "cabins",
@@ -25,11 +26,12 @@ export default async function Bookings({
     location?: string;
     type?: string;
     price?: string;
+    page?: string;
   }>;
 }) {
-  const { location, type, price } = await searchParams;
+  const { location, type, price, page } = await searchParams;
 
-  console.log("searchParams:", { location, type, price });
+  // console.log("searchParams:", { location, type, price });
 
   const city = location?.split(",")[0]?.trim();
 
@@ -39,6 +41,15 @@ export default async function Bookings({
     price,
   });
 
+  const perPage = 6;
+
+  const currentPage = Number(page ?? 1);
+  const totalPages = Math.max(1, Math.ceil(dataProperties.length / perPage));
+
+  const paginatedProperties = dataProperties.slice(
+    (currentPage - 1) * perPage,
+    currentPage * perPage,
+  );
   return (
     <main className="min-h-screen w-full">
       <section className="w-full max-w-6xl mx-auto mt-4 sm:mt-12 px-2 sm:px-6 relative h-24 sm:h-20">
@@ -63,13 +74,13 @@ export default async function Bookings({
                     ? "price"
                     : "type"
               }
-              fallbackValue={
-                item.label === "Location"
-                  ? "Bogor, Jawa Barat"
-                  : item.label === "Budget Range"
-                    ? "Low Budget"
-                    : "Hotel"
-              }
+              // fallbackValue={
+              //   item.label === "Location"
+              //     ? "Bogor, Jawa Barat"
+              //     : item.label === "Budget Range"
+              //       ? "Low Budget"
+              //       : "Hotel"
+              // }
               isLast={index === dataTypeProperties.length - 1}
             />
           ))}
@@ -80,7 +91,6 @@ export default async function Bookings({
           </div>
         </div>
       </section>
-
       <section className="hidden md:flex w-full lg:max-w-[1750px] mx-auto h-20 mt-10 relative">
         <form className="flex items-center gap-3">
           <FilterFeaturesProperties
@@ -139,10 +149,8 @@ export default async function Bookings({
           </label>
         </form>
       </section>
-
       <hr className="w-min-h-screen w-full lg:max-w-[1750px] mx-auto text-gray-200" />
-
-      <section className="w-full lg:max-w-[1750px] mx-auto mt-10">
+      <section className="w-full lg:max-w-[1750px] mx-auto mt-10 mb-10">
         <div className="flex flex-row items-center justify-between">
           <h2 className="font-bold text-xl">Properties In Indonesia</h2>
           <p className="font-extralight text-sm text-gray-400">
@@ -152,10 +160,15 @@ export default async function Bookings({
 
         <div className="grid gap-6 mt-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           <Suspense fallback={<Spinner />}>
-            <PropertiesList properties={dataProperties} />
+            <PropertiesList properties={paginatedProperties} />
           </Suspense>
         </div>
       </section>
+      <MyPagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        searchParams={{ location, type, price }}
+      />{" "}
     </main>
   );
 }

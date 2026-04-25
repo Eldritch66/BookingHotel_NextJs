@@ -1,6 +1,5 @@
 import { Property } from "../_lib/type";
 import Card from "./Card";
-
 export default function PropertiesList({
   properties,
 }: {
@@ -8,7 +7,7 @@ export default function PropertiesList({
 }) {
   return (
     <>
-      {properties.slice(0, 6).map((properti) => (
+      {properties.map((properti) => (
         <Card property={properti} key={properti.id} />
       ))}
     </>
