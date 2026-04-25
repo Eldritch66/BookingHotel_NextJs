@@ -1,28 +1,46 @@
 "use client";
 
+import { useMemo } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   Dropdown,
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
 } from "@heroui/dropdown";
-import { useMemo, useState } from "react";
-import { IoLocationOutline } from "react-icons/io5";
 
-type DropDownProps = {
+type NavCabinsProps = {
   label: string;
-  options: string[];
-  selectedValue?: string;
+  options: readonly string[];
+  paramKey: "location" | "type" | "price";
+  fallbackValue: string;
   isLast?: boolean;
 };
 
-export default function NavCabins({ label, options, isLast }: DropDownProps) {
-  const [selectedKeys, setSelectedKeys] = useState(new Set([options[0]]));
+export default function NavCabins2({
+  label,
+  options,
+  paramKey,
+  fallbackValue,
+  isLast,
+}: NavCabinsProps) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
-  const selectedValue = useMemo(
-    () => Array.from(selectedKeys).join(", "),
-    [selectedKeys],
-  );
+  const currentValue = searchParams.get(paramKey) ?? fallbackValue;
+  const selectedKeys = useMemo(() => new Set([currentValue]), [currentValue]);
+
+  const updateUrl = (value: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+
+    if (value === "All") {
+      params.delete(paramKey);
+    } else {
+      params.set(paramKey, value);
+    }
+
+    router.push(`/bookings?${params.toString()}`);
+  };
 
   return (
     <Dropdown>
@@ -35,7 +53,7 @@ export default function NavCabins({ label, options, isLast }: DropDownProps) {
           <span className="text-xs text-gray-400 uppercase">{label}</span>
 
           <div className="flex items-center mt-2 text-xs sm:text-sm text-gray-70">
-            {selectedValue}
+            {currentValue}
           </div>
         </div>
       </DropdownTrigger>
@@ -45,9 +63,11 @@ export default function NavCabins({ label, options, isLast }: DropDownProps) {
         aria-label="selection"
         selectedKeys={selectedKeys}
         selectionMode="single"
-        onSelectionChange={(keys) =>
-          keys !== "all" && setSelectedKeys(keys as Set<string>)
-        }
+        onSelectionChange={(keys) => {
+          if (keys === "all") return;
+          const nextValue = Array.from(keys as Set<string>)[0];
+          updateUrl(nextValue);
+        }}
         className="p-2 rounded-xl shadow-lg border border-gray-200 bg-white w-[100px] sm:w-[200px] md:w-[300px]"
       >
         {options.map((option) => (

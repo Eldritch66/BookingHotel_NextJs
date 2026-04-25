@@ -30,7 +30,7 @@ export async function createGuest(guestData: { email: string }) {
   return data;
 }
 
-export const properties = async function () {
+export async function properties() {
   const { data, error } = await supabase
     .from("properties")
     .select(
@@ -53,28 +53,69 @@ export const properties = async function () {
   }
 
   return data;
-};
+}
 
-export async function getPropertyLocationTypePrice(
-  location: string,
-  type: string,
-  price: number,
-) {
-  const { data, error } = await supabase
+export async function getFilteredProperties({
+  location,
+  type,
+  price,
+}: {
+  location?: string;
+  type?: string;
+  price?: string;
+}) {
+  let query = supabase
     .from("properties")
     .select(
       `
-      city, province, type, rooms (
-       name
-       )
+      id,
+      title,
+      type,
+      price_per_night,
+      city,
+      province,
+      address,
+      rating,
+      review_count,
+      created_at,
+      description,
+      property_images (
+        id,
+        image_url
+      ),
+      rooms (
+        id,
+        name
+      )
     `,
     )
-    .eq("city", location)
-    .eq("type", type);
+    .order("title");
+
+  if (location && location !== "All") {
+    query = query.eq("city", location);
+  }
+
+  if (type && type !== "All") {
+    query = query.eq("type", type);
+  }
+
+  if (price && price !== "All") {
+    if (price === "Budget") {
+      query = query.lte("price_per_night", 500000);
+    } else if (price === "Mid-range") {
+      query = query
+        .gte("price_per_night", 500000)
+        .lte("price_per_night", 1500000);
+    } else if (price === "Luxury") {
+      query = query.gte("price_per_night", 1500000);
+    }
+  }
+
+  const { data, error } = await query;
 
   if (error) {
     console.error(error);
-    throw new Error("Cabins could not be loaded");
+    throw new Error("Properties could not be loaded");
   }
 
   return data;

@@ -1,5 +1,4 @@
 import { IoSearch } from "react-icons/io5";
-import NavCabins from "../_components/NavCabins";
 import FilterFeaturesProperties from "../_components/FilterFeaturesProperties";
 import { FaWifi } from "react-icons/fa6";
 import { MdFoodBank } from "react-icons/md";
@@ -9,32 +8,13 @@ import { BsCurrencyDollar } from "react-icons/bs";
 import PropertiesList from "../_components/PropertiesList";
 import { Suspense } from "react";
 import Spinner from "../_components/Spinner";
-import { getFilteredProperties } from "../_lib/filterRootPage";
+import { getFilteredProperties } from "../_lib/data-services";
+import { dataTypeProperties } from "../_lib/dataTypeProperties";
+import NavCabins2 from "../_components/NavCabins2";
 
 export const metadata = {
   title: "cabins",
 };
-
-const dataTypeHotel = [
-  {
-    label: "Location",
-    options: [
-      "Bogor, Jawa Barat",
-      "Bali, Indonesia",
-      "Yogyakarta, Indonesia",
-      "Bandung, Indonesia",
-      "Jakarta, Indonesia",
-    ],
-  },
-  {
-    label: "Budget Range",
-    options: ["Low Budget", "Mid-range", "Luxury", "All"],
-  },
-  {
-    label: "Property Type",
-    options: ["Hotel", "Villa", "Resort"],
-  },
-];
 
 const ratingOptions = ["All", "1", "2", "3", "4", "5"];
 
@@ -63,12 +43,34 @@ export default async function Bookings({
     <main className="min-h-screen w-full">
       <section className="w-full max-w-6xl mx-auto mt-4 sm:mt-12 px-2 sm:px-6 relative h-24 sm:h-20">
         <div className="flex items-center w-full h-full bg-white border-gray-200 rounded-2xl shadow-sm divide-gray-200">
-          {dataTypeHotel.map((item, index) => (
+          {/* {dataTypeProperties.map((item, index) => (
             <NavCabins
               key={item.label}
               label={item.label}
               options={item.options}
-              isLast={index === dataTypeHotel.length - 1}
+              isLast={index === dataTypeProperties.length - 1}
+            />
+          ))} */}
+          {dataTypeProperties.map((item, index) => (
+            <NavCabins2
+              key={item.label}
+              label={item.label}
+              options={item.options}
+              paramKey={
+                item.label === "Location"
+                  ? "location"
+                  : item.label === "Budget Range"
+                    ? "price"
+                    : "type"
+              }
+              fallbackValue={
+                item.label === "Location"
+                  ? "Bogor, Jawa Barat"
+                  : item.label === "Budget Range"
+                    ? "Low Budget"
+                    : "Hotel"
+              }
+              isLast={index === dataTypeProperties.length - 1}
             />
           ))}
           <div className="px-2 sm:px-6">
