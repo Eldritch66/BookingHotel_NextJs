@@ -71,7 +71,7 @@ export default function HamburgerMenu({
               src={Logo}
               alt="Logo"
               quality={100}
-              className="w-24 h-auto object-contain"
+              className="w-34 h-auto object-contain"
             />
           </Link>
           <button

@@ -45,7 +45,7 @@ export default function LoginPage() {
 
           {/* Register link */}
           <p className="mt-6 text-sm text-[#9b8b7a] animate-fade-up [animation-delay:300ms]">
-            New to LokaStay?{" "}
+            New to Nginapin?
             <Link
               href="/register"
               className="text-[#8b5e3c] font-medium border-b border-transparent hover:border-[#8b5e3c] transition-all duration-200"
@@ -70,7 +70,7 @@ export default function LoginPage() {
 
         {/* ── FOOTER ── */}
         <footer className="col-span-full flex flex-col sm:flex-row items-center justify-between px-12 py-5 text-[10px] tracking-widest uppercase text-[#9b8b7a] gap-3">
-          <span>© 2024 LokaStay. Digital Concierge Experience.</span>
+          <span>© 2026 Nginapin. Digital Concierge Experience.</span>
           <div className="flex gap-8">
             {["Privacy", "Terms", "Contact"].map((item) => (
               <Link

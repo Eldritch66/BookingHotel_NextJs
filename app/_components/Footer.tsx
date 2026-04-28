@@ -8,7 +8,7 @@ export default function Footer() {
   return (
     <footer className="min-h-fit w-full md:max-w-[1500px] lg:max-w-[1800px] mx-auto mt-30 mb-8">
       <h2 className=" text-center text-3xl md:text-[9rem] font-black leading-none tracking-tighter uppercase">
-        LOKASTAY- CONTACT
+        NGINAPIN- CONTACT
       </h2>
       <div className="flex flex-col items-center mt-8">
         <div className="flex gap-8 text-lg sm:gap-20 items-center flex-row font-semibold">
@@ -27,10 +27,12 @@ export default function Footer() {
           stays that go beyond just a room, providing a comforting journey
           toward relaxation and unforgettable experiences
         </p>
-        <div className="flex flex-col sm:flex-row w-full items-center justify-between gap-4 mt-8 text-xs sm:text-md">
-          <a href="#">Helpline: +1234 567 890</a>
+        <div className="grid grid-cols-3 w-full items-center mt-8 text-xs sm:text-sm">
+          <a href="#" className="justify-self-start">
+            Helpline: +1234 567 890
+          </a>
 
-          <nav aria-label="Social media">
+          <nav aria-label="Social media" className="justify-self-center">
             <ul className="flex gap-6">
               <li>
                 <a
@@ -75,7 +77,9 @@ export default function Footer() {
             </ul>
           </nav>
 
-          <p>© {new Date().getFullYear()} Lokastay. All rights reserved.</p>
+          <p className="justify-self-end">
+            © {new Date().getFullYear()} Lokastay. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>

@@ -23,7 +23,7 @@ export default async function Login() {
             alt={session.user.name || "User avatar"}
             referrerPolicy="no-referrer"
           />
-          <span>Guest area</span>
+          <span className="text-base font-extralight">Guest area</span>
         </Link>
       ) : (
         <div className="bg-orange-600 border-2 px-4 py-2 rounded-full text-white flex items-center gap-2">

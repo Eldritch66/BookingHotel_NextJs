@@ -53,11 +53,11 @@ export default function DetailRoom({ room }: { room: Room }) {
   }
 
   return (
-    <div className="min-h-screen w-full mt-40 overflow-x-hidden">
+    <div className="min-h-screen h-full w-full mt-0 overflow-x-hidden">
       {/* ================= MOBILE (EMBLA) ================= */}
       <ImageCarouselRoomDetail images={images} />
 
-      <section className="hidden w-full max-w-[1320px] mx-auto px-6 relative h-[60vh] md:grid grid-cols-2 gap-2 overflow-hidden">
+      <section className="hidden w-full lg:max-w-[1750px] mx-auto px-2 relative h-[60vh] md:grid grid-cols-2 gap-2 overflow-hidden">
         <div className="relative">
           <Image
             src={mainImage ?? ""}
@@ -97,8 +97,8 @@ export default function DetailRoom({ room }: { room: Room }) {
       </section>
 
       <section
-        className="w-full max-w-[1320px] bg-white border-white rounde
-      d-t-2xl mx-auto mt-6 px-6 grid grid-cols-1 md:grid-cols-[1.2fr_0.8fr] gap-6"
+        className="w-full lg:max-w-[1750px] bg-white border-white rounde
+      d-t-2xl mx-auto mt-6 px-2 grid grid-cols-1 md:grid-cols-[1.2fr_0.8fr] gap-6"
       >
         <header className="flex gap-2 flex-col">
           <h1 className="text-4xl font-semibold">{title}</h1>

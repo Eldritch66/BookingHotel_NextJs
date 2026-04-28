@@ -31,7 +31,7 @@ export default async function Page({
   const rooms = await getRooms(id);
 
   return (
-    <div className="flex items-center justify-center h-screen">
+    <div className="">
       {rooms.map((room) => (
         <DetailRoom key={room.id} room={room} />
       ))}

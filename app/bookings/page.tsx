@@ -11,10 +11,11 @@ import Spinner from "../_components/Spinner";
 import { getFilteredProperties } from "../_lib/data-services";
 import { dataTypeProperties } from "../_lib/dataTypeProperties";
 import NavCabins2 from "../_components/NavCabins2";
-import MyPagination from "@/components/paginationBooking";
+import PaginationBookingPage from "@/app/_components/paginationBooking";
+import FooterBooking from "../_components/FooterBooking";
 
 export const metadata = {
-  title: "cabins",
+  title: "Bookings",
 };
 
 const ratingOptions = ["All", "1", "2", "3", "4", "5"];
@@ -51,7 +52,7 @@ export default async function Bookings({
     currentPage * perPage,
   );
   return (
-    <main className="min-h-screen w-full">
+    <main className="min-h-screen w-full relative">
       <section className="w-full max-w-6xl mx-auto mt-4 sm:mt-12 px-2 sm:px-6 relative h-24 sm:h-20">
         <div className="flex items-center w-full h-full bg-white border-gray-200 rounded-2xl shadow-sm divide-gray-200">
           {/* {dataTypeProperties.map((item, index) => (
@@ -164,11 +165,13 @@ export default async function Bookings({
           </Suspense>
         </div>
       </section>
-      <MyPagination
+      <PaginationBookingPage
         currentPage={currentPage}
         totalPages={totalPages}
         searchParams={{ location, type, price }}
-      />{" "}
+      />
+      <div className="mt-10 h-20 sm:h-10"></div>
+      <FooterBooking />
     </main>
   );
 }

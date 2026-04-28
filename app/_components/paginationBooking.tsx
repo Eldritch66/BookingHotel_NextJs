@@ -15,7 +15,7 @@ type SearchParams = {
   price?: string;
 };
 
-type MyPaginationProps = {
+type Pagination = {
   currentPage: number;
   totalPages: number;
   searchParams?: SearchParams;
@@ -32,11 +32,11 @@ function buildHref(page: number, searchParams?: SearchParams) {
   return `?${params.toString()}`;
 }
 
-export default function MyPagination({
+export default function PaginationBookingPage({
   currentPage,
   totalPages,
   searchParams,
-}: MyPaginationProps) {
+}: Pagination) {
   return (
     <Pagination>
       <PaginationContent>

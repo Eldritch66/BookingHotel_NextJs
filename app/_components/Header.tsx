@@ -9,15 +9,15 @@ import { auth } from "../_lib/auth";
 async function Header() {
   const session = await auth();
   return (
-    <header className="flex px-4 py-5 justify-between items-center mx-auto w-full lg:max-w-[1750px] h-16 sticky top-0 z-50 bg-white shadow-sm rounded-none sm:rounded-full">
+    <header className="flex px-4 py-5 justify-between items-center mx-auto w-full lg:max-w-[1750px] h-16 sticky top-0 z-50 bg-white shadow-sm rounded-none sm:rounded-t-none sm:rounded-b-lg">
       {/* Logo */}
-      <div className="shrink-0 px-2">
+      <div className="shrink-0 ">
         <Link href="/">
           <Image
             src={Logo}
             alt="Logo"
             quality={100}
-            className="w-28 h-auto object-contain block"
+            className="w-34 h-auto object-contain block"
           />
         </Link>
       </div>
