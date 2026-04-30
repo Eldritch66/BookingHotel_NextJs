@@ -84,6 +84,18 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+
+  --color-primary-50: #e1e8ef;
+  --color-primary-100: #d4dee7;
+  --color-primary-200: #b7c7d7;
+  --color-primary-300: #99b0c7;
+  --color-primary-400: #7c99b6;
+  --color-primary-500: #5e82a6;
+  --color-primary-600: #4c6b8a;
+  --color-primary-700: #3c546c;
+  --color-primary-800: #2c3d4f;
+  --color-primary-900: #1b2631;
+  --color-primary-950: #141c24;
 }
 
 @media (prefers-color-scheme: light) {
@@ -92,10 +104,17 @@
     --foreground: #ededed;
   }
 }
+
 html,
 body {
   overflow-x: hidden;
   max-width: 100%;
+}
+
+@keyframes rotate {
+  to {
+    transform: rotate(360deg);
+  }
 }
 .embla {
   --slide-size: 100%;
@@ -118,6 +137,16 @@ body {
 }
 .embla__dots {
   opacity: 1;
+}
+
+.spinner {
+  margin: 3.2rem auto 1.6rem;
+  width: 60px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 8px solid theme("colors.primary.900");
+  border-right-color: theme("colors.primary.200");
+  animation: rotate 1s infinite linear;
 }
 
 .spinner-mini {
@@ -185,7 +214,6 @@ body {
 }
 
 .dark {
-
   --background: oklch(0.145 0 0);
 
   --foreground: oklch(0.985 0 0);

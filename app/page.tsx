@@ -10,7 +10,7 @@ import Footer from "./_components/Footer";
 import FilterMethodLandingPage from "./_components/FilterMethodLandingPage";
 import MainRootTagPage from "./_components/MainRootTagPage";
 
-export default async function Home() {
+export default async function Page() {
   return (
     <>
       <MainRootTagPage>

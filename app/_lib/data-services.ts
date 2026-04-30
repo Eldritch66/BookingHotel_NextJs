@@ -54,6 +54,44 @@ export async function properties() {
 
   return data;
 }
+export async function getBookings(guestId: string) {
+  const { data, error } = await supabase
+    .from("bookings")
+    .select(
+      `
+      id,
+      guest_id,
+      property_id,
+      start_date,
+      end_date,
+      num_nights,
+      num_guests,
+      total_price,
+      created_at,
+      properties (
+        id,
+        title,
+        city,
+        province,
+        rating,
+        review_count,
+        property_images (
+          id,
+          image_url
+        )
+      )
+    `,
+    )
+    .eq("guest_id", guestId)
+    .order("start_date", { ascending: false });
+
+  if (error) {
+    console.error(error);
+    throw new Error("Bookings could not get loaded");
+  }
+
+  return data;
+}
 
 export async function getFilteredProperties({
   location,

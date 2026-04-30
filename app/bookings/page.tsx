@@ -20,7 +20,7 @@ export const metadata = {
 
 const ratingOptions = ["All", "1", "2", "3", "4", "5"];
 
-export default async function Bookings({
+export default async function Page({
   searchParams,
 }: {
   searchParams: Promise<{
