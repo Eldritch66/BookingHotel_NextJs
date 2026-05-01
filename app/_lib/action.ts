@@ -1,7 +1,7 @@
 "use server";
 
-import { signOut } from "./auth"; // ✅ use your auth file's signOut
-import { auth } from "./auth"; // ✅ v5 way to get session
+import { signOut } from "./auth";
+import { auth } from "./auth";
 import { redirect } from "next/navigation";
 import { supabase } from "./supabase";
 import { getBookings, getGuest } from "./data-services";

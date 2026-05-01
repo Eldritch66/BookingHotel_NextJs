@@ -9,7 +9,7 @@ import { CgProfile } from "react-icons/cg";
 import Image from "next/image";
 import { Session } from "next-auth";
 
-export default function HamburgerMenu({
+export default function HumburgerMenu({
   session,
 }: {
   session: Session | null;

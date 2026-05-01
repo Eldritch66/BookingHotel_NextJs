@@ -3,7 +3,7 @@ import Login from "./Login";
 import Navbar from "./Navigation";
 import Image from "next/image";
 import Logo from "@/public/logo.png";
-import HamburgerMenu from "./HumbergerMenu";
+import HumburgerMenu from "./HumbergerMenu";
 import { auth } from "../_lib/auth";
 
 async function Header() {
@@ -31,7 +31,7 @@ async function Header() {
       </div>
 
       <div className="flex sm:hidden">
-        <HamburgerMenu session={session} />
+        <HumburgerMenu session={session} />
       </div>
     </header>
   );

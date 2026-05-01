@@ -74,7 +74,7 @@ export type Room = {
 export type Roomm = {
   id: string;
   name: string;
-  properties: Property; // single property per room
+  properties: Property;
 };
 
 export type Booking = {
@@ -87,6 +87,5 @@ export type Booking = {
   num_guests: number;
   total_price: number;
   status: string;
-  // ✅ removed created_at — column doesn't exist in bookings table
   rooms: Room;
 };

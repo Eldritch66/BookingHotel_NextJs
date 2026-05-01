@@ -25,7 +25,7 @@ export default async function Page() {
         </p>
       ) : (
         <ul className="space-y-6">
-          <ReservationList bookings={bookings} />
+          <ReservationList bookings={bookings as any} />
         </ul>
       )}
     </div>
