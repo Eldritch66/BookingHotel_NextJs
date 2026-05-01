@@ -11,7 +11,7 @@ import Spinner from "../_components/Spinner";
 import { getFilteredProperties } from "../_lib/data-services";
 import { dataTypeProperties } from "../_lib/dataTypeProperties";
 import NavCabins2 from "../_components/NavCabins2";
-import PaginationBookingPage from "@/app/_components/paginationBooking";
+import PaginationBookingPage from "@/app/_components/PaginationBooking";
 import FooterBooking from "../_components/FooterBooking";
 
 export const metadata = {

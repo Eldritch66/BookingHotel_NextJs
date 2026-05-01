@@ -1,11 +1,14 @@
 import ReservationList from "@/app/_components/ReservationList";
 import { auth } from "@/app/_lib/auth";
-import { getBookings } from "@/app/_lib/data-services";
+import { getBookings, getGuest } from "@/app/_lib/data-services";
 import Link from "next/link";
-
+import { redirect } from "next/navigation";
 export default async function Page() {
   const session = await auth();
-  const bookings = await getBookings(session?.user?.id || "");
+  if (!session?.user?.email) redirect("/login");
+
+  const guest = await getGuest(session.user.email);
+  const bookings = await getBookings(guest?.guest_id);
 
   return (
     <div>
@@ -22,9 +25,7 @@ export default async function Page() {
         </p>
       ) : (
         <ul className="space-y-6">
-          {bookings.map((booking) => (
-            <ReservationList booking={booking} key={booking.id} />
-          ))}
+          <ReservationList bookings={bookings} />
         </ul>
       )}
     </div>

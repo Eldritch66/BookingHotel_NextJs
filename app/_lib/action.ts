@@ -4,7 +4,8 @@ import { signOut } from "./auth"; // ✅ use your auth file's signOut
 import { auth } from "./auth"; // ✅ v5 way to get session
 import { redirect } from "next/navigation";
 import { supabase } from "./supabase";
-import { getGuest } from "./data-services";
+import { getBookings, getGuest } from "./data-services";
+import { revalidatePath } from "next/cache";
 
 export async function signOutAction() {
   await signOut({ redirectTo: "/" });
@@ -51,4 +52,28 @@ export async function createBooking(formData: FormData) {
 
   // 6. Redirect
   redirect("/account/thankyou");
+}
+
+export async function deleteBooking(bookingId: string) {
+  const session = await auth();
+  if (!session) throw new Error("You must be logged in");
+  if (!session?.user?.email) redirect("/login");
+
+  const guest = await getGuest(session.user.email);
+  if (!guest) throw new Error("Guest record not found");
+
+  const guestBookings = await getBookings(guest.guest_id);
+  const guestBookingIds = guestBookings.map((booking) => booking.id);
+
+  if (!guestBookingIds.includes(bookingId))
+    throw new Error("You are not allowed to delete this booking");
+
+  const { error } = await supabase
+    .from("bookings")
+    .delete()
+    .eq("id", bookingId);
+
+  if (error) throw new Error("Booking could not be deleted");
+
+  revalidatePath("/account/reservations");
 }

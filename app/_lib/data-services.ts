@@ -59,15 +59,18 @@ export async function getBookings(guestId: string) {
     .from("bookings")
     .select(
       `
+    id,
+    guest_id,
+    room_id,
+    start_date,
+    end_date,
+    num_nights,
+    num_guests,
+    total_price,
+    status,
+    rooms (
       id,
-      guest_id,
-      property_id,
-      start_date,
-      end_date,
-      num_nights,
-      num_guests,
-      total_price,
-      created_at,
+      name,
       properties (
         id,
         title,
@@ -80,13 +83,13 @@ export async function getBookings(guestId: string) {
           image_url
         )
       )
-    `,
+    )
+  `, // ✅ removed created_at
     )
     .eq("guest_id", guestId)
     .order("start_date", { ascending: false });
-
   if (error) {
-    console.error(error);
+    console.error("Supabase error details:", JSON.stringify(error)); // ✅ shows full error
     throw new Error("Bookings could not get loaded");
   }
 

@@ -68,3 +68,25 @@ export type Room = {
     }[];
   };
 };
+
+// app/_lib/types.ts
+
+export type Roomm = {
+  id: string;
+  name: string;
+  properties: Property; // single property per room
+};
+
+export type Booking = {
+  id: string;
+  guest_id: string;
+  room_id: string;
+  start_date: string;
+  end_date: string;
+  num_nights: number;
+  num_guests: number;
+  total_price: number;
+  status: string;
+  // ✅ removed created_at — column doesn't exist in bookings table
+  rooms: Room;
+};

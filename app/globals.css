@@ -96,6 +96,7 @@
   --color-primary-800: #2c3d4f;
   --color-primary-900: #1b2631;
   --color-primary-950: #141c24;
+  --color-primary-1000: #ea580c;
 }
 
 @media (prefers-color-scheme: light) {
@@ -113,7 +114,7 @@ body {
 
 @keyframes rotate {
   to {
-    transform: rotate(360deg);
+    transform: rotate(1turn);
   }
 }
 .embla {
@@ -144,8 +145,8 @@ body {
   width: 60px;
   aspect-ratio: 1;
   border-radius: 50%;
-  border: 8px solid theme("colors.primary.900");
-  border-right-color: theme("colors.primary.200");
+  border: 8px solid theme("colors.primary.50");
+  border-right-color: theme("colors.primary.1000");
   animation: rotate 1s infinite linear;
 }
 

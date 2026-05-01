@@ -11,7 +11,6 @@ const authConfig: NextAuthConfig = {
 
       if (auth?.user && pathname.startsWith("/login")) {
         return Response.redirect(new URL("/", request.nextUrl));
-        z;
       }
 
       return !!auth?.user;
