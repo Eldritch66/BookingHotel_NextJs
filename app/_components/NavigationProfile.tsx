@@ -1,6 +1,6 @@
 "use client";
 
-import { FiHome, FiCalendar, FiUser, FiLogOut } from "react-icons/fi";
+import { FiHome, FiCalendar, FiLogOut } from "react-icons/fi";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 

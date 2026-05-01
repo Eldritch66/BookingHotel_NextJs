@@ -2,9 +2,9 @@ import Link from "next/link";
 import Login from "./Login";
 import Image from "next/image";
 import Logo from "@/public/logo.png";
-import HumburgerMenu from "./HumbergerMenu";
 import { auth } from "../_lib/auth";
 import Navbar from "./Navbar";
+import HumburgerMenu from "./HamburgerMenu";
 
 async function Header() {
   const session = await auth();

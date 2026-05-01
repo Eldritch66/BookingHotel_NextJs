@@ -29,7 +29,7 @@ export default function HumburgerMenu({
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={`relative z-[60] flex items-center justify-center w-10 h-10 rounded-full bg-stone-100 hover:bg-stone-200 transition-colors duration-200 ${
-          isOpen ? "hidden" : "flex" // ✅ hide when menu is open
+          isOpen ? "hidden" : "flex"
         }`}
         aria-label="Toggle menu"
       >
