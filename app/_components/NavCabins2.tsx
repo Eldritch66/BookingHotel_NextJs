@@ -16,7 +16,7 @@ type NavCabinsProps = {
   isLast?: boolean;
 };
 
-export default function NavCabins2({
+export default function NavCabins({
   label,
   options,
   paramKey,
