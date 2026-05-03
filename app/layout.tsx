@@ -25,10 +25,11 @@ export const metadata: Metadata = {
   // title: "Create Next App",
   title: {
     template: "%s Nginapin",
-    default: "Welcome / Nginapin",
+    default: "Booking Hotel Murah did Indonesia | Nginapin",
   },
 
-  description: "Find the best hotels, villas, and resorts across Indonesia.",
+  description:
+    "Book hotels, villas, and resorts across Indonesia. Compare prices and find the best deals for your stay easily with Nginapin.",
 };
 
 export default function RootLayout({

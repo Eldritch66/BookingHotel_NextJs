@@ -16,8 +16,9 @@ import FooterBooking from "../_components/FooterBooking";
 
 export const metadata = {
   title: "Bookings",
+  description:
+    "Browse and book hotels across Indonesia. Compare prices, filter by location, and find the best Properties deals easily.",
 };
-
 const ratingOptions = ["All", "1", "2", "3", "4", "5"];
 
 export default async function Page({
@@ -152,9 +153,11 @@ export default async function Page({
       </section>
       <hr className="w-min-h-screen w-full lg:max-w-[1750px] mx-auto text-gray-200" />
       <section className="w-full lg:max-w-[1750px] mx-auto mt-10 mb-10">
-        <div className="flex flex-row items-center justify-between">
-          <h2 className="font-bold text-xl">Properties In Indonesia</h2>
-          <p className="font-extralight text-sm text-gray-400">
+        <div className="flex flex-row items-center justify-between mx-2 sm:mx-0">
+          <h2 className="font-bold text-lg sm:text-xl">
+            Properties In Indonesia
+          </h2>
+          <p className="font-extralight text-xs text-gray-400">
             {dataProperties.length} properties found
           </p>
         </div>

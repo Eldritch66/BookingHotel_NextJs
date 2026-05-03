@@ -34,7 +34,13 @@ export default function ImageCarouselRoomDetail({
         <div className="flex">
           {images.map((img, i) => (
             <div key={i} className="min-w-full relative h-[50vh] md:h-[60vh]">
-              <Image src={img.image_url} alt="" fill className="object-cover" />
+              <Image
+                src={img.image_url}
+                alt=""
+                quality={75}
+                fill
+                className="object-cover"
+              />
             </div>
           ))}
         </div>

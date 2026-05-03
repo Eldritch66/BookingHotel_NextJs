@@ -6,16 +6,22 @@ import Link from "next/link";
 
 export default function NavigationProfile() {
   return (
-    <nav className="flex flex-col justify-between border-r h-full">
-      <ul className="grid gap-10">
-        <li className="items-center w-full">
-          <Link href="/account" className="flex flex-row">
+    <nav className="flex flex-row sm:flex-col justify-between sm:justify-start border-b sm:border-b-0 sm:border-r pb-4 sm:pb-0 sm:h-full">
+      <ul className="flex flex-row sm:flex-col items-center sm:items-start gap-6 sm:gap-10">
+        <li>
+          <Link
+            href="/account"
+            className="flex flex-row items-center text-sm sm:text-base font-medium"
+          >
             <FiHome size={20} className="mr-2" />
             Home
           </Link>
         </li>
-        <li className="flex flex-row items-center">
-          <Link href="/account/reservation" className="flex flex-row">
+        <li>
+          <Link
+            href="/account/reservation"
+            className="flex flex-row items-center text-sm sm:text-base font-medium"
+          >
             <FiCalendar size={20} className="mr-2" />
             Reservation
           </Link>
@@ -23,7 +29,7 @@ export default function NavigationProfile() {
       </ul>
       <div
         onClick={() => signOut({ redirectTo: "/" })}
-        className="flex flex-row items-center cursor-pointer"
+        className="flex flex-row items-center text-sm sm:text-base font-medium cursor-pointer sm:mt-auto mr-1"
       >
         <FiLogOut size={20} className="mr-2" />
         Sign Out

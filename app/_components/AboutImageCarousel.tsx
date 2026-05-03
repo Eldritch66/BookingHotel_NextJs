@@ -67,6 +67,7 @@ export default function AboutImageCarousel() {
         <Image
           src={current.bigImage}
           alt="best place to stay"
+          placeholder="blur"
           className="rounded-3xl object-cover object-center w-full h-full absolute brightness-90 aspect-square "
         />
         <span className="px-3 py-1 text-sm sm:text-lg rounded-full border-2 border-amber-50 text-white drop-shadow-md left-4 top-4 absolute">
@@ -128,6 +129,7 @@ export default function AboutImageCarousel() {
           <Image
             src={current.smallImage}
             alt="best place to stay"
+            placeholder="blur"
             className="rounded-3xl object-cover object-center w-full h-full block brightness-90 row-span-2 aspect-square"
           />
         </div>
