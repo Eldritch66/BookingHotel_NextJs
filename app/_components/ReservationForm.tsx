@@ -1,3 +1,4 @@
+import { formatDate } from "date-fns";
 import { DateRange } from "react-day-picker";
 
 function ReservationForm({
@@ -22,12 +23,14 @@ function ReservationForm({
       <input
         type="hidden"
         name="start_date"
-        value={range?.from?.toISOString().split("T")[0] ?? ""}
+        // value={range?.from?.toISOString().split("T")[0] ?? ""}
+        value={range?.from ? formatDate(range.from, "yyyy-MM-dd") : ""}
+        // "2026-05-05T00:00:00.000Z".split("T") -> "2026-05-05"
       />
       <input
         type="hidden"
         name="end_date"
-        value={range?.to?.toISOString().split("T")[0] ?? ""}
+        value={range?.to ? formatDate(range.to, "yyyy-MM-dd") : ""}
       />
       <input type="hidden" name="num_nights" value={nights} />
       <input type="hidden" name="num_guests" value={guests} />
@@ -35,7 +38,7 @@ function ReservationForm({
       <button
         type="submit"
         disabled={!range?.from || !range?.to}
-        className="w-full text-2xl bg-[#a67f71] text-white py-3 rounded-xl mt-4 font-semibold hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full text-2xl bg-[#a67f71] text-white py-3 rounded-xl mt-4 font-semibold hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
       >
         Reserve Now
       </button>

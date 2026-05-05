@@ -1,7 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
 import { HiOutlinePencilSquare } from "react-icons/hi2";
-import { format, formatDistance, isPast, isToday, parseISO } from "date-fns";
+import {
+  endOfDay,
+  format,
+  formatDistance,
+  isPast,
+  isToday,
+  parseISO,
+} from "date-fns";
 import { Booking } from "../_lib/type";
 import { formatRupiah } from "../_lib/currency";
 import DeleteReservation from "./DeleteReservation";
@@ -33,8 +40,8 @@ function ReservationCard({
   } = booking;
 
   const image = property_images?.[0]?.image_url;
-  const isUpcoming = !isPast(new Date(end_date));
-
+  // const isUpcoming = !isPast(new Date(end_date));
+  const isUpcoming = !isPast(endOfDay(parseISO(end_date)));
   return (
     <div className="flex flex-col border border-primary-800">
       <div className="flex items-center">
@@ -65,11 +72,16 @@ function ReservationCard({
           </div>
 
           <p className="text-xs sm:text-lg text-primary-300 mt-1 leading-snug">
-            {format(new Date(start_date), "EEE, MMM dd yyyy")} (
+            {/* {format(new Date(start_date), "EEE, MMM dd yyyy")} (
             {isToday(new Date(start_date))
               ? "Today"
               : formatDistanceFromNow(start_date)}
-            ) &mdash; {format(new Date(end_date), "EEE, MMM dd yyyy")}
+            ) &mdash; {format(new Date(end_date), "EEE, MMM dd yyyy")} */}
+            {format(parseISO(start_date), "EEE, MMM dd yyyy")} (
+            {isToday(parseISO(start_date))
+              ? "Today"
+              : formatDistanceFromNow(start_date)}
+            ) &mdash; {format(parseISO(end_date), "EEE, MMM dd yyyy")}
           </p>
 
           <div className="flex gap-3 mt-auto items-baseline pt-2">
@@ -91,9 +103,10 @@ function ReservationCard({
               className="group flex items-center gap-2 uppercase text-xs font-bold text-primary-300 border-b border-primary-800 flex-grow px-3 hover:bg-accent-600 transition-colors hover:text-primary-900"
             >
               <HiOutlinePencilSquare className="h-5 w-5 text-primary-600 group-hover:text-primary-800 transition-colors" />
-              <span className="mt-1">Edit</span>
+              <span className="my-2">Edit</span>
             </Link>
           )}
+          <div className="mt-1.5"></div>
           <DeleteReservation bookingId={id} onDelete={onDelete} />
         </div>
       </div>

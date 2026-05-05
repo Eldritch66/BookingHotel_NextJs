@@ -4,7 +4,7 @@ import { Room } from "../_lib/type";
 import { useState } from "react";
 import { DayPicker, DateRange } from "react-day-picker";
 import "react-day-picker/dist/style.css";
-import { format } from "date-fns";
+import { format, startOfDay } from "date-fns";
 import RoomDropDown from "./roomDropDown";
 import { formatRupiah } from "../_lib/currency";
 import ImageCarouselRoomDetail from "./ImageCarouselRoomDetail";
@@ -120,6 +120,7 @@ export default function DetailRoom({ room }: { room: Room }) {
                     }
                   }}
                   numberOfMonths={1}
+                  disabled={{ before: startOfDay(new Date()) }}
                   className="text-sm flex justify-center"
                 />
               </div>

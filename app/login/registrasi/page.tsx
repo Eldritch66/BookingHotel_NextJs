@@ -1,6 +1,6 @@
+import SignInButton from "@/app/_components/SignInButton";
 import Link from "next/link";
 import { FiShield, FiLock, FiMessageCircle } from "react-icons/fi";
-import SignInButton from "../_components/SignInButton";
 export default function LoginPage() {
   return (
     <div className="relative min-h-screen overflow-hidden">
@@ -41,7 +41,7 @@ export default function LoginPage() {
           <p className="mt-6 text-sm text-[#9b8b7a] animate-fade-up [animation-delay:300ms]">
             New to Nginapin?
             <Link
-              href="login/register"
+              href="/register"
               className="text-[#8b5e3c] font-medium border-b border-transparent hover:border-[#8b5e3c] transition-all duration-200"
             >
               Create an account

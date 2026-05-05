@@ -18,7 +18,7 @@ export default function RoomImageGallery({
     <section className="hidden w-full lg:max-w-[1750px] mx-auto px-2 relative h-[60vh] md:grid grid-cols-2 gap-2 overflow-hidden">
       <div className="relative">
         <Image
-          src={mainImage ?? ""}
+          src={mainImage}
           alt={title ?? ""}
           fill
           className="object-cover rounded-tl-4xl rounded-bl-4xl"
