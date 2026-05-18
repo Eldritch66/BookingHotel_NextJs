@@ -6,8 +6,7 @@ export type Property = {
   city: string;
   province: string;
   address: string;
-  rating: number;
-  review_count: number;
+  isAvailable: string;
   created_at: string;
   description: string;
   property_images: {
@@ -60,8 +59,7 @@ export type Room = {
     title: string;
     city: string;
     province: string;
-    rating: number;
-    review_count: number;
+    isAvailable: string;
     property_images: {
       id: string;
       image_url: string;

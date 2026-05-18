@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { Property } from "../_lib/type";
 import { FaHeart } from "react-icons/fa";
-import { IoStar } from "react-icons/io5";
 import { IoLocationSharp } from "react-icons/io5";
 import { formatRupiah } from "../_lib/currency";
 import Link from "next/link";
@@ -34,9 +33,8 @@ export default function Card({ property }: { property: Property }) {
         <div className="flex flex-row justify-between items-center">
           <h2 className="font-semibold">{property.title}</h2>
           <p className="flex flex-row items-center gap-1">
-            <IoStar size={22} className="text-orange-600" />
-            <span className="text-sm leading-none font-semibold">
-              {property.rating}
+            <span className={`text-sm leading-none font-semibold px-2 py-1 rounded-full ${property.isAvailable === 'available' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+              {property.isAvailable === 'available' ? 'Available' : 'Unavailable'}
             </span>
           </p>
         </div>

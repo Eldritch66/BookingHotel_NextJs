@@ -32,7 +32,7 @@ export default function DetailRoom({ room }: { room: Room }) {
     properties,
   } = room;
 
-  const { title, city, province, property_images, rating, review_count } =
+  const { title, city, province, property_images, isAvailable } =
     properties ?? {};
   const images = property_images || [];
 
@@ -65,14 +65,12 @@ export default function DetailRoom({ room }: { room: Room }) {
           province={province}
           name={name}
           description_full={description_full}
-          rating={rating}
-          review_count={review_count}
+          isAvailable={isAvailable}
         />
 
         <div className="shadow-lg w-full rounded-2xl px-4 py-4 border border-gray-200 sticky h-fit bg-white">
-          {/* <div className="shadow-lg w-full rounded-2xl px-4 py-4 border border-gray-200 sticky top-20 h-fit bg-white"> */}
           {/* PRICE */}
-          <PricePerNightAndRating price={price_per_night} rating={rating} />
+          <PricePerNightAndRating price={price_per_night} isAvailable={isAvailable} />
           {/* DATE INPUT */}
           <div
             onClick={() => setOpen(true)}

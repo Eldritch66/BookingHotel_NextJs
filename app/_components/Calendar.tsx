@@ -1,6 +1,6 @@
 "use client";
 
-import { IoLocationSharp, IoStar } from "react-icons/io5";
+import { IoLocationSharp } from "react-icons/io5";
 import { Room } from "../_lib/type";
 import { useState } from "react";
 import { DayPicker, DateRange } from "react-day-picker";
@@ -19,7 +19,7 @@ export default function Calendar({ room }: { room: Room }) {
   const [guests, setGuests] = useState(1);
 
   const { name, price_per_night, description_full, properties } = room;
-  const { title, city, province, rating, review_count } = properties ?? {};
+  const { title, city, province, isAvailable } = properties ?? {};
 
   const nights =
     range?.from && range?.to
@@ -38,13 +38,9 @@ export default function Calendar({ room }: { room: Room }) {
         </p>
 
         <div className="flex flex-row gap-4">
-          <div className="flex items-center gap-2 border border-[#a67f71] bg-gray-100 px-4 py-1 rounded-lg">
-            <IoStar size={20} className="text-[#a67f71]" />
-            <span className="text-lg font-semibold">{rating}</span>
-            <span className="text-sm text-gray-500">
-              ({review_count} reviews)
-            </span>
-          </div>
+          <span className={`text-sm font-semibold px-3 py-1 rounded-full ${isAvailable === 'available' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+            {isAvailable === 'available' ? 'Available' : 'Unavailable'}
+          </span>
 
           <div className="flex items-center gap-2 border border-gray-200 bg-blue-50 px-4 py-1 rounded-lg">
             <span className="text-base font-sans font-semibold tracking-wide">
@@ -58,7 +54,6 @@ export default function Calendar({ room }: { room: Room }) {
       </header>
 
       <div className="shadow-lg w-full rounded-2xl px-4 py-4 border border-gray-200 sticky h-fit bg-white">
-        {/* <div className="shadow-lg w-full rounded-2xl px-4 py-4 border border-gray-200 sticky top-20 h-fit bg-white"> */}
         {/* PRICE */}
         <div className="flex justify-between items-center px-2">
           <p className="font-semibold text-2xl">
@@ -66,10 +61,9 @@ export default function Calendar({ room }: { room: Room }) {
             <span className="text-gray-400 font-light text-lg">/ night</span>
           </p>
 
-          <div className="flex items-center gap-1 text-sm">
-            <IoStar className="text-[#a67f71]" />
-            <span>{rating}</span>
-          </div>
+          <span className={`text-xs font-semibold px-2 py-1 rounded-full ${isAvailable === 'available' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+            {isAvailable === 'available' ? 'Available' : 'Unavailable'}
+          </span>
         </div>
         {/* DATE INPUT */}
         <div

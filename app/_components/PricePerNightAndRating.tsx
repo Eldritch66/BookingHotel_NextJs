@@ -1,12 +1,11 @@
-import { IoStar } from "react-icons/io5";
 import { formatRupiah } from "../_lib/currency";
 
 export default function PricePerNightAndRating({
   price,
-  rating,
+  isAvailable,
 }: {
   price: number;
-  rating: number;
+  isAvailable: string;
 }) {
   return (
     <div className="flex justify-between items-center px-2">
@@ -15,10 +14,9 @@ export default function PricePerNightAndRating({
         <span className="text-gray-400 font-light text-lg">/ night</span>
       </p>
 
-      <div className="flex items-center gap-1 text-sm">
-        <IoStar className="text-[#a67f71]" />
-        <span>{rating}</span>
-      </div>
+      <span className={`text-xs font-semibold px-2 py-1 rounded-full ${isAvailable === 'available' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+        {isAvailable === 'available' ? 'Available' : 'Unavailable'}
+      </span>
     </div>
   );
 }
