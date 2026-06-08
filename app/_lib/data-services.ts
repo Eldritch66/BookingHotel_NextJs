@@ -1,101 +1,133 @@
-import { supabase } from "./supabase";
-import { Room } from "./type";
+import { supabaseAdmin } from "./supabase";
+import type { Property, PropertiRaw, Sewa } from "./type";
 
-export async function getGuest(email: string) {
-  const { data, error } = await supabase
-    .from("guests")
+// ================================
+// PENYEWA
+// ================================
+
+export async function getPenyewa(email: string) {
+  const { data, error } = await supabaseAdmin
+    .from("penyewa")
     .select("*")
     .eq("email", email)
     .single();
 
   if (error && error.code !== "PGRST116") {
-    // PGRST116 = no rows found, not a real error
     console.error(error);
-    throw new Error("Guest could not be loaded");
+    throw new Error("Penyewa could not be loaded");
   }
 
   return data;
 }
 
-export async function createGuest(guestData: { email: string }) {
-  const { data, error } = await supabase.from("guests").insert([guestData]);
-  // .select()
-  // .single();
+export async function getPemilik(email: string) {
+  const { data, error } = await supabaseAdmin
+    .from("pemilik")
+    .select("*")
+    .eq("email", email)
+    .single();
+
+  if (error && error.code !== "PGRST116") {
+    console.error(error);
+    throw new Error("Pemilik could not be loaded");
+  }
+
+  return data ?? null;
+}
+
+export async function createPenyewa(penyewaData: {
+  user_id: string;
+  nama_penyewa: string;
+  email: string;
+  no_hp?: string;
+}) {
+  const { data, error } = await supabaseAdmin
+    .from("penyewa")
+    .insert([penyewaData])
+    .select()
+    .single();
 
   if (error) {
     console.error(error);
-    throw new Error("Guest could not be created");
+    throw new Error("Penyewa could not be created");
   }
 
   return data;
 }
 
-export async function properties() {
-  const { data, error } = await supabase
-    .from("properties")
-    .select(
-      `id, title, type, price_per_night, city, province, address, isAvailable, created_at,description,
-        property_images (
-          id,
-          image_url
-        ),
-        rooms (
-        id,
-        name
-        )
-      `,
-    )
+export async function updatePenyewa(
+  penyewaId: string,
+  updates: Partial<{ nama_penyewa: string; no_hp: string }>,
+) {
+  const { data, error } = await supabaseAdmin
+    .from("penyewa")
+    .update(updates)
+    .eq("id", penyewaId)
+    .select()
+    .single();
 
-    .order("title");
   if (error) {
     console.error(error);
-    throw new Error("Cabins could not be loaded");
+    throw new Error("Penyewa could not be updated");
   }
 
   return data;
 }
-export async function getBookings(guestId: string) {
-  const { data, error } = await supabase
-    .from("bookings")
+
+// ================================
+// PROPERTI
+// ================================
+
+export async function getProperti() {
+  const { data, error } = await supabaseAdmin
+    .from("properti")
     .select(
       `
-    id,
-    guest_id,
-    room_id,
-    start_date,
-    end_date,
-    num_nights,
-    num_guests,
-    total_price,
-    status,
-    rooms (
-      id,
-      name,
-      properties (
-        id,
-        title,
-        city,
-        province,
-        isAvailable,
-        property_images (
-          id,
-          image_url
-        )
-      )
+      id, nama_properti, tipe, kota, alamat, pemilik_id, harga_per_bulan, harga_per_dua_bulan,
+      foto_properti ( id, url )
+    `,
     )
-  `, // ✅ removed created_at
-    )
-    .eq("guest_id", guestId)
-    .order("start_date", { ascending: false });
+    .order("nama_properti");
+
   if (error) {
-    console.error("Supabase error details:", JSON.stringify(error)); // ✅ shows full error
-    throw new Error("Bookings could not get loaded");
+    console.error(error);
+    throw new Error("Properti could not be loaded");
   }
 
   return data;
 }
 
-export async function getFilteredProperties({
+export async function getPropertiById(propertiId: string) {
+  const { data, error } = await supabaseAdmin
+    .from("properti")
+    .select(
+      `
+      id, nama_properti, tipe, kota, alamat, pemilik_id, harga_per_bulan, harga_per_dua_bulan,
+      foto_properti ( id, url ),
+      unit (
+        id,
+        luas_bangunan,
+        jumlah_kamar_tidur,
+        jumlah_kamar_mandi,
+        kapasitas_penghuni,
+        lantai,
+        keterangan,
+        ketersediaan
+      )
+    `,
+    )
+    .eq("id", propertiId)
+    .single();
+
+  if (error) {
+    console.error(error);
+    throw new Error("Properti could not be loaded");
+  }
+
+  return data;
+}
+
+export async function getFilteredProperti({
   location,
   type,
   price,
@@ -104,79 +136,278 @@ export async function getFilteredProperties({
   type?: string;
   price?: string;
 }) {
-  let query = supabase
-    .from("properties")
+  let query = supabaseAdmin
+    .from("properti")
     .select(
       `
-      id,
-      title,
-      type,
-      price_per_night,
-      city,
-      province,
-      address,
-      isAvailable,
-      created_at,
-      description,
-      property_images (
-        id,
-        image_url
-      ),
-      rooms (
-        id,
-        name
-      )
+      id, nama_properti, tipe, kota, alamat, harga_per_bulan, harga_per_dua_bulan,
+      foto_properti ( id, url )
     `,
     )
-    .order("title");
-  if (location && location !== "All") {
-    query = query.eq("city", location);
-  }
+    .order("nama_properti");
 
-  if (type && type !== "All") {
-    query = query.eq("type", type.toLowerCase());
-  }
+  if (location && location !== "All") query = query.eq("kota", location);
+
+  if (type && type !== "All") query = query.eq("tipe", type.toLowerCase());
 
   if (price && price !== "All") {
-    if (price === "Budget") {
-      query = query.lte("price_per_night", 500000);
-    } else if (price === "Mid-range") {
+    if (price === "Budget") query = query.lte("harga_per_dua_bulan", 500000);
+    else if (price === "Mid-range")
       query = query
-        .gte("price_per_night", 500000)
-        .lte("price_per_night", 1500000);
-    } else if (price === "Luxury") {
-      query = query.gte("price_per_night", 1500000);
-    }
+        .gt("harga_per_dua_bulan", 500000)
+        .lte("harga_per_dua_bulan", 1500000);
+    else if (price === "Luxury")
+      query = query.gt("harga_per_dua_bulan", 1500000);
   }
 
   const { data, error } = await query;
 
   if (error) {
     console.error(error);
-    throw new Error("Properties could not be loaded");
+    throw new Error("Properti could not be loaded");
   }
 
   return data;
 }
 
-export async function getRooms(propertyId: string) {
-  const { data, error } = await supabase
-    .from("rooms")
-
+export async function getPropertiByPemilik(pemilikId: string) {
+  const { data, error } = await supabaseAdmin
+    .from("properti")
     .select(
-      `id, property_id, name, price_per_night, bed_type, quantity,created_at, description_full, size,properties(id,title,city, isAvailable, province, property_images(
-          id,
-          image_url
-        ) )`,
+      `
+      id, nama_properti, tipe, kota, alamat, pemilik_id, harga_per_bulan, harga_per_dua_bulan,
+      foto_properti ( id, url )
+    `,
     )
-    .eq("property_id", propertyId)
-    // .single();
-    .order("created_at", { ascending: false });
+    .eq("pemilik_id", pemilikId)
+    .order("nama_properti");
 
   if (error) {
     console.error(error);
-    throw new Error("Bookings could not get loaded");
+    throw new Error("Properti could not be loaded");
   }
 
-  return data as unknown as Room[];
+  return data;
 }
+
+export async function createProperti(data: {
+  nama_properti: string;
+  tipe: string;
+  kota: string;
+  alamat: string;
+  pemilik_id: string;
+  harga_per_bulan: number;
+  harga_per_dua_bulan: number;
+}) {
+  const { data: newProperti, error } = await supabaseAdmin
+    .from("properti")
+    .insert([data])
+    .select()
+    .single();
+
+  if (error) {
+    console.error(error);
+    throw new Error("Properti could not be created");
+  }
+
+  return newProperti;
+}
+
+export async function deleteProperti(propertiId: string) {
+  const { error } = await supabaseAdmin
+    .from("properti")
+    .delete()
+    .eq("id", propertiId);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Properti could not be deleted");
+  }
+}
+
+export async function createFotoProperti(data: {
+  url: string;
+  properti_id: string;
+}) {
+  const { error } = await supabaseAdmin
+    .from("foto_properti")
+    .insert([data]);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Foto could not be created");
+  }
+}
+
+// ================================
+// SEWA
+// ================================
+
+export async function getSewa(penyewaId: string): Promise<Sewa[]> {
+  const { data, error } = await supabaseAdmin
+    .from("sewa")
+    .select(
+      `
+      id,
+      penyewa_id,
+      tanggal_mulai,
+      tanggal_selesai,
+      durasi_bulan,
+      total_harga,
+      catatan,
+      disetujui_pada,
+      created_at,
+      pembayaran (
+        id,
+        jumlah,
+        metode,
+        bukti_url,
+        dibayar_pada
+      )
+    `,
+    )
+    .eq("penyewa_id", penyewaId)
+    .order("tanggal_mulai", { ascending: false });
+
+  if (error) {
+    console.error(JSON.stringify(error, null, 2));
+    throw new Error("Sewa could not be loaded");
+  }
+
+  const raw = data ?? [];
+
+  const propertiIds = [
+    ...new Set(
+      raw
+        .map((s) => s.catatan?.match(/properti_id:([^|]+)/)?.[1])
+        .filter(Boolean) as string[],
+    ),
+  ];
+
+  const imageMap: Record<string, string> = {};
+  if (propertiIds.length > 0) {
+    const { data: props } = await supabaseAdmin
+      .from("properti")
+      .select("id, foto_properti ( url )")
+      .in("id", propertiIds);
+
+    if (props) {
+      for (const p of props) {
+        const fp = (p as Record<string, unknown>)
+          .foto_properti as { url: string }[] | undefined;
+        imageMap[p.id] = fp?.[0]?.url ?? "";
+      }
+    }
+  }
+
+  return raw.map((s) => ({
+    id: s.id,
+    penyewa_id: s.penyewa_id,
+    tanggal_mulai: s.tanggal_mulai,
+    tanggal_selesai: s.tanggal_selesai,
+    durasi_bulan: s.durasi_bulan,
+    total_harga: s.total_harga,
+    catatan: s.catatan,
+    status: s.catatan === "CANCELLED" ? "cancelled" : "confirmed",
+    properti_id: s.catatan?.match(/properti_id:([^|]+)/)?.[1] ?? "",
+    properti_title: s.catatan?.match(/properti_title:([^|]+)/)?.[1] ?? "",
+    properti_image: imageMap[s.catatan?.match(/properti_id:([^|]+)/)?.[1] ?? ""] ?? "",
+  }));
+}
+
+export async function getSewaById(sewaId: string) {
+  const { data, error } = await supabaseAdmin
+    .from("sewa")
+    .select(
+      `
+      id,
+      penyewa_id,
+      tanggal_mulai,
+      tanggal_selesai,
+      durasi_bulan,
+      total_harga,
+      catatan,
+      disetujui_pada,
+      created_at,
+      pembayaran (
+        id,
+        jumlah,
+        metode,
+        bukti_url,
+        dibayar_pada
+      )
+    `,
+    )
+    .eq("id", sewaId)
+    .single();
+
+  if (error) {
+    console.error(error);
+    throw new Error("Sewa could not be loaded");
+  }
+
+  return data;
+}
+
+export async function createSewa(sewaData: {
+  penyewa_id: string;
+  tanggal_mulai: string;
+  tanggal_selesai: string;
+  durasi_bulan: number;
+  total_harga: number;
+  catatan?: string;
+}) {
+  const { data, error } = await supabaseAdmin
+    .from("sewa")
+    .insert([sewaData])
+    .select()
+    .single();
+
+  if (error) {
+    console.error(error);
+    throw new Error("Sewa could not be created");
+  }
+
+  return data;
+}
+
+export async function deleteSewa(sewaId: string) {
+  const { error } = await supabaseAdmin
+    .from("sewa")
+    .delete()
+    .eq("id", sewaId);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Sewa could not be deleted");
+  }
+}
+
+export async function getSewaByIdWithProperti(sewaId: string, penyewaId: string): Promise<Sewa | null> {
+  const all = await getSewa(penyewaId);
+  return all.find((s) => s.id === sewaId) ?? null;
+}
+
+// ================================
+// Mapper: DB → Frontend types
+// ================================
+
+export function mapPropertiToProperty(p: PropertiRaw): Property {
+  return {
+    id: p.id,
+    title: p.nama_properti,
+    type: p.tipe,
+    price_per_month: p.harga_per_bulan,
+    price_per_two_months: p.harga_per_dua_bulan,
+    city: p.kota,
+    province: "Jawa Barat",
+    address: p.alamat,
+    created_at: new Date().toISOString(),
+    property_images: (p.foto_properti ?? []).map((f) => ({
+      id: f.id,
+      image_url: f.url,
+    })),
+  };
+}
+
+

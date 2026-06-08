@@ -4,13 +4,10 @@ export default function Navbar() {
     <nav className="flex flex-row items-center z-50 sticky">
       <ul className="flex items-center gap-4 text-base font-extralight">
         <li>
-          <Link href="/bookings">Booking</Link>
+          <Link href="/properti">Properti</Link>
         </li>
         <li>
           <Link href="#">About Us</Link>
-        </li>
-        <li>
-          <Link href="#">Services</Link>
         </li>
       </ul>
     </nav>

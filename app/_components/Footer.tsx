@@ -1,84 +1,39 @@
-import { TiArrowRight } from "react-icons/ti";
-import { SlSocialLinkedin } from "react-icons/sl";
-import { SlSocialGithub } from "react-icons/sl";
-import { SlSocialInstagram } from "react-icons/sl";
-import { FaXTwitter } from "react-icons/fa6";
+import Link from "next/link";
+import Image from "next/image";
+import Logo from "@/public/logo.png";
 
 export default function Footer() {
   return (
-    <footer className="min-h-fit w-full md:max-w-[1500px] lg:max-w-[1800px] mx-auto mt-30 mb-8">
-      <h2 className=" text-center text-3xl md:text-[9rem] font-black leading-none tracking-tighter uppercase">
-        NGINAPIN- CONTACT
-      </h2>
-      <div className="flex flex-col items-center mt-8">
-        <div className="flex gap-8 text-lg sm:gap-20 items-center flex-row font-semibold">
-          <p className="flex flex-row items-center">
-            About us <TiArrowRight size={20} className="ml-2" />
-          </p>
-          <p className="flex flex-row items-center">
-            FAQ <TiArrowRight size={20} className="ml-2" />
-          </p>
-          <p className="flex flex-row items-center">
-            Contact us <TiArrowRight size={20} className="ml-2" />
-          </p>
-        </div>
-        <p className="text-sm font-normal text-gray-500 text-center leading-relaxed max-w-xs mt-8">
-          with our dedication and expertise in hospitality, we strive to offer
-          stays that go beyond just a room, providing a comforting journey
-          toward relaxation and unforgettable experiences
-        </p>
-        <div className="grid grid-cols-3 w-full items-center mt-8 text-xs sm:text-sm">
-          <a href="#" className="justify-self-start">
-            Helpline: +1234 567 890
-          </a>
+    <footer className="border-t border-neutral-200 bg-white">
+      <div className="mx-auto max-w-7xl px-4 py-12 md:px-8 lg:px-12">
+        <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
+          {/* Left */}
+          <div className="max-w-sm">
+            <Link href="/" className="flex items-center gap-2">
+              <Image src={Logo} alt="Nginapin" className="h-8 w-auto" />
+            </Link>
 
-          <nav aria-label="Social media" className="justify-self-center">
-            <ul className="flex gap-6">
-              <li>
-                <a
-                  href="https://linkedin.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Lokastay on LinkedIn"
-                >
-                  <SlSocialLinkedin size={20} />
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://github.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Lokastay on GitHub"
-                >
-                  <SlSocialGithub size={20} />
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://instagram.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Lokastay on Instagram"
-                >
-                  <SlSocialInstagram size={20} />
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://twitter.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Lokastay on X (Twitter)"
-                >
-                  <FaXTwitter size={20} />
-                </a>
-              </li>
-            </ul>
+            <p className="mt-3 text-sm leading-relaxed text-neutral-500">
+              Temukan kosan dan kontrakan di Bogor dengan proses yang lebih
+              mudah, transparan, dan nyaman.
+            </p>
+          </div>
+
+          {/* Right */}
+          <nav className="flex gap-6 text-sm text-neutral-600">
+            <Link href="/properti" className="transition hover:text-orange-600">
+              Properti
+            </Link>
+
+            <Link href="/about" className="transition hover:text-orange-600">
+              About Us
+            </Link>
           </nav>
+        </div>
 
-          <p className="justify-self-end">
-            © {new Date().getFullYear()} Lokastay. All rights reserved.
+        <div className="mt-8 border-t border-neutral-100 pt-6">
+          <p className="text-center text-sm text-neutral-400">
+            © {new Date().getFullYear()} Nginapin. All rights reserved.
           </p>
         </div>
       </div>

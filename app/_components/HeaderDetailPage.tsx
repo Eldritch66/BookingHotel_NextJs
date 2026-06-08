@@ -5,15 +5,11 @@ export default function HeaderDetailPage({
   city,
   province,
   name,
-  description_full,
-  isAvailable,
 }: {
   title: string;
   city: string;
   province: string;
   name: string;
-  description_full: string;
-  isAvailable: string;
 }) {
   return (
     <header className="flex gap-2 flex-col">
@@ -23,19 +19,12 @@ export default function HeaderDetailPage({
       </p>
 
       <div className="flex flex-row gap-4">
-        <span className={`text-sm font-semibold px-3 py-1 rounded-full ${isAvailable === 'available' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
-          {isAvailable === 'available' ? 'Available' : 'Unavailable'}
-        </span>
-
         <div className="flex items-center gap-2 border border-gray-200 bg-blue-50 px-4 py-1 rounded-lg">
           <span className="text-base font-sans font-semibold tracking-wide">
             {name}
           </span>
         </div>
       </div>
-      <p className="text-base text-gray-600 w-full md:w-[80%] text-pretty">
-        {description_full}
-      </p>
     </header>
   );
 }

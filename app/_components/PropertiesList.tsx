@@ -1,5 +1,5 @@
 import { Property } from "../_lib/type";
-import Card from "./Card";
+import LandingCard from "./LandingCard";
 export default function PropertiesList({
   properties,
 }: {
@@ -8,7 +8,7 @@ export default function PropertiesList({
   return (
     <>
       {properties.map((properti) => (
-        <Card property={properti} key={properti.id} />
+        <LandingCard property={properti} key={properti.id} />
       ))}
     </>
   );

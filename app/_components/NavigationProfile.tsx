@@ -1,6 +1,6 @@
 "use client";
 
-import { FiHome, FiCalendar, FiLogOut } from "react-icons/fi";
+import { FiHome, FiCalendar, FiGrid, FiLogOut } from "react-icons/fi";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 
@@ -19,11 +19,20 @@ export default function NavigationProfile() {
         </li>
         <li>
           <Link
-            href="/account/reservation"
+            href="/account/sewa"
             className="flex flex-row items-center text-sm sm:text-base font-medium"
           >
             <FiCalendar size={20} className="mr-2" />
-            Reservation
+            Sewa Properti
+          </Link>
+        </li>
+        <li>
+          <Link
+            href="/account/pemilik/properti"
+            className="flex flex-row items-center text-sm sm:text-base font-medium"
+          >
+            <FiGrid size={20} className="mr-2" />
+            Kelola Properti
           </Link>
         </li>
       </ul>

@@ -1,89 +1,95 @@
+// ================================
+// Frontend types (used by components)
+// ================================
+
 export type Property = {
-  id: number;
+  id: string;
   title: string;
   type: string;
-  price_per_night: number;
+  price_per_month: number;
+  price_per_two_months: number;
   city: string;
   province: string;
   address: string;
-  isAvailable: string;
   created_at: string;
-  description: string;
   property_images: {
-    id: number;
+    id: string;
     image_url: string;
   }[];
-  rooms: {
-    id: number;
-    name: string;
-  }[];
 };
 
-export type PropertyPreview = Pick<
-  Property,
-  "id" | "title" | "city" | "province"
->;
-
-// export type Room = {
-//   id: number;
-//   property_id: number;
-//   name: string;
-//   price_per_night: number;
-//   bed_type: string;
-//   quantity: number;
-//   created_at: string;
-//   size: number;
-//   properties: {
-//     id: number;
-//     title: string;
-//     city: string;
-//     province: string;
-//     property_images: {
-//       id: number;
-//       image_url: string;
-//     }[];
-//   }[];
-// };
-export type Room = {
+export type Sewa = {
   id: string;
-  property_id: string;
-  name: string;
-  price_per_night: number;
-  bed_type: string;
-  quantity: number;
-  created_at: string;
-  size: number;
-  description_full: string;
-  properties: {
-    id: string;
-    title: string;
-    city: string;
-    province: string;
-    isAvailable: string;
-    property_images: {
-      id: string;
-      image_url: string;
-    }[];
-  };
-};
-
-// app/_lib/types.ts
-
-export type Roomm = {
-  id: string;
-  name: string;
-  properties: Property;
-};
-
-export type Booking = {
-  id: string;
-  guest_id: string;
-  room_id: string;
-  start_date: string;
-  end_date: string;
-  num_nights: number;
-  num_guests: number;
-  total_price: number;
+  penyewa_id: string;
+  tanggal_mulai: string;
+  tanggal_selesai: string;
+  durasi_bulan: number;
+  total_harga: number;
+  catatan: string | null;
   status: string;
-  rooms: Room;
+  properti_id: string;
+  properti_title: string;
+  properti_image: string;
+};
+
+// ================================
+// DB-native types (matching Supabase schema)
+// ================================
+
+export type FotoProperti = {
+  id: string;
+  url: string;
+};
+
+export type PropertiRaw = {
+  id: string;
+  nama_properti: string;
+  tipe: string;
+  kota: string;
+  alamat: string;
+  pemilik_id?: string;
+  harga_per_bulan: number;
+  harga_per_dua_bulan: number;
+  foto_properti: FotoProperti[];
+};
+
+export type PropertiBrief = {
+  id: string;
+  nama_properti: string;
+  kota: string;
+  alamat?: string;
+  harga_per_bulan?: number;
+  harga_per_dua_bulan?: number;
+  foto_properti: FotoProperti[];
+};
+
+export type PembayaranRaw = {
+  id: string;
+  sewa_id?: string;
+  jumlah: number;
+  metode: string;
+  status?: string;
+  dibayar_pada: string;
+};
+
+export type PropertiFormData = {
+  nama_properti: string;
+  tipe: string;
+  kota: string;
+  alamat: string;
+  harga_per_bulan: number;
+  harga_per_dua_bulan: number;
+};
+
+export type SewaWithRelationsRaw = {
+  id: string;
+  penyewa_id: string;
+  tanggal_mulai: string;
+  tanggal_selesai: string;
+  durasi_bulan: number;
+  total_harga: number;
+  catatan: string | null;
+  disetujui_pada: string | null;
+  created_at: string;
+  pembayaran: PembayaranRaw[];
 };

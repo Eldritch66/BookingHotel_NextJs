@@ -85,7 +85,7 @@ export default function HumburgerMenu({
         {/* Nav Links — staggered fade-in */}
         <nav className="px-6 py-6 flex flex-col gap-1">
           {[
-            { label: "Booking", href: "/bookings" },
+            { label: "Properti", href: "/properti" },
             { label: "About Us", href: "#" },
             { label: "Services", href: "#" },
           ].map((item, i) => (

@@ -4,6 +4,8 @@ import { Poppins } from "next/font/google";
 
 import "./globals.css";
 import Header from "./_components/Header";
+import SessionProviderWrapper from "./_components/SessionProviderWrapper";
+import Footer from "./_components/Footer";
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
@@ -25,7 +27,7 @@ export const metadata: Metadata = {
   // title: "Create Next App",
   title: {
     template: "%s Nginapin",
-    default: "Booking Hotel Murah did Indonesia | Nginapin",
+    default: "Sewa Kosan & Kontrakan di Bogor | Nginapin",
   },
 
   description:
@@ -43,8 +45,10 @@ export default function RootLayout({
         {/* <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased w-full `}
       > */}
-        <Header />
-        <main className="pt-4">{children}</main>
+        <SessionProviderWrapper>
+          <Header />
+          <main className="pt-4">{children}</main>
+        </SessionProviderWrapper>
       </body>
     </html>
   );

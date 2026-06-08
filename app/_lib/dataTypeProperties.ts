@@ -16,6 +16,6 @@ export const dataTypeProperties = [
   },
   {
     label: "Property Type",
-    options: ["All", "Hotel", "Villa", "Resort"],
+    options: ["All", "Kosan", "Kontrakan"],
   },
 ];
