@@ -9,11 +9,20 @@ import FormPemesanan from "./FormPemesanan";
 import { MapPin, Home, Tag, User, Minus, Plus } from "lucide-react";
 import Image from "next/image";
 
-export default function PropertyDetail({ property }: { property: Property }) {
+export default function PropertyDetail({
+  property,
+  isTersedia = true,
+  isPemilik = false,
+}: {
+  property: Property;
+  isTersedia?: boolean;
+  isPemilik?: boolean;
+}) {
   const [months, setMonths] = useState(2);
 
   const {
     title,
+    price_per_month,
     price_per_two_months,
     city,
     province,
@@ -21,7 +30,7 @@ export default function PropertyDetail({ property }: { property: Property }) {
     type,
     owner_name,
     property_images,
-  } = property as Property & { owner_name?: string };
+  } = property;
 
   const heroImage = property_images?.[0]?.image_url ?? null;
 
@@ -29,10 +38,10 @@ export default function PropertyDetail({ property }: { property: Property }) {
   const startDate = startOfMonth(addMonths(today, 1));
   const endDate = startOfMonth(addMonths(startDate, months));
 
-  const blocks = Math.ceil(months / 2);
+  const extraMonths = Math.max(0, months - 2);
+  const total = price_per_two_months + extraMonths * price_per_month;
   const service = 25000;
-  const tax = price_per_two_months * 0.1;
-  const total = blocks * price_per_two_months;
+  const tax = Math.ceil(total * 0.1);
 
   return (
     <div className="min-h-screen bg-stone-50">
@@ -115,77 +124,108 @@ export default function PropertyDetail({ property }: { property: Property }) {
                 <span className="ml-2 text-sm text-stone-400">/ 2 bulan</span>
               </div>
 
-              {/* Month Selector */}
-              <div className="mt-6">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-stone-400 mb-2">
-                  Durasi Sewa
-                </p>
-                <div className="flex items-center justify-between rounded-2xl border border-stone-200 bg-stone-50 px-4 py-3">
-                  <button
-                    type="button"
-                    onClick={() => setMonths((m) => Math.max(2, m - 1))}
-                    disabled={months <= 2}
-                    className="flex h-8 w-8 items-center justify-center rounded-full border border-stone-300 text-stone-600 transition hover:border-stone-400 hover:bg-white disabled:cursor-not-allowed disabled:opacity-40"
-                  >
-                    <Minus size={16} />
-                  </button>
+              {isPemilik ? (
+                <div className="mt-6 rounded-2xl border border-amber-200 bg-amber-50 px-5 py-6 text-center">
+                  <p className="text-lg font-semibold text-amber-700">
+                    Properti Anda
+                  </p>
+                  <p className="mt-1 text-sm text-amber-600">
+                    Anda adalah pemilik dari properti ini.
+                  </p>
+                </div>
+              ) : isTersedia ? (
+                <>
+                  {/* Month Selector */}
+                  <div className="mt-6">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-stone-400 mb-2">
+                      Durasi Sewa
+                    </p>
+                    <div className="flex items-center justify-between rounded-2xl border border-stone-200 bg-stone-50 px-4 py-3">
+                      <button
+                        type="button"
+                        onClick={() => setMonths((m) => Math.max(2, m - 1))}
+                        disabled={months <= 2}
+                        className="flex h-8 w-8 items-center justify-center rounded-full border border-stone-300 text-stone-600 transition hover:border-stone-400 hover:bg-white disabled:cursor-not-allowed disabled:opacity-40"
+                      >
+                        <Minus size={16} />
+                      </button>
 
-                  <span className="text-lg font-semibold text-stone-900">
-                    {months} Bulan
-                  </span>
+                      <span className="text-lg font-semibold text-stone-900">
+                        {months} Bulan
+                      </span>
 
-                  <button
-                    type="button"
-                    onClick={() => setMonths((m) => m + 1)}
-                    className="flex h-8 w-8 items-center justify-center rounded-full border border-stone-300 text-stone-600 transition hover:border-stone-400 hover:bg-white"
-                  >
-                    <Plus size={16} />
-                  </button>
-                </div>
-                <div className="mt-2 flex justify-between text-sm text-stone-500">
-                  <span>
-                    {format(startDate, "dd MMM yyyy")} &mdash;{" "}
-                    {format(endDate, "dd MMM yyyy")}
-                  </span>
-                  <span className="font-medium text-stone-700">
-                    {blocks} blok ({months} bulan)
-                  </span>
-                </div>
-              </div>
+                      <button
+                        type="button"
+                        onClick={() => setMonths((m) => m + 1)}
+                        className="flex h-8 w-8 items-center justify-center rounded-full border border-stone-300 text-stone-600 transition hover:border-stone-400 hover:bg-white"
+                      >
+                        <Plus size={16} />
+                      </button>
+                    </div>
+                    <div className="mt-2 flex justify-between text-sm text-stone-500">
+                      <span>
+                        {format(startDate, "dd MMM yyyy")} &mdash;{" "}
+                        {format(endDate, "dd MMM yyyy")}
+                      </span>
+                      <span className="font-medium text-stone-700">
+                        {months} bulan
+                      </span>
+                    </div>
+                  </div>
 
-              {/* Price Breakdown */}
-              <div className="mt-4 rounded-2xl bg-stone-50 px-4 py-4 text-sm text-stone-600">
-                <div className="flex justify-between">
-                  <span>
-                    {formatRupiah(price_per_two_months)} × {blocks} blok
-                  </span>
-                  <span>{formatRupiah(total)}</span>
-                </div>
-                <div className="mt-2 flex justify-between">
-                  <span>Biaya layanan</span>
-                  <span>{formatRupiah(service)}</span>
-                </div>
-                <div className="mt-2 flex justify-between">
-                  <span>Pajak (10%)</span>
-                  <span>{formatRupiah(tax)}</span>
-                </div>
-                <div className="mt-3 flex justify-between border-t border-stone-200 pt-3 font-semibold text-stone-950">
-                  <span>Total</span>
-                  <span>{formatRupiah(total + service + tax)}</span>
-                </div>
-              </div>
+                  {/* Price Breakdown */}
+                  <div className="mt-4 rounded-2xl bg-stone-50 px-4 py-4 text-sm text-stone-600">
+                    <div className="flex justify-between">
+                      <span>2 blok pertama</span>
+                      <span>{formatRupiah(price_per_two_months)}</span>
+                    </div>
+                    {extraMonths > 0 && (
+                      <div className="mt-2 flex justify-between">
+                        <span>{extraMonths} bulan tambahan × {formatRupiah(price_per_month)}</span>
+                        <span>{formatRupiah(extraMonths * price_per_month)}</span>
+                      </div>
+                    )}
+                    <div className="mt-2 flex justify-between font-medium text-stone-800">
+                      <span>Total Sewa</span>
+                      <span>{formatRupiah(total)}</span>
+                    </div>
+                    <div className="mt-2 flex justify-between">
+                      <span>Biaya layanan</span>
+                      <span>{formatRupiah(service)}</span>
+                    </div>
+                    <div className="mt-2 flex justify-between">
+                      <span>Pajak (10%)</span>
+                      <span>{formatRupiah(tax)}</span>
+                    </div>
+                    <div className="mt-3 flex justify-between border-t border-stone-200 pt-3 font-semibold text-stone-950">
+                      <span>Total Pembayaran</span>
+                      <span>{formatRupiah(total + service + tax)}</span>
+                    </div>
+                  </div>
 
-              <div className="mt-5">
-                <FormPemesanan
-                  buatPemesanan={buatPemesanan}
-                  price_per_two_months={price_per_two_months}
-                  startDate={startDate}
-                  endDate={endDate}
-                  months={months}
-                  propertiId={property.id}
-                  propertiTitle={title}
-                />
-              </div>
+                  <div className="mt-5">
+                    <FormPemesanan
+                      buatPemesanan={buatPemesanan}
+                      price_per_two_months={price_per_two_months}
+                      price_per_month={price_per_month}
+                      startDate={startDate}
+                      endDate={endDate}
+                      months={months}
+                      propertiId={property.id}
+                      propertiTitle={title}
+                    />
+                  </div>
+                </>
+              ) : (
+                <div className="mt-6 rounded-2xl border border-red-200 bg-red-50 px-5 py-6 text-center">
+                  <p className="text-lg font-semibold text-red-700">
+                    Tidak Tersedia
+                  </p>
+                  <p className="mt-1 text-sm text-red-600">
+                    Kontrakan ini sedang disewa oleh penyewa lain.
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </div>

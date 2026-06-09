@@ -5,6 +5,7 @@ import { format, parseISO } from "date-fns";
 import { Sewa } from "../_lib/type";
 import { formatRupiah } from "../_lib/currency";
 import HapusSewa from "./HapusSewa";
+import { Home } from "lucide-react";
 
 function SewaCard({
   sewa,
@@ -24,19 +25,25 @@ function SewaCard({
     status,
   } = sewa;
 
-  const isActive = status !== "cancelled";
+  const isActive = status !== "dibatalkan";
 
   return (
     <div className="flex flex-col border border-primary-800">
       <div className="flex items-center">
-        <div className="relative h-28 sm:h-32 aspect-square flex-shrink-0">
-          <Image
-            src={properti_image || "/placeholder.svg"}
-            alt={properti_title || "Properti"}
-            quality={40}
-            fill
-            className="object-cover border-r border-primary-800"
-          />
+        <div className="relative h-28 sm:h-32 aspect-square flex-shrink-0 overflow-hidden bg-stone-100">
+          {properti_image ? (
+            <Image
+              src={properti_image}
+              alt={properti_title || "Properti"}
+              quality={40}
+              fill
+              className="object-cover border-r border-primary-800"
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center">
+              <Home size={32} className="text-stone-300" />
+            </div>
+          )}
         </div>
 
         <div className="flex-grow px-3 sm:px-6 py-3 flex flex-col min-w-0">

@@ -23,7 +23,7 @@ export default async function DetailSewaPage({
   const sewa = await getSewaByIdWithProperti(sewaId, penyewa.id);
   if (!sewa) notFound();
 
-  const isActive = sewa.status !== "cancelled";
+  const isActive = sewa.status !== "dibatalkan";
 
   return (
     <div>

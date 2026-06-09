@@ -3,6 +3,7 @@ import { format } from "date-fns";
 function FormPemesanan({
   buatPemesanan,
   price_per_two_months,
+  price_per_month,
   startDate,
   endDate,
   months,
@@ -11,6 +12,7 @@ function FormPemesanan({
 }: {
   buatPemesanan: (formData: FormData) => Promise<void>;
   price_per_two_months: number;
+  price_per_month: number;
   startDate: Date;
   endDate: Date;
   months: number;
@@ -20,6 +22,7 @@ function FormPemesanan({
   return (
     <form action={buatPemesanan}>
       <input type="hidden" name="price_per_two_months" value={price_per_two_months} />
+      <input type="hidden" name="price_per_month" value={price_per_month} />
       <input type="hidden" name="start_date" value={format(startDate, "yyyy-MM-dd")} />
       <input type="hidden" name="end_date" value={format(endDate, "yyyy-MM-dd")} />
       <input type="hidden" name="num_months" value={months} />

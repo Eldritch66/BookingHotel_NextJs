@@ -7,14 +7,6 @@ import { id } from "date-fns/locale";
 import { simulasiPembayaran } from "@/app/_lib/action";
 import { Banknote, QrCode, CreditCard } from "lucide-react";
 
-function parseCatatan(catatan: string | null) {
-  if (!catatan) return { properti_id: "", properti_title: "" };
-  const parts = catatan.split("|");
-  const properti_id = parts[0]?.replace("properti_id:", "") ?? "";
-  const properti_title = parts[1]?.replace("properti_title:", "") ?? "";
-  return { properti_id, properti_title };
-}
-
 export default async function PembayaranPage({
   params,
 }: {
@@ -31,11 +23,11 @@ export default async function PembayaranPage({
   if (!sewa) notFound();
   if (sewa.penyewa_id !== penyewa.id) notFound();
 
-  const { properti_title } = parseCatatan(sewa.catatan);
+  const properti = Array.isArray(sewa.properti) ? sewa.properti[0] : sewa.properti;
+  const properti_title = properti?.nama_properti ?? "";
 
-  const blocks = Math.ceil(sewa.durasi_bulan / 2);
   const service = 25000;
-  const tax = sewa.total_harga * 0.1;
+  const tax = Math.ceil(sewa.total_harga * 0.1);
   const total_display = sewa.total_harga + service + tax;
 
   return (
@@ -65,7 +57,7 @@ export default async function PembayaranPage({
           </div>
           <div className="mt-4 border-t border-stone-100 pt-4 space-y-2 text-sm text-stone-600">
             <div className="flex justify-between">
-              <span>Sewa ({blocks} blok)</span>
+              <span>Total Sewa</span>
               <span>{formatRupiah(sewa.total_harga)}</span>
             </div>
             <div className="flex justify-between">

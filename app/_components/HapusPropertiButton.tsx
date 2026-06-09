@@ -11,7 +11,7 @@ function DeleteButton() {
     <button
       type="submit"
       disabled={pending}
-      className="inline-flex items-center gap-1.5 text-xs font-medium text-red-600 bg-red-50 px-3 py-1.5 rounded-full hover:bg-red-100 transition disabled:opacity-50"
+      className="inline-flex items-center justify-center gap-1.5 text-xs font-medium text-red-600 bg-transparent hover:bg-red-50 px-3 py-2 transition disabled:opacity-50 w-full"
     >
       <Trash2 size={14} />
       {pending ? "Menghapus..." : "Hapus"}

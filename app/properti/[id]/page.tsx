@@ -1,5 +1,11 @@
 import PropertyDetail from "@/app/_components/PropertyDetail";
-import { getProperti, getPropertiById, mapPropertiToProperty } from "@/app/_lib/data-services";
+import { auth } from "@/app/_lib/auth";
+import {
+  getProperti,
+  getPropertiById,
+  isPropertiTersedia,
+  mapPropertiToProperty,
+} from "@/app/_lib/data-services";
 
 export async function generateMetadata({
   params,
@@ -29,10 +35,20 @@ export default async function Page({
 
   const raw = await getPropertiById(id);
   const property = mapPropertiToProperty(raw);
+  const isTersedia = await isPropertiTersedia(id);
+
+  const session = await auth();
+  const pemilikEmail = (raw as { pemilik?: { email?: string }[] }).pemilik?.[0]?.email;
+  const isPemilik =
+    !!session?.user?.email && !!pemilikEmail && session.user.email === pemilikEmail;
 
   return (
     <div className="">
-      <PropertyDetail property={property} />
+      <PropertyDetail
+        property={property}
+        isTersedia={isTersedia}
+        isPemilik={isPemilik}
+      />
     </div>
   );
 }

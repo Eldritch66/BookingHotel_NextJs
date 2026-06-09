@@ -1,7 +1,13 @@
 import PropertiesList from "../_components/PropertiesList";
 import PaginationProperti from "../_components/PaginationProperti";
 import FooterProperti from "../_components/FooterProperti";
-import { getProperti, mapPropertiToProperty } from "../_lib/data-services";
+import { auth } from "../_lib/auth";
+import {
+  getProperti,
+  getPemilik,
+  getActiveSewaPropertiIds,
+  mapPropertiToProperty,
+} from "../_lib/data-services";
 
 export const metadata = {
   title: "Properti",
@@ -19,8 +25,22 @@ export default async function Page({
   const { page } = await searchParams;
   const currentPage = Number(page ?? 1);
 
+  const session = await auth();
+  let pemilikId: string | null = null;
+  if (session?.user?.email) {
+    const pemilik = await getPemilik(session.user.email);
+    if (pemilik) pemilikId = pemilik.id;
+  }
+
   const raw = (await getProperti()) ?? [];
-  const properties = raw.map(mapPropertiToProperty);
+  const filtered = pemilikId
+    ? raw.filter((p) => p.pemilik_id !== pemilikId)
+    : raw;
+  const occupiedIds = new Set(await getActiveSewaPropertiIds());
+  const properties = filtered.map((p) => ({
+    ...mapPropertiToProperty(p),
+    isOccupied: occupiedIds.has(p.id),
+  }));
   const totalPages = Math.max(1, Math.ceil(properties.length / perPage));
   const paginatedProperties = properties.slice(
     (currentPage - 1) * perPage,

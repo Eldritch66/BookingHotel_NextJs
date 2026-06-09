@@ -9,11 +9,14 @@ import {
   createPenyewa,
   getPemilik,
   getSewa,
+  getSewaById,
+  getPropertiById,
   createSewa,
   deleteSewa,
   createProperti,
   deleteProperti,
   createFotoProperti,
+  isPropertiTersedia,
 } from "./data-services";
 
 // ─── Auth ────────────────────────────────────────────────────────────
@@ -64,30 +67,44 @@ export async function buatPemesanan(formData: FormData) {
   const penyewa = await getPenyewa(session.user.email);
   if (!penyewa) redirect("/role?alert=harus-penyewa");
 
+  const pemilik = await getPemilik(session.user.email);
+  const properti = await getPropertiById(formData.get("properti_id") as string);
+  if (pemilik && properti.pemilik_id === pemilik.id) {
+    throw new Error("Anda tidak dapat menyewa properti milik sendiri");
+  }
+
   const start_date = formData.get("start_date") as string;
   const end_date = formData.get("end_date") as string;
   const durasi_bulan = Number(formData.get("num_months"));
   const price_per_two_months = Number(formData.get("price_per_two_months"));
+  const price_per_month = Number(formData.get("price_per_month"));
   const properti_id = formData.get("properti_id") as string;
-  const properti_title = formData.get("properti_title") as string;
-  const num_guests = 1;
+  const tersedia = await isPropertiTersedia(properti_id);
+  if (!tersedia) {
+    throw new Error("Properti ini sudah disewa oleh penyewa lain");
+  }
 
-  const service = 25000;
-  const tax = price_per_two_months * 0.1;
-  const blocks = Math.ceil(durasi_bulan / 2);
-  const total_harga = blocks * price_per_two_months + service + tax;
+  const extraMonths = Math.max(0, durasi_bulan - 2);
+  const total_harga = price_per_two_months + extraMonths * price_per_month;
 
   const sewa = await createSewa({
     penyewa_id: penyewa.id,
+    properti_id,
     tanggal_mulai: start_date,
     tanggal_selesai: end_date,
     durasi_bulan,
     total_harga,
-    catatan: `properti_id:${properti_id}|properti_title:${properti_title}|${num_guests} guest(s)`,
+    status_sewa: "pending",
   });
 
   redirect(`/pembayaran/${sewa.id}`);
 }
+
+const metodeMap: Record<string, string> = {
+  QRIS: "qris",
+  "Transfer BCA": "virtual_account",
+  PayPal: "lainnya",
+};
 
 export async function simulasiPembayaran(formData: FormData) {
   const session = await auth();
@@ -96,14 +113,24 @@ export async function simulasiPembayaran(formData: FormData) {
   const sewaId = formData.get("sewa_id") as string;
   const metode = formData.get("metode") as string;
 
-  await supabaseAdmin.from("pembayaran").insert({
+  const sewa = await getSewaById(sewaId);
+
+  const jumlah = sewa ? sewa.total_harga + 25000 + Math.ceil(sewa.total_harga * 0.1) : 0;
+
+  const { error } = await supabaseAdmin.from("pembayaran").insert({
     sewa_id: sewaId,
-    jumlah: 0,
-    metode,
-    status: "simulated",
+    jumlah,
+    metode: metodeMap[metode] ?? "lainnya",
+    status: "berhasil",
     dibayar_pada: new Date().toISOString(),
   });
 
+  if (error) {
+    console.error("Insert pembayaran gagal:", error);
+    throw new Error("Pembayaran gagal dicatat");
+  }
+
+  revalidatePath("/account/sewa");
   redirect(`/account/thankyou?metode=${encodeURIComponent(metode)}`);
 }
 
@@ -141,7 +168,7 @@ export async function tambahProperti(formData: FormData) {
     const filePath = `${properti.id}/${crypto.randomUUID()}.${ext}`;
 
     const { error: uploadError } = await supabaseAdmin.storage
-      .from("foto_properti")
+      .from("properties-sewa")
       .upload(filePath, file, { upsert: true });
 
     if (uploadError) {
@@ -150,7 +177,7 @@ export async function tambahProperti(formData: FormData) {
     }
 
     const { data: publicUrl } = supabaseAdmin.storage
-      .from("foto_properti")
+      .from("properties-sewa")
       .getPublicUrl(filePath);
 
     await createFotoProperti({
@@ -187,6 +214,11 @@ export async function batalkanSewa(sewaId: string) {
   if (!sewaIds.includes(sewaId))
     throw new Error("You are not allowed to cancel this sewa");
 
-  await deleteSewa(sewaId);
-  revalidatePath("/account/sewa");
+  try {
+    await deleteSewa(sewaId);
+    revalidatePath("/account/sewa");
+  } catch (e) {
+    console.error("Gagal batalkan sewa:", e);
+    throw new Error("Gagal membatalkan sewa");
+  }
 }

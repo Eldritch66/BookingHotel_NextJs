@@ -15,8 +15,15 @@ export default function LandingCard({ property }: { property: Property }) {
           fill
           quality={75}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-cover"
+          className={`object-cover ${property.isOccupied ? "opacity-60" : ""}`}
         />
+        {property.isOccupied && (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <span className="rounded-full bg-red-600 px-4 py-1.5 text-sm font-semibold tracking-wide text-white shadow-lg">
+              Terisi
+            </span>
+          </div>
+        )}
       </div>
 
       <div className="p-5">

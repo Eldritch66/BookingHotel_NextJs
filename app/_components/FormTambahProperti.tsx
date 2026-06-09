@@ -93,8 +93,8 @@ export default function FormTambahProperti({
           className="w-full rounded-2xl border border-stone-300 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#a67f71]/40"
         >
           <option value="">Pilih tipe...</option>
-          <option value="Kost">Kost</option>
-          <option value="Kontrakan">Kontrakan</option>
+          <option value="kost">Kost</option>
+          <option value="kontrakan">Kontrakan</option>
         </select>
       </div>
 
