@@ -2,6 +2,44 @@ import { supabaseAdmin } from "./supabase";
 import type { Property, PropertiDetailPemilik, PropertiPemilik, PropertiPemilikRaw, PropertiRaw, Sewa, SewaRiwayat } from "./type";
 
 // ================================
+// USERS (credentials auth)
+// ================================
+
+export async function getUserByEmail(email: string) {
+  const { data, error } = await supabaseAdmin
+    .from("users")
+    .select("*")
+    .eq("email", email)
+    .single();
+
+  if (error && error.code !== "PGRST116") {
+    console.error("getUserByEmail error:", error);
+  }
+
+  return data ?? null;
+}
+
+export async function createUser(userData: {
+  id: string;
+  email: string;
+  name: string;
+  password_digest: string;
+}) {
+  const { data, error } = await supabaseAdmin
+    .from("users")
+    .insert([userData])
+    .select()
+    .single();
+
+  if (error) {
+    console.error("createUser error:", error);
+    return null;
+  }
+
+  return data;
+}
+
+// ================================
 // PENYEWA
 // ================================
 
@@ -543,6 +581,7 @@ export async function isPropertiTersedia(propertiId: string): Promise<boolean> {
 // ================================
 
 export function mapPropertiToProperty(p: PropertiRaw): Property {
+  const rawhUnit = Array.isArray(p.unit) ? p.unit[0] : p.unit;
   return {
     id: p.id,
     title: p.nama_properti,
@@ -558,5 +597,16 @@ export function mapPropertiToProperty(p: PropertiRaw): Property {
       id: f.id,
       image_url: f.url,
     })),
+    unit: rawhUnit
+      ? {
+          id: rawhUnit.id,
+          luas_bangunan: rawhUnit.luas_bangunan,
+          jumlah_kamar_tidur: rawhUnit.jumlah_kamar_tidur,
+          jumlah_kamar_mandi: rawhUnit.jumlah_kamar_mandi,
+          kapasitas_penghuni: rawhUnit.kapasitas_penghuni,
+          lantai: rawhUnit.lantai,
+          keterangan: rawhUnit.keterangan,
+        }
+      : null,
   };
 }

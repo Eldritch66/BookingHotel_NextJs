@@ -11,10 +11,10 @@ function DeleteButton() {
     <button
       type="submit"
       disabled={pending}
-      className="inline-flex items-center justify-center gap-1.5 text-xs font-medium text-red-600 bg-transparent hover:bg-red-50 px-3 py-2 transition disabled:opacity-50 w-full"
+      className="group flex items-center justify-center gap-2 uppercase text-xs font-bold text-stone-500 flex-1 px-3 hover:bg-red-50 transition-colors hover:text-red-700 cursor-pointer disabled:opacity-50"
     >
-      <Trash2 size={14} />
-      {pending ? "Menghapus..." : "Hapus"}
+      <Trash2 size={16} className="shrink-0" />
+      <span>{pending ? "Menghapus..." : "Hapus"}</span>
     </button>
   );
 }
@@ -28,6 +28,7 @@ export default function HapusPropertiButton({
 
   return (
     <form
+      className="flex flex-1 flex-col"
       action={async () => {
         if (
           !window.confirm(

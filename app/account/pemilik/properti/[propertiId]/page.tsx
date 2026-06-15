@@ -39,7 +39,7 @@ export default async function DetailPropertiPage({
         Kembali
       </Link>
 
-      <div className="rounded-xl border border-stone-200 bg-white overflow-hidden shadow-sm">
+      <div className="border border-stone-200 bg-white">
         <div className="relative h-48 sm:h-56 w-full bg-stone-100">
           {properti.foto_url ? (
             <Image
@@ -73,11 +73,11 @@ export default async function DetailPropertiPage({
                 {formatRupiah(properti.harga_per_bulan)} / bln
               </span>
               {isActive ? (
-                <span className="bg-green-100 text-green-700 px-3 py-1 rounded-md text-xs font-semibold">
+                <span className="bg-green-100 text-green-700 px-3 py-1 text-xs font-semibold">
                   Aktif
                 </span>
               ) : (
-                <span className="bg-stone-100 text-stone-400 px-3 py-1 rounded-md text-xs font-semibold">
+                <span className="bg-stone-100 text-stone-400 px-3 py-1 text-xs font-semibold">
                   Kosong
                 </span>
               )}
@@ -91,7 +91,7 @@ export default async function DetailPropertiPage({
                   Penyewa Saat Ini
                 </h2>
                 <div className="grid gap-4 sm:grid-cols-2">
-                  <div className="flex items-start gap-3 rounded-lg bg-stone-50 p-4">
+                  <div className="flex items-start gap-3 bg-stone-50 p-4">
                     <User size={20} className="text-stone-500 mt-0.5 shrink-0" />
                     <div>
                       <p className="text-xs text-stone-400 uppercase tracking-wide font-medium">
@@ -102,7 +102,7 @@ export default async function DetailPropertiPage({
                       </p>
                     </div>
                   </div>
-                  <div className="flex items-start gap-3 rounded-lg bg-stone-50 p-4">
+                  <div className="flex items-start gap-3 bg-stone-50 p-4">
                     <Mail size={20} className="text-stone-500 mt-0.5 shrink-0" />
                     <div>
                       <p className="text-xs text-stone-400 uppercase tracking-wide font-medium">
@@ -114,7 +114,7 @@ export default async function DetailPropertiPage({
                     </div>
                   </div>
                   {properti.tanggal_mulai && (
-                    <div className="flex items-start gap-3 rounded-lg bg-stone-50 p-4">
+                    <div className="flex items-start gap-3 bg-stone-50 p-4">
                       <Calendar size={20} className="text-stone-500 mt-0.5 shrink-0" />
                       <div>
                         <p className="text-xs text-stone-400 uppercase tracking-wide font-medium">
@@ -127,7 +127,7 @@ export default async function DetailPropertiPage({
                     </div>
                   )}
                   {properti.tanggal_selesai && (
-                    <div className="flex items-start gap-3 rounded-lg bg-stone-50 p-4">
+                    <div className="flex items-start gap-3 bg-stone-50 p-4">
                       <Calendar size={20} className="text-stone-500 mt-0.5 shrink-0" />
                       <div>
                         <p className="text-xs text-stone-400 uppercase tracking-wide font-medium">
@@ -140,7 +140,7 @@ export default async function DetailPropertiPage({
                     </div>
                   )}
                   {properti.durasi_bulan && (
-                    <div className="flex items-start gap-3 rounded-lg bg-stone-50 p-4">
+                    <div className="flex items-start gap-3 bg-stone-50 p-4">
                       <Clock size={20} className="text-stone-500 mt-0.5 shrink-0" />
                       <div>
                         <p className="text-xs text-stone-400 uppercase tracking-wide font-medium">
@@ -153,7 +153,7 @@ export default async function DetailPropertiPage({
                     </div>
                   )}
                   {properti.total_harga && (
-                    <div className="flex items-start gap-3 rounded-lg bg-stone-50 p-4">
+                    <div className="flex items-start gap-3 bg-stone-50 p-4">
                       <DollarSign size={20} className="text-stone-500 mt-0.5 shrink-0" />
                       <div>
                         <p className="text-xs text-stone-400 uppercase tracking-wide font-medium">
@@ -185,7 +185,7 @@ export default async function DetailPropertiPage({
                 {properti.riwayat_sewa.map((s) => (
                   <div
                     key={s.id}
-                    className="flex items-center justify-between rounded-lg bg-stone-50 px-4 py-3 text-sm"
+                    className="flex items-center justify-between bg-stone-50 px-4 py-3 text-sm"
                   >
                     <div className="min-w-0 flex-1">
                       <p className="font-medium text-stone-800 truncate">
@@ -201,7 +201,7 @@ export default async function DetailPropertiPage({
                       <p className="text-xs text-stone-400">{s.durasi_bulan} bulan</p>
                     </div>
                     <span
-                      className={`ml-3 text-[11px] font-semibold px-2 py-0.5 rounded ${
+                      className={`ml-3 text-[11px] font-semibold px-2 py-0.5 ${
                         s.status === "aktif" || s.status === "pending"
                           ? "bg-green-100 text-green-700"
                           : "bg-stone-200 text-stone-500"

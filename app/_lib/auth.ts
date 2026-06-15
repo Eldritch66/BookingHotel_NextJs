@@ -1,7 +1,9 @@
 // auth.ts
+import bcrypt from "bcryptjs";
 import NextAuth, { type NextAuthConfig } from "next-auth";
 import Google from "next-auth/providers/google";
-import { getPenyewa, getPemilik } from "./data-services";
+import Credentials from "next-auth/providers/credentials";
+import { getPenyewa, getPemilik, getUserByEmail } from "./data-services";
 import type { UserRole } from "../../types/next-auth";
 
 async function resolveRoleByEmail(email?: string | null): Promise<UserRole> {
@@ -17,7 +19,36 @@ async function resolveRoleByEmail(email?: string | null): Promise<UserRole> {
 }
 
 const authConfig: NextAuthConfig = {
-  providers: [Google],
+  providers: [
+    Google,
+    Credentials({
+      name: "credentials",
+      credentials: {
+        email: {},
+        password: {},
+      },
+      async authorize(credentials) {
+        const { email, password } = credentials as {
+          email: string;
+          password: string;
+        };
+
+        if (!email || !password) return null;
+
+        const user = await getUserByEmail(email);
+        if (!user || !user.password_digest) return null;
+
+        const isValid = await bcrypt.compare(password, user.password_digest);
+        if (!isValid) return null;
+
+        return {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+        };
+      },
+    }),
+  ],
   session: { strategy: "jwt" },
 
   callbacks: {

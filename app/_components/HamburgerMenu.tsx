@@ -114,9 +114,7 @@ export default function HumburgerMenu({
             ${isOpen ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
           style={{ transitionDelay: isOpen ? "420ms" : "0ms" }}
         >
-          {" "}
-          {session?.user?.image ? (
-            // ✅ Logged in: show avatar + guest area link
+          {session?.user ? (
             <Link
               href="/account"
               onClick={() => setIsOpen(false)}
@@ -124,18 +122,9 @@ export default function HumburgerMenu({
                 bg-stone-900 text-white text-sm font-medium
                 hover:bg-stone-700 transition-colors duration-200"
             >
-              <Image
-                className="h-8 rounded-full"
-                src={session.user.image}
-                width={32}
-                height={32}
-                alt={session.user.name || "User avatar"}
-                referrerPolicy="no-referrer"
-              />
-              <span>Guest area</span>
+              <span>Dashboard</span>
             </Link>
           ) : (
-            // ✅ Not logged in: show login button
             <Link
               href="/login"
               onClick={() => setIsOpen(false)}

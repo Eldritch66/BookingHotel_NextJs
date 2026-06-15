@@ -23,7 +23,7 @@ export default async function Page() {
         </h2>
         <Link
           href="/account/pemilik/properti/tambah"
-          className="inline-flex items-center gap-2 bg-[#a67f71] text-white px-4 py-2.5 rounded-lg text-sm font-semibold hover:opacity-90 transition"
+          className="inline-flex items-center gap-2 bg-[#a67f71] text-white px-4 py-2.5 text-sm font-semibold hover:opacity-90 transition"
         >
           <Plus size={18} />
           Tambah Properti
@@ -31,7 +31,7 @@ export default async function Page() {
       </div>
 
       {propertiList.length === 0 ? (
-        <div className="rounded-xl border border-stone-200 bg-white p-10 text-center">
+        <div className="border border-stone-200 bg-white p-10 text-center">
           <div className="flex justify-center mb-4">
             <Home size={48} className="text-stone-300" />
           </div>
@@ -40,7 +40,7 @@ export default async function Page() {
           </p>
           <Link
             href="/account/pemilik/properti/tambah"
-            className="inline-flex items-center gap-2 bg-[#a67f71] text-white px-5 py-3 rounded-lg text-sm font-semibold hover:opacity-90 transition"
+            className="inline-flex items-center gap-2 bg-[#a67f71] text-white px-5 py-3 text-sm font-semibold hover:opacity-90 transition"
           >
             <Plus size={18} />
             Tambah Properti

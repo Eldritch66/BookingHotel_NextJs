@@ -2,11 +2,11 @@
 
 import { Property } from "../_lib/type";
 import { useState } from "react";
-import { format, addMonths, startOfMonth } from "date-fns";
+import { format, addMonths } from "date-fns";
 import { formatRupiah } from "../_lib/currency";
 import { buatPemesanan } from "../_lib/action";
 import FormPemesanan from "./FormPemesanan";
-import { MapPin, Home, Tag, User, Minus, Plus } from "lucide-react";
+import { MapPin, Home, Tag, User, Minus, Plus, Ruler, Bed, Bath, Users, Building2 } from "lucide-react";
 import Image from "next/image";
 
 export default function PropertyDetail({
@@ -30,13 +30,15 @@ export default function PropertyDetail({
     type,
     owner_name,
     property_images,
+    unit,
   } = property;
 
   const heroImage = property_images?.[0]?.image_url ?? null;
 
   const today = new Date();
-  const startDate = startOfMonth(addMonths(today, 1));
-  const endDate = startOfMonth(addMonths(startDate, months));
+  const wibDate = new Date(today.getTime() + (today.getTimezoneOffset() + 420) * 60000);
+  const startDate = wibDate;
+  const endDate = addMonths(startDate, months);
 
   const extraMonths = Math.max(0, months - 2);
   const total = price_per_two_months + extraMonths * price_per_month;
@@ -47,25 +49,95 @@ export default function PropertyDetail({
     <div className="min-h-screen bg-stone-50">
       <div className="mx-auto max-w-[1750px] px-4 py-4 sm:px-6 lg:px-8">
         <div className="grid gap-6 lg:grid-cols-[1.35fr_0.9fr] lg:items-start">
-          {/* LEFT: IMAGE ONLY */}
-          <div className="relative overflow-hidden rounded-[28px] border border-stone-200 bg-white shadow-sm h-[clamp(360px,72vh,760px)]">
-            {heroImage ? (
-              <Image
-                src={heroImage}
-                alt={title}
-                fill
-                quality={85}
-                sizes="(max-width: 1024px) 100vw, 60vw"
-                className="object-cover object-center"
-                priority
-              />
-            ) : (
-              <div className="flex h-full w-full items-center justify-center text-stone-400">
-                <div className="flex flex-col items-center gap-3">
-                  <Home size={40} strokeWidth={1.5} />
-                  <span className="text-sm font-medium uppercase tracking-[0.18em]">
-                    Foto tidak tersedia
-                  </span>
+          {/* LEFT COLUMN: Image + Unit Info */}
+          <div className="flex flex-col gap-4">
+            <div className="relative overflow-hidden rounded-[28px] border border-stone-200 bg-white shadow-sm h-[clamp(360px,72vh,760px)]">
+              {heroImage ? (
+                <Image
+                  src={heroImage}
+                  alt={title}
+                  fill
+                  quality={85}
+                  sizes="(max-width: 1024px) 100vw, 60vw"
+                  className="object-cover object-center"
+                  priority
+                />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center text-stone-400">
+                  <div className="flex flex-col items-center gap-3">
+                    <Home size={40} strokeWidth={1.5} />
+                    <span className="text-sm font-medium uppercase tracking-[0.18em]">
+                      Foto tidak tersedia
+                    </span>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Unit Info */}
+            {unit && (
+              <div className="rounded-[28px] border border-stone-200 bg-white p-5 shadow-sm">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-stone-400 mb-4">
+                  Spesifikasi Unit
+                </p>
+                <div className="grid grid-cols-3 gap-3">
+                  {unit.luas_bangunan && (
+                    <div className="flex flex-col items-center gap-1.5 rounded-2xl bg-stone-50 px-3 py-3">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white shadow-sm">
+                        <Ruler size={15} className="text-stone-500" />
+                      </div>
+                      <span className="text-sm font-semibold text-stone-800">
+                        {unit.luas_bangunan} m²
+                      </span>
+                      <span className="text-[10px] text-stone-400 uppercase tracking-wide">
+                        Luas
+                      </span>
+                    </div>
+                  )}
+                  <div className="flex flex-col items-center gap-1.5 rounded-2xl bg-stone-50 px-3 py-3">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white shadow-sm">
+                      <Bed size={15} className="text-stone-500" />
+                    </div>
+                    <span className="text-sm font-semibold text-stone-800">
+                      {unit.jumlah_kamar_tidur}
+                    </span>
+                    <span className="text-[10px] text-stone-400 uppercase tracking-wide">
+                      Kamar Tidur
+                    </span>
+                  </div>
+                  <div className="flex flex-col items-center gap-1.5 rounded-2xl bg-stone-50 px-3 py-3">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white shadow-sm">
+                      <Bath size={15} className="text-stone-500" />
+                    </div>
+                    <span className="text-sm font-semibold text-stone-800">
+                      {unit.jumlah_kamar_mandi}
+                    </span>
+                    <span className="text-[10px] text-stone-400 uppercase tracking-wide">
+                      Kamar Mandi
+                    </span>
+                  </div>
+                  <div className="flex flex-col items-center gap-1.5 rounded-2xl bg-stone-50 px-3 py-3">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white shadow-sm">
+                      <Users size={15} className="text-stone-500" />
+                    </div>
+                    <span className="text-sm font-semibold text-stone-800">
+                      {unit.kapasitas_penghuni}
+                    </span>
+                    <span className="text-[10px] text-stone-400 uppercase tracking-wide">
+                      Penghuni
+                    </span>
+                  </div>
+                  <div className="flex flex-col items-center gap-1.5 rounded-2xl bg-stone-50 px-3 py-3">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white shadow-sm">
+                      <Building2 size={15} className="text-stone-500" />
+                    </div>
+                    <span className="text-sm font-semibold text-stone-800">
+                      Lantai {unit.lantai}
+                    </span>
+                    <span className="text-[10px] text-stone-400 uppercase tracking-wide">
+                      Lantai
+                    </span>
+                  </div>
                 </div>
               </div>
             )}
@@ -176,7 +248,7 @@ export default function PropertyDetail({
                   {/* Price Breakdown */}
                   <div className="mt-4 rounded-2xl bg-stone-50 px-4 py-4 text-sm text-stone-600">
                     <div className="flex justify-between">
-                      <span>2 blok pertama</span>
+                      <span>2 bulan pertama</span>
                       <span>{formatRupiah(price_per_two_months)}</span>
                     </div>
                     {extraMonths > 0 && (

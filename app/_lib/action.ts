@@ -1,5 +1,6 @@
 "use server";
 
+import bcrypt from "bcryptjs";
 import { auth, signOut } from "./auth";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
@@ -8,6 +9,8 @@ import {
   getPenyewa,
   createPenyewa,
   getPemilik,
+  getUserByEmail,
+  createUser,
   getSewa,
   getSewaById,
   getPropertiById,
@@ -58,6 +61,56 @@ export async function registerAsPemilik() {
     throw new Error("Pemilik could not be created");
   }
 }
+
+// ─── Credentials Registration ─────────────────────────────────────────
+
+export async function registerUser(
+  _prevState: { error?: string; success?: boolean } | undefined,
+  formData: FormData,
+): Promise<{ error?: string; success?: boolean }> {
+  const nama = formData.get("nama") as string;
+  const email = formData.get("email") as string;
+  const password = formData.get("password") as string;
+  const confirmPassword = formData.get("confirmPassword") as string;
+
+  if (!nama || !email || !password || !confirmPassword) {
+    return { error: "Semua field harus diisi" };
+  }
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return { error: "Format email tidak valid" };
+  }
+
+  if (password.length < 6) {
+    return { error: "Password minimal 6 karakter" };
+  }
+
+  if (password !== confirmPassword) {
+    return { error: "Password dan konfirmasi password tidak cocok" };
+  }
+
+  const existingUser = await getUserByEmail(email);
+  if (existingUser) {
+    return { error: "Email sudah terdaftar" };
+  }
+
+  const existingPenyewa = await getPenyewa(email);
+  const existingPemilik = await getPemilik(email);
+  if (existingPenyewa || existingPemilik) {
+    return { error: "Email sudah terdaftar menggunakan Google. Silakan login dengan Google." };
+  }
+
+  const id = crypto.randomUUID();
+  const password_digest = await bcrypt.hash(password, 10);
+
+  const created = await createUser({ id, email, name: nama, password_digest });
+  if (!created) {
+    return { error: "Registrasi gagal. Silakan coba lagi." };
+  }
+
+  return { success: true };
+}
+
 // ─── Pemesanan (Penyewa) ─────────────────────────────────────────────
 
 export async function buatPemesanan(formData: FormData) {

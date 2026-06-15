@@ -11,7 +11,7 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="inline-flex items-center gap-2 bg-[#a67f71] text-white px-5 py-3 rounded-2xl text-sm font-semibold hover:opacity-90 transition disabled:opacity-50"
+      className="inline-flex items-center gap-2 bg-[#a67f71] text-white px-5 py-3 text-sm font-semibold hover:opacity-90 transition disabled:opacity-50"
     >
       {pending ? "Mendaftarkan..." : "Daftar sebagai Pemilik"}
     </button>
@@ -22,7 +22,7 @@ export default function DaftarPemilikPrompt() {
   const router = useRouter();
 
   return (
-    <div className="rounded-[28px] border border-stone-200 bg-white p-10 text-center">
+    <div className="border border-stone-200 bg-white p-10 text-center">
       <div className="flex justify-center mb-4">
         <Building2 size={48} className="text-stone-300" />
       </div>

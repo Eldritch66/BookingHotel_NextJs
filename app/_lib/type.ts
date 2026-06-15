@@ -2,6 +2,16 @@
 // Frontend types (used by components)
 // ================================
 
+export type Unit = {
+  id: string;
+  luas_bangunan: number | null;
+  jumlah_kamar_tidur: number;
+  jumlah_kamar_mandi: number;
+  kapasitas_penghuni: number;
+  lantai: number;
+  keterangan: string | null;
+};
+
 export type Property = {
   id: string;
   title: string;
@@ -18,6 +28,7 @@ export type Property = {
     image_url: string;
   }[];
   isOccupied?: boolean;
+  unit: Unit | null;
 };
 
 export type Sewa = {
@@ -53,6 +64,15 @@ export type PropertiRaw = {
   harga_per_dua_bulan: number;
   foto_properti: FotoProperti[];
   pemilik?: { id?: string; nama_pemilik: string; email?: string }[];
+  unit: {
+    id: string;
+    luas_bangunan: number | null;
+    jumlah_kamar_tidur: number;
+    jumlah_kamar_mandi: number;
+    kapasitas_penghuni: number;
+    lantai: number;
+    keterangan: string | null;
+  }[] | null;
 };
 
 export type PropertiBrief = {
