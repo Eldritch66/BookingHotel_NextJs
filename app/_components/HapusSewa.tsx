@@ -1,40 +1,57 @@
 "use client";
 
-import { useTransition } from "react";
-import SpinnerMini from "./SpinnerMini";
+import { useState } from "react";
 import { HiOutlineTrash } from "react-icons/hi2";
+import toast from "react-hot-toast";
+import { hapusSewaPenyewa } from "@/app/_lib/action";
+import { useRouter } from "next/navigation";
+import ConfirmDialog from "./ConfirmDialog";
 
-function HapusSewa({
+export default function HapusSewa({
   sewaId,
-  onDelete,
+  isEnabled,
 }: {
   sewaId: string;
-  onDelete: (sewaId: string) => void;
+  isEnabled: boolean;
 }) {
-  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
-  function handleDelete() {
-    if (confirm("Apakah Anda yakin ingin membatalkan sewa ini?"))
-      startTransition(() => onDelete(sewaId));
+  async function handleDelete() {
+    setIsDeleting(true);
+    try {
+      await hapusSewaPenyewa(sewaId);
+      toast.success("Sewa berhasil dihapus");
+      router.refresh();
+    } catch {
+      toast.error("Gagal menghapus sewa");
+      setIsDeleting(false);
+    }
   }
 
   return (
-    <button
-      onClick={handleDelete}
-      className="group flex items-center gap-2 uppercase text-xs font-bold text-primary-300 flex-grow px-3 hover:bg-accent-600 transition-colors hover:text-primary-900 cursor-pointer"
-    >
-      {!isPending ? (
-        <>
-          <HiOutlineTrash className="h-5 w-5 text-primary-600 group-hover:text-primary-800 transition-colors" />
-          <span className="mt-1">Hapus</span>
-        </>
-      ) : (
-        <span className="mx-auto">
-          <SpinnerMini />
-        </span>
-      )}
-    </button>
+    <>
+      <button
+        onClick={() => isEnabled && setShowConfirm(true)}
+        disabled={!isEnabled || isDeleting}
+        className={`group flex items-center gap-2 uppercase text-xs font-bold flex-grow px-3 transition-colors ${
+          isEnabled
+            ? "text-primary-300 hover:bg-accent-600 hover:text-primary-900 cursor-pointer"
+            : "text-stone-300 cursor-not-allowed"
+        }`}
+      >
+        <HiOutlineTrash className="h-5 w-5" />
+        <span className="mt-1">{isDeleting ? "..." : "Hapus"}</span>
+      </button>
+      <ConfirmDialog
+        open={showConfirm}
+        onClose={() => setShowConfirm(false)}
+        onConfirm={handleDelete}
+        title="Hapus Sewa"
+        message="Apakah Anda yakin ingin menghapus sewa ini? Data akan dihapus permanen."
+        confirmLabel="Ya, Hapus"
+      />
+    </>
   );
 }
-
-export default HapusSewa;

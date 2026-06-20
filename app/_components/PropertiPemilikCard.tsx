@@ -15,6 +15,7 @@ export default function PropertiPemilikCard({
   properti: PropertiPemilik;
 }) {
   const isActive = properti.status === "aktif";
+  const isPending = properti.status === "pending";
 
   return (
     <div className="flex flex-col border border-stone-200">
@@ -50,6 +51,10 @@ export default function PropertiPemilikCard({
                 {isActive ? (
                   <span className="bg-green-800 text-green-200 h-6 px-2 sm:h-7 sm:px-3 uppercase text-[10px] sm:text-xs font-bold flex items-center">
                     Aktif
+                  </span>
+                ) : isPending ? (
+                  <span className="bg-yellow-200 text-yellow-800 h-6 px-2 sm:h-7 sm:px-3 uppercase text-[10px] sm:text-xs font-bold flex items-center">
+                    Pending
                   </span>
                 ) : (
                   <span className="bg-stone-200 text-stone-500 h-6 px-2 sm:h-7 sm:px-3 uppercase text-[10px] sm:text-xs font-bold flex items-center">

@@ -27,13 +27,13 @@ export default function RolePage() {
   async function handlePenyewa() {
     await registerAsPenyewa();
     await update();
-    router.push("/");
+    router.push("/account");
   }
 
   async function handlePemilik() {
     await registerAsPemilik();
     await update();
-    router.push("/");
+    router.push("/account");
   }
 
   return (

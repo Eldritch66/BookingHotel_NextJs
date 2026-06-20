@@ -1,4 +1,4 @@
-import { getSewaById, getPenyewa } from "@/app/_lib/data-services";
+import { getSewaById, getUserByEmail } from "@/app/_lib/data-services";
 import { notFound, redirect } from "next/navigation";
 import { auth } from "@/app/_lib/auth";
 import { formatRupiah } from "@/app/_lib/currency";
@@ -16,12 +16,12 @@ export default async function PembayaranPage({
   const session = await auth();
   if (!session?.user?.email) redirect("/login");
 
-  const penyewa = await getPenyewa(session.user.email);
-  if (!penyewa) redirect("/role?alert=harus-penyewa");
+  const user = await getUserByEmail(session.user.email);
+  if (!user || user.role !== "penyewa") redirect("/role?alert=harus-penyewa");
 
   const sewa = await getSewaById(sewaId);
   if (!sewa) notFound();
-  if (sewa.penyewa_id !== penyewa.id) notFound();
+  if (sewa.penyewa_id !== user.id) notFound();
 
   const properti = Array.isArray(sewa.properti) ? sewa.properti[0] : sewa.properti;
   const properti_title = properti?.nama_properti ?? "";

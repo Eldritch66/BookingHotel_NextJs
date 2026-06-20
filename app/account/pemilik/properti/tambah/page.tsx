@@ -1,5 +1,5 @@
 import { auth } from "@/app/_lib/auth";
-import { getPemilik } from "@/app/_lib/data-services";
+import { getUserByEmail } from "@/app/_lib/data-services";
 import { redirect } from "next/navigation";
 import { tambahProperti } from "@/app/_lib/action";
 import FormTambahProperti from "@/app/_components/FormTambahProperti";
@@ -9,8 +9,8 @@ export default async function Page() {
   const session = await auth();
   if (!session?.user?.email) redirect("/login");
 
-  const pemilik = await getPemilik(session.user.email);
-  if (!pemilik) return <DaftarPemilikPrompt />;
+  const user = await getUserByEmail(session.user.email);
+  if (!user || user.role !== "pemilik") return <DaftarPemilikPrompt />;
 
   return (
     <div>

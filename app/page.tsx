@@ -2,6 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import MainRootTagPage from "./_components/MainRootTagPage";
 import Footer from "./_components/Footer";
+import FormBantuan from "./_components/FormBantuan";
+import { MessageSquareText, Clock, ShieldCheck, Mail } from "lucide-react";
 import Logo from "@/public/logo.png";
 
 const features = [
@@ -213,6 +215,69 @@ export default function Page() {
             </div>
           </div>
         </section>
+        {/* ================= BANTUAN ================= */}
+        <section className="relative border-t border-white/60">
+          {/* Subtle lighting blobs — left bottom + top area */}
+          <div className="pointer-events-none absolute inset-0 overflow-hidden">
+            <div className="absolute -bottom-32 -left-16 h-72 w-72 rounded-full bg-orange-100/25 blur-3xl" />
+            <div className="absolute -top-16 right-1/4 h-56 w-56 rounded-full bg-amber-100/20 blur-3xl" />
+          </div>
+
+          <div className="relative mx-auto max-w-7xl px-4 py-24 md:px-8 lg:px-12 lg:py-28">
+            <div className="mx-auto max-w-3xl">
+              {/* HEADER */}
+              <div className="text-center">
+                <span className="inline-block -rotate-1 rounded-lg border-2 border-neutral-900 bg-orange-500 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.2em] text-white shadow-[3px_3px_0px_#292524]">
+                  Pusat Bantuan
+                </span>
+
+                <h2 className="mt-6 text-4xl font-black leading-tight tracking-tight text-neutral-900 md:text-5xl">
+                  Apa Masalah Yang{" "}
+                  <span className="relative inline-block">
+                    <span className="relative z-10">Ingin Anda Sampaikan</span>
+                    <span className="absolute bottom-0 left-0 right-0 h-3 bg-orange-300/60 -rotate-1" />
+                  </span>{" "}
+                  ?
+                </h2>
+
+                <p className="mt-4 text-lg font-medium text-neutral-600">
+                  Tim Nginapin siap bantu 24/7. Isi aja tiket di bawah, ya!
+                </p>
+              </div>
+
+              {/* FORM CARD */}
+              <div className="mt-12">
+                <div className="rounded-xl border-2 border-neutral-900 bg-white p-6 shadow-[5px_5px_0px_#292524] md:p-8">
+                  <div className="mb-6 flex items-center gap-2">
+                    <span className="inline-flex -rotate-2 items-center gap-1.5 rounded-md border-2 border-orange-300 bg-orange-100 px-3 py-1 text-xs font-bold uppercase text-orange-700 shadow-[2px_2px_0px_#ea580c]">
+                      <MessageSquareText size={14} />
+                      Ada yang bisa dibantu?
+                    </span>
+                    <span className="h-px flex-1 bg-neutral-300" />
+                  </div>
+                  <FormBantuan />
+                </div>
+
+                {/* Bottom playful note */}
+                <div className="mt-6 flex flex-wrap items-center justify-center gap-3 text-sm font-medium text-neutral-500">
+                  <span className="inline-flex items-center gap-1.5 rounded-md border border-neutral-300 bg-white px-2.5 py-1 shadow-sm">
+                    <Clock size={14} className="text-orange-500" />
+                    Response &lt; 24 jam
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 rounded-md border border-neutral-300 bg-white px-2.5 py-1 shadow-sm">
+                    <ShieldCheck size={14} className="text-orange-500" />
+                    Data aman terenkripsi
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 rounded-md border border-neutral-300 bg-white px-2.5 py-1 shadow-sm">
+                    <Mail size={14} className="text-orange-500" />
+                    Konfirmasi via email
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* <Footer /> */}
         <footer className="relative border-t border-white/60">
           <div className="mx-auto max-w-7xl px-4 py-6 md:px-8 lg:px-12">

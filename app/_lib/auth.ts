@@ -3,19 +3,15 @@ import bcrypt from "bcryptjs";
 import NextAuth, { type NextAuthConfig } from "next-auth";
 import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
-import { getPenyewa, getPemilik, getUserByEmail } from "./data-services";
+import { getUserByEmail } from "./data-services";
+import { supabaseAdmin } from "./supabase";
 import type { UserRole } from "../../types/next-auth";
 
 async function resolveRoleByEmail(email?: string | null): Promise<UserRole> {
   if (!email) return "new";
 
-  const pemilik = await getPemilik(email);
-  if (pemilik) return "pemilik";
-
-  const penyewa = await getPenyewa(email);
-  if (penyewa) return "penyewa";
-
-  return "new";
+  const user = await getUserByEmail(email);
+  return (user?.role as UserRole) ?? "new";
 }
 
 const authConfig: NextAuthConfig = {
@@ -60,10 +56,6 @@ const authConfig: NextAuthConfig = {
         token.role = await resolveRoleByEmail(token.email);
       }
 
-      if (trigger === "update" && session?.role) {
-        token.role = session.role as UserRole;
-      }
-
       return token;
     },
 
@@ -82,16 +74,13 @@ const authConfig: NextAuthConfig = {
       }
 
       if (email) {
-        const [pemilik, penyewa] = await Promise.all([
-          getPemilik(email),
-          getPenyewa(email),
-        ]);
+        const role = await resolveRoleByEmail(email);
 
-        if (!pemilik && !penyewa && !pathname.startsWith("/role")) {
+        if (role === "new" && !pathname.startsWith("/role")) {
           return Response.redirect(new URL("/role", request.nextUrl));
         }
 
-        if (pathname === "/account" && !penyewa) {
+        if (pathname.startsWith("/account") && role === "new") {
           return Response.redirect(new URL("/", request.nextUrl));
         }
       }
@@ -99,8 +88,23 @@ const authConfig: NextAuthConfig = {
       return !!auth?.user;
     },
 
-    signIn: async ({ user }) => {
-      return !!user.email;
+    signIn: async ({ user, account }) => {
+      if (!user.email) return false;
+
+      if (account?.provider === "google") {
+        const existing = await getUserByEmail(user.email);
+        if (!existing) {
+          const { error } = await supabaseAdmin.from("users").insert({
+            email: user.email,
+            name: user.name ?? "",
+            provider_id: account.providerAccountId,
+            avatar_url: user.image,
+          });
+          if (error) console.error("Google user upsert error:", error);
+        }
+      }
+
+      return true;
     },
   },
 

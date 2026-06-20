@@ -4,7 +4,7 @@ import FooterProperti from "../_components/FooterProperti";
 import { auth } from "../_lib/auth";
 import {
   getProperti,
-  getPemilik,
+  getUserByEmail,
   getActiveSewaPropertiIds,
   mapPropertiToProperty,
 } from "../_lib/data-services";
@@ -28,8 +28,8 @@ export default async function Page({
   const session = await auth();
   let pemilikId: string | null = null;
   if (session?.user?.email) {
-    const pemilik = await getPemilik(session.user.email);
-    if (pemilik) pemilikId = pemilik.id;
+    const user = await getUserByEmail(session.user.email);
+    if (user?.role === "pemilik") pemilikId = user.id;
   }
 
   const raw = (await getProperti()) ?? [];

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { auth } from "@/app/_lib/auth";
-import { getPemilik, getPropertiPemilik } from "@/app/_lib/data-services";
+import { getUserByEmail, getPropertiPemilik } from "@/app/_lib/data-services";
 import { redirect } from "next/navigation";
 import { Plus, Home } from "lucide-react";
 import PropertiPemilikCard from "@/app/_components/PropertiPemilikCard";
@@ -10,10 +10,10 @@ export default async function Page() {
   const session = await auth();
   if (!session?.user?.email) redirect("/login");
 
-  const pemilik = await getPemilik(session.user.email);
-  if (!pemilik) return <DaftarPemilikPrompt />;
+  const user = await getUserByEmail(session.user.email);
+  if (!user || user.role !== "pemilik") return <DaftarPemilikPrompt />;
 
-  const propertiList = await getPropertiPemilik(pemilik.id);
+  const propertiList = await getPropertiPemilik(user.id);
 
   return (
     <div>

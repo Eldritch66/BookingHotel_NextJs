@@ -135,6 +135,117 @@ export default function FormTambahProperti({
         />
       </div>
 
+      {/* Unit — Luas Bangunan */}
+      <div>
+        <label
+          htmlFor="luas_bangunan"
+          className="block text-sm font-medium text-stone-700 mb-1"
+        >
+          Luas Bangunan (m²)
+        </label>
+        <input
+          id="luas_bangunan"
+          name="luas_bangunan"
+          type="number"
+          min={0}
+          className="w-full border border-stone-300 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#a67f71]/40"
+          placeholder="60"
+        />
+      </div>
+
+      {/* Unit — Kamar Tidur */}
+      <div>
+        <label
+          htmlFor="jumlah_kamar_tidur"
+          className="block text-sm font-medium text-stone-700 mb-1"
+        >
+          Jumlah Kamar Tidur
+        </label>
+        <input
+          id="jumlah_kamar_tidur"
+          name="jumlah_kamar_tidur"
+          type="number"
+          min={1}
+          required
+          defaultValue={1}
+          className="w-full border border-stone-300 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#a67f71]/40"
+        />
+      </div>
+
+      {/* Unit — Kamar Mandi */}
+      <div>
+        <label
+          htmlFor="jumlah_kamar_mandi"
+          className="block text-sm font-medium text-stone-700 mb-1"
+        >
+          Jumlah Kamar Mandi
+        </label>
+        <input
+          id="jumlah_kamar_mandi"
+          name="jumlah_kamar_mandi"
+          type="number"
+          min={1}
+          required
+          defaultValue={1}
+          className="w-full border border-stone-300 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#a67f71]/40"
+        />
+      </div>
+
+      {/* Unit — Kapasitas Penghuni */}
+      <div>
+        <label
+          htmlFor="kapasitas_penghuni"
+          className="block text-sm font-medium text-stone-700 mb-1"
+        >
+          Kapasitas Penghuni
+        </label>
+        <input
+          id="kapasitas_penghuni"
+          name="kapasitas_penghuni"
+          type="number"
+          min={1}
+          required
+          defaultValue={1}
+          className="w-full border border-stone-300 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#a67f71]/40"
+        />
+      </div>
+
+      {/* Unit — Lantai */}
+      <div>
+        <label
+          htmlFor="lantai"
+          className="block text-sm font-medium text-stone-700 mb-1"
+        >
+          Lantai
+        </label>
+        <input
+          id="lantai"
+          name="lantai"
+          type="number"
+          min={1}
+          required
+          defaultValue={1}
+          className="w-full border border-stone-300 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#a67f71]/40"
+        />
+      </div>
+
+      {/* Unit — Keterangan */}
+      <div>
+        <label
+          htmlFor="keterangan"
+          className="block text-sm font-medium text-stone-700 mb-1"
+        >
+          Keterangan Unit
+        </label>
+        <textarea
+          id="keterangan"
+          name="keterangan"
+          rows={2}
+          className="w-full border border-stone-300 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#a67f71]/40 resize-none"
+          placeholder="Fasilitas dalam unit, dll."
+        />
+      </div>
+
       {/* Foto */}
       <div>
         <label

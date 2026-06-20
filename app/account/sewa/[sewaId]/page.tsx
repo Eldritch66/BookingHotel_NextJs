@@ -2,10 +2,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { auth } from "@/app/_lib/auth";
-import { getPenyewa, getSewaByIdWithProperti } from "@/app/_lib/data-services";
+import { getUserByEmail, getSewaByIdWithProperti } from "@/app/_lib/data-services";
 import { formatRupiah } from "@/app/_lib/currency";
 import { format, parseISO } from "date-fns";
-import { batalkanSewa } from "@/app/_lib/action";
+import { batalkanSewa, hapusSewaPenyewa } from "@/app/_lib/action";
 import { ArrowLeft, Calendar, Clock, DollarSign, Home } from "lucide-react";
 
 export default async function DetailSewaPage({
@@ -17,13 +17,15 @@ export default async function DetailSewaPage({
   const session = await auth();
   if (!session?.user?.email) redirect("/login");
 
-  const penyewa = await getPenyewa(session.user.email);
-  if (!penyewa) redirect("/role?alert=harus-penyewa");
+  const user = await getUserByEmail(session.user.email);
+  if (!user || user.role !== "penyewa") redirect("/role?alert=harus-penyewa");
 
-  const sewa = await getSewaByIdWithProperti(sewaId, penyewa.id);
+  const sewa = await getSewaByIdWithProperti(sewaId, user.id);
   if (!sewa) notFound();
 
-  const isActive = sewa.status !== "dibatalkan";
+  const isActive = sewa.status === "aktif" || sewa.status === "pending";
+  const isExpired = parseISO(sewa.tanggal_selesai) < new Date();
+  const isHapusEnabled = sewa.status === "dibatalkan" || isExpired;
 
   return (
     <div>
@@ -64,9 +66,13 @@ export default async function DetailSewaPage({
                 {sewa.durasi_bulan} bulan sewa
               </p>
             </div>
-            {isActive ? (
+            {sewa.status === "aktif" ? (
               <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
                 Aktif
+              </span>
+            ) : sewa.status === "pending" ? (
+              <span className="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-semibold">
+                Pending
               </span>
             ) : (
               <span className="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-semibold">
@@ -142,6 +148,27 @@ export default async function DetailSewaPage({
               </form>
               <p className="text-xs text-stone-400 mt-3">
                 Batalkan sewa ini jika Anda tidak jadi menyewa properti tersebut.
+              </p>
+            </div>
+          )}
+          {isHapusEnabled && (
+            <div className="border-t border-stone-100 pt-6">
+              <form
+                action={async () => {
+                  "use server";
+                  await hapusSewaPenyewa(sewa.id);
+                  redirect("/account/sewa");
+                }}
+              >
+                <button
+                  type="submit"
+                  className="inline-flex items-center gap-2 bg-red-600 text-white px-5 py-2.5 rounded-2xl text-sm font-semibold hover:bg-red-700 transition"
+                >
+                  Hapus Sewa
+                </button>
+              </form>
+              <p className="text-xs text-stone-400 mt-3">
+                Hapus riwayat sewa ini secara permanen.
               </p>
             </div>
           )}

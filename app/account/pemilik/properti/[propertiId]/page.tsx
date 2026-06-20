@@ -2,11 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { auth } from "@/app/_lib/auth";
-import { getPemilik, getPropertiDetailPemilik } from "@/app/_lib/data-services";
+import { getUserByEmail, getPropertiDetailPemilik } from "@/app/_lib/data-services";
 import { formatRupiah } from "@/app/_lib/currency";
 import { format, parseISO } from "date-fns";
-import { ArrowLeft, Calendar, Clock, DollarSign, Home, MapPin, User, Mail } from "lucide-react";
+import { ArrowLeft, Calendar, Clock, DollarSign, Home, MapPin, User, Mail, Edit3 } from "lucide-react";
 import HapusPropertiButton from "@/app/_components/HapusPropertiButton";
+import KonfirmasiSewaButton from "@/app/_components/KonfirmasiSewaButton";
 
 export default async function DetailPropertiPage({
   params,
@@ -17,8 +18,8 @@ export default async function DetailPropertiPage({
   const session = await auth();
   if (!session?.user?.email) redirect("/login");
 
-  const pemilik = await getPemilik(session.user.email);
-  if (!pemilik) redirect("/role?alert=harus-pemilik");
+  const user = await getUserByEmail(session.user.email);
+  if (!user || user.role !== "pemilik") redirect("/role?alert=harus-pemilik");
 
   let properti;
   try {
@@ -28,6 +29,7 @@ export default async function DetailPropertiPage({
   }
 
   const isActive = properti.status === "aktif";
+  const isPending = properti.status === "pending";
 
   return (
     <div>
@@ -76,6 +78,10 @@ export default async function DetailPropertiPage({
                 <span className="bg-green-100 text-green-700 px-3 py-1 text-xs font-semibold">
                   Aktif
                 </span>
+              ) : isPending ? (
+                <span className="bg-yellow-100 text-yellow-700 px-3 py-1 text-xs font-semibold">
+                  Pending
+                </span>
               ) : (
                 <span className="bg-stone-100 text-stone-400 px-3 py-1 text-xs font-semibold">
                   Kosong
@@ -84,7 +90,7 @@ export default async function DetailPropertiPage({
             </div>
           </div>
 
-          {isActive && properti.penyewa_nama && (
+          {(isActive || isPending) && properti.penyewa_nama && (
             <>
               <div className="border-t border-stone-100 pt-5 mb-6">
                 <h2 className="text-sm font-semibold text-stone-700 mb-4">
@@ -166,11 +172,14 @@ export default async function DetailPropertiPage({
                     </div>
                   )}
                 </div>
+                {isPending && properti.sewa_id && (
+                  <KonfirmasiSewaButton sewaId={properti.sewa_id} />
+                )}
               </div>
             </>
           )}
 
-          {!isActive && (
+          {properti.status === "kosong" && (
             <div className="border-t border-stone-100 pt-5 mb-6">
               <p className="text-stone-400 text-sm">Properti ini sedang tidak disewa.</p>
             </div>
@@ -202,12 +211,18 @@ export default async function DetailPropertiPage({
                     </div>
                     <span
                       className={`ml-3 text-[11px] font-semibold px-2 py-0.5 ${
-                        s.status === "aktif" || s.status === "pending"
+                        s.status === "aktif"
                           ? "bg-green-100 text-green-700"
-                          : "bg-stone-200 text-stone-500"
+                          : s.status === "pending"
+                            ? "bg-yellow-100 text-yellow-700"
+                            : "bg-stone-200 text-stone-500"
                       }`}
                     >
-                      {s.status === "aktif" || s.status === "pending" ? "Aktif" : s.status}
+                      {s.status === "aktif"
+                        ? "Aktif"
+                        : s.status === "pending"
+                          ? "Pending"
+                          : s.status === "dibatalkan" ? "Dibatalkan" : s.status}
                     </span>
                   </div>
                 ))}
@@ -215,8 +230,17 @@ export default async function DetailPropertiPage({
             </div>
           )}
 
-          <div className="border-t border-stone-100 pt-6 mt-5">
-            <HapusPropertiButton propertiId={properti.id} />
+          <div className="border-t border-stone-100 pt-0 mt-5 flex">
+            <Link
+              href={`/account/pemilik/properti/${properti.id}/edit`}
+              className="group flex items-center justify-center gap-2 uppercase text-xs font-bold text-stone-500 flex-1 py-3 hover:bg-stone-50 transition-colors border-r border-stone-100"
+            >
+              <Edit3 size={16} className="shrink-0" />
+              <span>Edit</span>
+            </Link>
+            <div className="flex-1 flex">
+              <HapusPropertiButton propertiId={properti.id} />
+            </div>
           </div>
         </div>
       </div>

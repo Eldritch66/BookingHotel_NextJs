@@ -19,11 +19,27 @@ export async function getUserByEmail(email: string) {
   return data ?? null;
 }
 
+export async function getUserById(id: string) {
+  const { data, error } = await supabaseAdmin
+    .from("users")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  if (error && error.code !== "PGRST116") {
+    console.error("getUserById error:", error);
+  }
+
+  return data ?? null;
+}
+
 export async function createUser(userData: {
-  id: string;
   email: string;
   name: string;
-  password_digest: string;
+  password_digest?: string;
+  provider_id?: string;
+  avatar_url?: string;
+  role?: string;
 }) {
   const { data, error } = await supabaseAdmin
     .from("users")
@@ -39,74 +55,17 @@ export async function createUser(userData: {
   return data;
 }
 
-// ================================
-// PENYEWA
-// ================================
-
-export async function getPenyewa(email: string) {
+export async function updateUserRole(userId: string, role: string) {
   const { data, error } = await supabaseAdmin
-    .from("penyewa")
-    .select("*")
-    .eq("email", email)
-    .single();
-
-  if (error && error.code !== "PGRST116") {
-    console.error(error);
-    throw new Error("Penyewa could not be loaded");
-  }
-
-  return data;
-}
-
-export async function getPemilik(email: string) {
-  const { data, error } = await supabaseAdmin
-    .from("pemilik")
-    .select("*")
-    .eq("email", email)
-    .single();
-
-  if (error && error.code !== "PGRST116") {
-    console.error(error);
-    throw new Error("Pemilik could not be loaded");
-  }
-
-  return data ?? null;
-}
-
-export async function createPenyewa(penyewaData: {
-  user_id: string;
-  nama_penyewa: string;
-  email: string;
-  no_hp?: string;
-}) {
-  const { data, error } = await supabaseAdmin
-    .from("penyewa")
-    .insert([penyewaData])
+    .from("users")
+    .update({ role })
+    .eq("id", userId)
     .select()
     .single();
 
   if (error) {
-    console.error(error);
-    throw new Error("Penyewa could not be created");
-  }
-
-  return data;
-}
-
-export async function updatePenyewa(
-  penyewaId: string,
-  updates: Partial<{ nama_penyewa: string; no_hp: string }>,
-) {
-  const { data, error } = await supabaseAdmin
-    .from("penyewa")
-    .update(updates)
-    .eq("id", penyewaId)
-    .select()
-    .single();
-
-  if (error) {
-    console.error(error);
-    throw new Error("Penyewa could not be updated");
+    console.error("updateUserRole error:", error);
+    throw new Error("User role could not be updated");
   }
 
   return data;
@@ -142,7 +101,7 @@ export async function getPropertiById(propertiId: string) {
       `
       id, nama_properti, tipe, kota, alamat, pemilik_id, harga_per_bulan, harga_per_dua_bulan,
       foto_properti ( id, url ),
-      pemilik ( id, nama_pemilik, email ),
+      users!properti_pemilik_id_fkey ( id, name, email ),
       unit (
         id,
         luas_bangunan,
@@ -150,8 +109,7 @@ export async function getPropertiById(propertiId: string) {
         jumlah_kamar_mandi,
         kapasitas_penghuni,
         lantai,
-        keterangan,
-        ketersediaan
+        keterangan
       )
     `,
     )
@@ -285,7 +243,7 @@ export async function getPropertiPemilik(
       foto_properti ( url ),
       sewa (
         id, penyewa_id, tanggal_mulai, tanggal_selesai, durasi_bulan, total_harga, status_sewa,
-        penyewa ( nama_penyewa, email )
+        users!sewa_penyewa_id_fkey ( name, email )
       )
     `,
     )
@@ -302,11 +260,15 @@ export async function getPropertiPemilik(
 
 function mapToPropertiPemilik(raw: PropertiPemilikRaw): PropertiPemilik {
   const aktifSewa = (raw.sewa ?? []).find(
-    (s) => s.status_sewa === "aktif" || s.status_sewa === "pending",
+    (s) => s.status_sewa === "aktif",
+  );
+  const pendingSewa = (raw.sewa ?? []).find(
+    (s) => s.status_sewa === "pending",
   );
 
-  const penyewa = aktifSewa?.penyewa
-    ? (Array.isArray(aktifSewa.penyewa) ? aktifSewa.penyewa[0] : aktifSewa.penyewa)
+  const currentSewa = aktifSewa ?? pendingSewa;
+  const penyewa = currentSewa?.users
+    ? (Array.isArray(currentSewa.users) ? currentSewa.users[0] : currentSewa.users)
     : null;
 
   return {
@@ -317,14 +279,32 @@ function mapToPropertiPemilik(raw: PropertiPemilikRaw): PropertiPemilik {
     harga_per_bulan: raw.harga_per_bulan,
     harga_per_dua_bulan: raw.harga_per_dua_bulan,
     foto_url: raw.foto_properti?.[0]?.url ?? "",
-    status: aktifSewa ? "aktif" : "kosong",
-    penyewa_nama: penyewa?.nama_penyewa,
+    status: aktifSewa ? "aktif" : pendingSewa ? "pending" : "kosong",
+    penyewa_nama: penyewa?.name,
     penyewa_email: penyewa?.email,
-    tanggal_mulai: aktifSewa?.tanggal_mulai,
-    tanggal_selesai: aktifSewa?.tanggal_selesai,
-    durasi_bulan: aktifSewa?.durasi_bulan,
-    total_harga: aktifSewa?.total_harga,
-    sewa_id: aktifSewa?.id,
+    tanggal_mulai: currentSewa?.tanggal_mulai,
+    tanggal_selesai: currentSewa?.tanggal_selesai,
+    durasi_bulan: currentSewa?.durasi_bulan,
+    total_harga: currentSewa?.total_harga,
+    sewa_id: currentSewa?.id,
+  };
+}
+
+export async function getOwnerStats(pemilikId: string) {
+  const properti = await getPropertiPemilik(pemilikId);
+
+  const aktif = properti.filter((p) => p.status === "aktif");
+  const pending = properti.filter((p) => p.status === "pending");
+
+  return {
+    total: properti.length,
+    aktif: aktif.length,
+    pending: pending.length,
+    kosong: properti.filter((p) => p.status === "kosong").length,
+    pendapatanAktif: aktif.reduce(
+      (sum, p) => sum + (p.total_harga ?? 0),
+      0,
+    ),
   };
 }
 
@@ -339,7 +319,7 @@ export async function getPropertiDetailPemilik(
       foto_properti ( url ),
       sewa (
         id, penyewa_id, tanggal_mulai, tanggal_selesai, durasi_bulan, total_harga, status_sewa,
-        penyewa ( nama_penyewa, email )
+        users!sewa_penyewa_id_fkey ( name, email )
       )
     `,
     )
@@ -355,12 +335,12 @@ export async function getPropertiDetailPemilik(
   const pemilikView = mapToPropertiPemilik(raw);
 
   const riwayatSewa: SewaRiwayat[] = (raw.sewa ?? []).map((s) => {
-    const p = s.penyewa
-      ? (Array.isArray(s.penyewa) ? s.penyewa[0] : s.penyewa)
+    const p = s.users
+      ? (Array.isArray(s.users) ? s.users[0] : s.users)
       : null;
     return {
       id: s.id,
-      penyewa_nama: p?.nama_penyewa ?? "—",
+      penyewa_nama: p?.name ?? "—",
       penyewa_email: p?.email ?? "—",
       tanggal_mulai: s.tanggal_mulai,
       tanggal_selesai: s.tanggal_selesai,
@@ -387,6 +367,92 @@ export async function createFotoProperti(data: {
   if (error) {
     console.error(error);
     throw new Error("Foto could not be created");
+  }
+}
+
+export async function updateProperti(
+  propertiId: string,
+  data: {
+    nama_properti: string;
+    tipe: string;
+    alamat: string;
+    harga_per_bulan: number;
+    harga_per_dua_bulan: number;
+  },
+) {
+  const { error } = await supabaseAdmin
+    .from("properti")
+    .update(data)
+    .eq("id", propertiId);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Properti could not be updated");
+  }
+}
+
+export async function getUnitByPropertiId(propertiId: string) {
+  const { data, error } = await supabaseAdmin
+    .from("unit")
+    .select(
+      "id, luas_bangunan, jumlah_kamar_tidur, jumlah_kamar_mandi, kapasitas_penghuni, lantai, keterangan",
+    )
+    .eq("properti_id", propertiId)
+    .maybeSingle();
+
+  if (error) {
+    console.error(error);
+    throw new Error("Unit could not be loaded");
+  }
+
+  return data;
+}
+
+export async function updateUnitByPropertiId(
+  propertiId: string,
+  data: {
+    luas_bangunan: number | null;
+    jumlah_kamar_tidur: number;
+    jumlah_kamar_mandi: number;
+    kapasitas_penghuni: number;
+    lantai: number;
+    keterangan: string | null;
+  },
+) {
+  const { error } = await supabaseAdmin
+    .from("unit")
+    .update(data)
+    .eq("properti_id", propertiId);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Unit could not be updated");
+  }
+}
+
+export async function getFotoByPropertiId(propertiId: string) {
+  const { data, error } = await supabaseAdmin
+    .from("foto_properti")
+    .select("id, url")
+    .eq("properti_id", propertiId);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Foto could not be loaded");
+  }
+
+  return data ?? [];
+}
+
+export async function deleteFotoByPropertiId(propertiId: string) {
+  const { error } = await supabaseAdmin
+    .from("foto_properti")
+    .delete()
+    .eq("properti_id", propertiId);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Foto could not be deleted");
   }
 }
 
@@ -418,9 +484,9 @@ export async function getSewa(penyewaId: string): Promise<Sewa[]> {
         id,
         jumlah,
         metode,
-        bukti_url,
         status,
-        dibayar_pada
+        dibayar_pada,
+        periode_bulan
       )
     `,
     )
@@ -440,7 +506,7 @@ export async function getSewa(penyewaId: string): Promise<Sewa[]> {
     tanggal_selesai: s.tanggal_selesai,
     durasi_bulan: s.durasi_bulan,
     total_harga: s.total_harga,
-    status: s.status_sewa ?? "aktif",
+    status: s.status_sewa ?? "pending",
     properti_title:
       (Array.isArray(s.properti) ? s.properti[0] : s.properti)?.nama_properti ??
       "",
@@ -475,10 +541,9 @@ export async function getSewaById(sewaId: string) {
         id,
         jumlah,
         metode,
-        bukti_url,
         status,
         dibayar_pada,
-        nomor_referensi
+        periode_bulan
       )
     `,
     )
@@ -534,6 +599,26 @@ export async function deleteSewa(sewaId: string) {
   }
 }
 
+export async function updateSewaStatus(
+  sewaId: string,
+  data: {
+    status_sewa: string;
+    disetujui_pada?: string;
+    tanggal_mulai?: string;
+    tanggal_selesai?: string;
+  },
+) {
+  const { error } = await supabaseAdmin
+    .from("sewa")
+    .update(data)
+    .eq("id", sewaId);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Status sewa could not be updated");
+  }
+}
+
 export async function getSewaByIdWithProperti(
   sewaId: string,
   penyewaId: string,
@@ -576,6 +661,47 @@ export async function isPropertiTersedia(propertiId: string): Promise<boolean> {
   return !data;
 }
 
+export async function createUnit(data: {
+  properti_id: string;
+  luas_bangunan: number | null;
+  jumlah_kamar_tidur: number;
+  jumlah_kamar_mandi: number;
+  kapasitas_penghuni: number;
+  lantai: number;
+  keterangan: string | null;
+}) {
+  const { error } = await supabaseAdmin.from("unit").insert([data]);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Unit could not be created");
+  }
+}
+
+// ================================
+// TIKET BANTUAN
+// ================================
+
+export async function createTiketBantuan(data: {
+  user_id: string;
+  judul: string;
+  pesan: string;
+  kategori: string;
+}) {
+  const { data: ticket, error } = await supabaseAdmin
+    .from("tiket_bantuan")
+    .insert([data])
+    .select()
+    .single();
+
+  if (error) {
+    console.error(error);
+    throw new Error("Tiket bantuan gagal dikirim");
+  }
+
+  return ticket;
+}
+
 // ================================
 // Mapper: DB → Frontend types
 // ================================
@@ -592,7 +718,7 @@ export function mapPropertiToProperty(p: PropertiRaw): Property {
     province: "Jawa Barat",
     address: p.alamat,
     created_at: new Date().toISOString(),
-    owner_name: (Array.isArray(p.pemilik) ? p.pemilik[0] : p.pemilik)?.nama_pemilik ?? "",
+    owner_name: (Array.isArray(p.users) ? p.users[0] : p.users)?.name ?? "",
     property_images: (p.foto_properti ?? []).map((f) => ({
       id: f.id,
       image_url: f.url,

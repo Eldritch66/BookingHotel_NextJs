@@ -63,8 +63,8 @@ export type PropertiRaw = {
   harga_per_bulan: number;
   harga_per_dua_bulan: number;
   foto_properti: FotoProperti[];
-  pemilik?: { id?: string; nama_pemilik: string; email?: string }[];
-  unit: {
+  users?: { id?: string; name: string; email?: string }[];
+  unit?: {
     id: string;
     luas_bangunan: number | null;
     jumlah_kamar_tidur: number;
@@ -108,7 +108,7 @@ export type PropertiPemilik = {
   harga_per_bulan: number;
   harga_per_dua_bulan: number;
   foto_url: string;
-  status: "aktif" | "kosong";
+  status: "aktif" | "pending" | "kosong";
   penyewa_nama?: string;
   penyewa_email?: string;
   tanggal_mulai?: string;
@@ -135,7 +135,7 @@ export type PropertiPemilikRaw = {
     durasi_bulan: number;
     total_harga: number;
     status_sewa: string;
-    penyewa: { nama_penyewa: string; email: string }[];
+    users: { name: string; email: string }[];
   }[];
 };
 
@@ -163,6 +163,19 @@ export type PropertiFormData = {
   alamat: string;
   harga_per_bulan: number;
   harga_per_dua_bulan: number;
+};
+
+export type TiketBantuan = {
+  id: string;
+  user_id: string;
+  judul: string;
+  pesan: string;
+  kategori: "teknis" | "properti" | "pembayaran" | "akun" | "lainnya";
+  status: "open" | "diproses" | "selesai" | "ditutup";
+  balasan_admin: string | null;
+  dijawab_oleh: string | null;
+  dijawab_pada: string | null;
+  created_at: string;
 };
 
 export type SewaWithRelationsRaw = {

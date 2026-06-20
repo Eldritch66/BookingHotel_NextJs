@@ -1,16 +1,16 @@
 import DaftarSewa from "@/app/_components/DaftarSewa";
 import { auth } from "@/app/_lib/auth";
-import { getPenyewa, getSewa } from "@/app/_lib/data-services";
+import { getUserByEmail, getSewa } from "@/app/_lib/data-services";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 export default async function Page() {
   const session = await auth();
   if (!session?.user?.email) redirect("/login");
 
-  const penyewa = await getPenyewa(session.user.email);
-  if (!penyewa) redirect("/");
+  const user = await getUserByEmail(session.user.email);
+  if (!user || user.role !== "penyewa") redirect("/");
 
-  const sewaList = (await getSewa(penyewa.id)) ?? [];
+  const sewaList = (await getSewa(user.id)) ?? [];
 
   return (
     <div>

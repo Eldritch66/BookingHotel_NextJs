@@ -38,7 +38,7 @@ export default async function Page({
   const isTersedia = await isPropertiTersedia(id);
 
   const session = await auth();
-  const pemilikEmail = (raw as { pemilik?: { email?: string }[] }).pemilik?.[0]?.email;
+  const pemilikEmail = (raw as { pemilik?: { name?: string; email?: string }[] }).pemilik?.[0]?.email;
   const isPemilik =
     !!session?.user?.email && !!pemilikEmail && session.user.email === pemilikEmail;
 

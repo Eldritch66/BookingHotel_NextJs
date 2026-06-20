@@ -22,9 +22,9 @@ async function Header() {
         </Link>
       </div>
 
-      <div className="hidden sm:flex flex-1 justify-center items-center">
+      {/* <div className="hidden sm:flex flex-1 justify-center items-center">
         <Navbar />
-      </div>
+      </div> */}
 
       <div className="hidden sm:flex flex-shrink-0">
         <Login />

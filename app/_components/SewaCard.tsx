@@ -7,13 +7,7 @@ import { formatRupiah } from "../_lib/currency";
 import HapusSewa from "./HapusSewa";
 import { Home } from "lucide-react";
 
-function SewaCard({
-  sewa,
-  onDelete,
-}: {
-  sewa: Sewa;
-  onDelete: (sewaId: string) => void;
-}) {
+function SewaCard({ sewa }: { sewa: Sewa }) {
   const {
     id,
     tanggal_mulai,
@@ -25,7 +19,10 @@ function SewaCard({
     status,
   } = sewa;
 
-  const isActive = status !== "dibatalkan";
+  const isActive = status === "aktif" || status === "pending";
+  const endDate = parseISO(tanggal_selesai);
+  const isExpired = endDate < new Date();
+  const isHapusEnabled = status === "dibatalkan" || isExpired;
 
   return (
     <div className="flex flex-col border border-primary-800">
@@ -51,13 +48,17 @@ function SewaCard({
             <h3 className="text-base sm:text-xl font-semibold leading-snug">
               {durasi_bulan} bulan di {properti_title}
             </h3>
-            {isActive ? (
+            {status === "aktif" ? (
               <span className="bg-green-800 text-green-200 h-6 px-2 sm:h-7 sm:px-3 uppercase text-[10px] sm:text-xs font-bold flex items-center rounded-sm flex-shrink-0">
-                aktif
+                Aktif
+              </span>
+            ) : status === "pending" ? (
+              <span className="bg-yellow-200 text-yellow-800 h-6 px-2 sm:h-7 sm:px-3 uppercase text-[10px] sm:text-xs font-bold flex items-center rounded-sm flex-shrink-0">
+                Pending
               </span>
             ) : (
               <span className="bg-red-800 text-red-200 h-6 px-2 sm:h-7 sm:px-3 uppercase text-[10px] sm:text-xs font-bold flex items-center rounded-sm flex-shrink-0">
-                dibatalkan
+                Dibatalkan
               </span>
             )}
           </div>
@@ -85,7 +86,7 @@ function SewaCard({
             </Link>
           )}
           <div className="mt-1.5"></div>
-          <HapusSewa sewaId={id} onDelete={onDelete} />
+          <HapusSewa sewaId={id} isEnabled={isHapusEnabled} />
         </div>
       </div>
 
@@ -102,7 +103,7 @@ function SewaCard({
         <div
           className={`${isActive ? "flex-1" : "w-full"} flex [&>*]:flex-1 [&>*]:flex [&>*]:items-center [&>*]:justify-center`}
         >
-          <HapusSewa sewaId={id} onDelete={onDelete} />
+          <HapusSewa sewaId={id} isEnabled={isHapusEnabled} />
         </div>
       </div>
     </div>
