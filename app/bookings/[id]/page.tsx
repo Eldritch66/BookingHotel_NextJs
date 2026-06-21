@@ -1,5 +1,9 @@
 import DetailRoom from "@/app/_components/Room";
-import { getRooms, properties } from "@/app/_lib/data-services";
+import {
+  getRooms,
+  properties,
+  getBookedDatesForRoom,
+} from "@/app/_lib/data-services";
 
 export async function generateMetadata({
   params,
@@ -30,9 +34,16 @@ export default async function Page({
 
   const rooms = await getRooms(id);
 
+  const roomsWithAvailability = await Promise.all(
+    rooms.map(async (room) => {
+      const bookedRanges = await getBookedDatesForRoom(room.id);
+      return { ...room, bookedRanges };
+    }),
+  );
+
   return (
     <div className="">
-      {rooms.map((room) => (
+      {roomsWithAvailability.map((room) => (
         <DetailRoom key={room.id} room={room} />
       ))}
     </div>

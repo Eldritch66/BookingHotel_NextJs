@@ -6,8 +6,6 @@ export type Property = {
   city: string;
   province: string;
   address: string;
-  rating: number;
-  review_count: number;
   created_at: string;
   description: string;
   property_images: {
@@ -18,6 +16,8 @@ export type Property = {
     id: number;
     name: string;
   }[];
+  isBooked?: boolean;
+  bookedUntil?: string;
 };
 
 export type PropertyPreview = Pick<
@@ -60,13 +60,12 @@ export type Room = {
     title: string;
     city: string;
     province: string;
-    rating: number;
-    review_count: number;
     property_images: {
       id: string;
       image_url: string;
     }[];
   };
+  bookedRanges?: { start_date: string; end_date: string }[];
 };
 
 // app/_lib/types.ts
@@ -88,4 +87,19 @@ export type Booking = {
   total_price: number;
   status: string;
   rooms: Room;
+};
+
+export type Payment = {
+  id: string;
+  booking_id: string;
+  amount: number;
+  status: "menunggu" | "berhasil" | "gagal" | "dibatalkan";
+  payment_method: string | null;
+  transaction_id: string | null;
+  paid_at: string | null;
+  created_at: string;
+};
+
+export type BookingWithPayment = Booking & {
+  payments: Payment[];
 };

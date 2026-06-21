@@ -1,9 +1,9 @@
 import Image from "next/image";
 import { Property } from "../_lib/type";
-import { FaHeart } from "react-icons/fa";
-import { IoStar } from "react-icons/io5";
 import { IoLocationSharp } from "react-icons/io5";
 import { formatRupiah } from "../_lib/currency";
+import { format } from "date-fns";
+import { id } from "date-fns/locale";
 import Link from "next/link";
 
 export default function Card({ property }: { property: Property }) {
@@ -25,20 +25,16 @@ export default function Card({ property }: { property: Property }) {
         <span className="absolute top-4 left-4 text-white uppercase text-xs font-extralight bg-orange-600 p-1.5 rounded-lg">
           {typeProperty}
         </span>
-        <div className="absolute top-4 right-4 p-1.5 bg-gray-200 rounded-full flex items-center justify-center">
-          <FaHeart size={22} />
+        <div className={`absolute top-4 right-4 px-2 py-1 rounded-lg flex items-center justify-center text-xs font-medium ${property.isBooked ? "bg-red-100 text-red-700" : "bg-green-100 text-green-700"}`}>
+          {property.isBooked && property.bookedUntil
+            ? `Dipesan sampai ${format(new Date(property.bookedUntil), "dd MMM", { locale: id })}`
+            : "Tersedia"}
         </div>
       </div>
       <div className="row-span-1 p-6 flex flex-col justify-between">
         {/* <div className="flex flex-col gap-3"> */}
         <div className="flex flex-row justify-between items-center">
           <h2 className="font-semibold">{property.title}</h2>
-          <p className="flex flex-row items-center gap-1">
-            <IoStar size={22} className="text-orange-600" />
-            <span className="text-sm leading-none font-semibold">
-              {property.rating}
-            </span>
-          </p>
         </div>
         {/* </div> */}
         <p className="text-xs text-gray-500 flex flex-row items-center gap-1 mt-4 mb-4 text-center">

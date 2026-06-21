@@ -6,7 +6,7 @@ export default function PricePerNightAndRating({
   rating,
 }: {
   price: number;
-  rating: number;
+  rating?: number;
 }) {
   return (
     <div className="flex justify-between items-center px-2">
@@ -15,10 +15,12 @@ export default function PricePerNightAndRating({
         <span className="text-gray-400 font-light text-lg">/ night</span>
       </p>
 
-      <div className="flex items-center gap-1 text-sm">
-        <IoStar className="text-[#a67f71]" />
-        <span>{rating}</span>
-      </div>
+      {rating && (
+        <div className="flex items-center gap-1 text-sm">
+          <IoStar className="text-[#a67f71]" />
+          <span>{rating}</span>
+        </div>
+      )}
     </div>
   );
 }

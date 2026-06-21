@@ -1,26 +1,22 @@
 import { IoSearch } from "react-icons/io5";
-import FilterFeaturesProperties from "../_components/FilterFeaturesProperties";
-import { FaWifi } from "react-icons/fa6";
-import { MdFoodBank } from "react-icons/md";
-import { MdPool } from "react-icons/md";
-import { MdOutlineStarPurple500 } from "react-icons/md";
-import { BsCurrencyDollar } from "react-icons/bs";
 import PropertiesList from "../_components/PropertiesList";
 import { Suspense } from "react";
 import Spinner from "../_components/Spinner";
-import { getFilteredProperties } from "../_lib/data-services";
+import {
+  getFilteredProperties,
+  getBookedRangesForRooms,
+} from "../_lib/data-services";
 import { dataTypeProperties } from "../_lib/dataTypeProperties";
 import NavCabins2 from "../_components/NavCabins2";
 import PaginationBookingPage from "../_components/PaginationBooking";
 import FooterBooking from "../_components/FooterBooking";
+
 
 export const metadata = {
   title: "Bookings",
   description:
     "Browse and book hotels across Indonesia. Compare prices, filter by location, and find the best Properties deals easily.",
 };
-const ratingOptions = ["All", "1", "2", "3", "4", "5"];
-
 export default async function Page({
   searchParams,
 }: {
@@ -43,18 +39,41 @@ export default async function Page({
     price,
   });
 
+  const allRoomIds = dataProperties
+    .flatMap((p) => p.rooms.map((r) => r.id.toString()))
+    .filter(Boolean);
+  const bookedRanges = await getBookedRangesForRooms(allRoomIds);
+  const bookedRoomIds = new Set(bookedRanges.map((b) => b.room_id));
+
+  const enrichedProperties = dataProperties.map((prop) => {
+    const roomIds = prop.rooms.map((r) => r.id.toString());
+    const activeBookings = bookedRanges.filter((b) =>
+      roomIds.includes(b.room_id),
+    );
+    const bookedUntil = activeBookings.length > 0
+      ? activeBookings.reduce((latest, curr) =>
+          curr.end_date > latest.end_date ? curr : latest,
+        ).end_date
+      : undefined;
+    return {
+      ...prop,
+      isBooked: roomIds.some((id) => bookedRoomIds.has(id)),
+      bookedUntil,
+    };
+  });
+
   const perPage = 6;
 
   const currentPage = Number(page ?? 1);
-  const totalPages = Math.max(1, Math.ceil(dataProperties.length / perPage));
+  const totalPages = Math.max(1, Math.ceil(enrichedProperties.length / perPage));
 
-  const paginatedProperties = dataProperties.slice(
+  const paginatedProperties = enrichedProperties.slice(
     (currentPage - 1) * perPage,
     currentPage * perPage,
   );
   return (
     <main className="min-h-screen w-full relative">
-      <section className="w-full max-w-6xl mx-auto mt-4 sm:mt-12 px-2 sm:px-6 relative h-24 sm:h-20">
+      <section className="w-full max-w-6xl mx-auto mt-4 sm:mt-12 mb-6 sm:mb-10 px-2 sm:px-6 relative h-24 sm:h-20">
         <div className="flex items-center w-full h-full bg-white border-gray-200 rounded-2xl shadow-sm divide-gray-200">
           {/* {dataTypeProperties.map((item, index) => (
             <NavCabins
@@ -93,64 +112,6 @@ export default async function Page({
           </div>
         </div>
       </section>
-      <section className="hidden md:flex w-full lg:max-w-[1750px] mx-auto h-20 mt-10 relative">
-        <form className="flex items-center gap-3">
-          <FilterFeaturesProperties
-            icon={<BsCurrencyDollar size="16" />}
-            label="Price Range"
-            options={["All", "400", "600", "1000", "1200"]}
-          />
-
-          <FilterFeaturesProperties
-            icon={<MdOutlineStarPurple500 size="16" />}
-            label="Rating"
-            options={ratingOptions}
-          />
-
-          <label className="ml-6 flex items-center justify-center gap-2 relative w-20 border border-gray-200 rounded-xl shadow-sm h-10">
-            <input
-              type="checkbox"
-              className="h-6 w-full absolute z-10 appearance-none cursor-pointer"
-            />
-            <FaWifi size={16} />
-            <span className="text-sm -ml-1">Wifi</span>
-          </label>
-
-          <label className="flex items-center justify-center gap-2 relative w-20 border border-gray-200 rounded-xl shadow-sm h-10">
-            <input
-              type="checkbox"
-              className="h-6 w-full absolute z-10 appearance-none cursor-pointer"
-            />
-            <MdPool size={16} />
-            <span className="text-sm -ml-1">Pool</span>
-          </label>
-
-          <label className="flex items-center justify-center gap-2 relative w-24 border border-gray-200 rounded-xl shadow-sm h-10">
-            <input
-              type="checkbox"
-              className="h-6 w-full absolute z-10 appearance-none"
-            />
-            <MdFoodBank size={16} />
-            <span className="z-20 text-sm -ml-1">Breakfast</span>
-          </label>
-
-          <label className="absolute right-0 flex flex-row items-center gap-6">
-            <span className="text-gray-400 text-base tracking-tighter">
-              Sort by:
-            </span>
-            <FilterFeaturesProperties
-              label="Recomended"
-              options={[
-                "Recommended",
-                "Highest Rating",
-                "Lowest Price",
-                "Highest Price",
-                "Most Popular",
-              ]}
-            />
-          </label>
-        </form>
-      </section>
       <hr className="w-min-h-screen w-full lg:max-w-[1750px] mx-auto text-gray-200" />
       <section className="w-full lg:max-w-[1750px] mx-auto mt-10 mb-10">
         <div className="flex flex-row items-center justify-between mx-2 sm:mx-0">
@@ -158,7 +119,7 @@ export default async function Page({
             Properties In Indonesia
           </h2>
           <p className="font-extralight text-xs text-gray-400">
-            {dataProperties.length} properties found
+            {enrichedProperties.length} properties found
           </p>
         </div>
 

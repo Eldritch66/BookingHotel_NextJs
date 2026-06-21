@@ -7,14 +7,12 @@ function ReservationForm({
   price_per_night,
   range,
   nights,
-  guests,
 }: {
   createBooking: (formData: FormData) => Promise<void>;
   id: string;
   price_per_night: number;
   range?: DateRange;
   nights: number;
-  guests: number;
 }) {
   return (
     <form action={createBooking}>
@@ -23,9 +21,7 @@ function ReservationForm({
       <input
         type="hidden"
         name="start_date"
-        // value={range?.from?.toISOString().split("T")[0] ?? ""}
         value={range?.from ? formatDate(range.from, "yyyy-MM-dd") : ""}
-        // "2026-05-05T00:00:00.000Z".split("T") -> "2026-05-05"
       />
       <input
         type="hidden"
@@ -33,7 +29,6 @@ function ReservationForm({
         value={range?.to ? formatDate(range.to, "yyyy-MM-dd") : ""}
       />
       <input type="hidden" name="num_nights" value={nights} />
-      <input type="hidden" name="num_guests" value={guests} />
 
       <button
         type="submit"

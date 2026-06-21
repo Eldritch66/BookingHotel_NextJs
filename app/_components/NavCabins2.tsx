@@ -25,13 +25,13 @@ export default function NavCabins({
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const currentValue = searchParams.get(paramKey) ?? "All";
+  const currentValue = searchParams.get(paramKey) ?? "Semua";
   const selectedKeys = useMemo(() => new Set([currentValue]), [currentValue]);
 
   const updateUrl = (value: string) => {
     const params = new URLSearchParams(searchParams.toString());
 
-    if (value === "All") {
+    if (value === "Semua") {
       params.delete(paramKey);
     } else {
       params.set(paramKey, value);

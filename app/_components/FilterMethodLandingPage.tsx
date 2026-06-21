@@ -9,7 +9,7 @@ import DropDownFilterMain from "./DropDownFilterRoot";
 const dataTypeHotel = [
   {
     key: "location",
-    label: "Location",
+    label: "Lokasi",
     icon: <IoLocationOutline />,
     options: [
       "Bogor, Jawa Barat",
@@ -17,20 +17,20 @@ const dataTypeHotel = [
       "Yogyakarta, Indonesia",
       "Bandung, Indonesia",
       "Jakarta, Indonesia",
-      "All",
+      "Semua",
     ],
   },
   {
     key: "type",
-    label: "Type",
+    label: "Tipe",
     icon: <IoCameraOutline />,
-    options: ["hotel", "villa", "resort", "All"],
+    options: ["Hotel", "Villa", "Resort", "Semua"],
   },
   {
     key: "price",
-    label: "Price",
+    label: "Harga",
     icon: <PiCurrencyCircleDollarLight />,
-    options: ["Budget", "Mid-range", "Luxury", "All"],
+    options: ["Ekonomis", "Menengah", "Mewah", "Semua"],
   },
 ] as const;
 
@@ -43,17 +43,17 @@ type FilterState = {
 export default function FilterMethodLandingPage() {
   const router = useRouter();
   const [filters, setFilters] = useState<FilterState>({
-    location: "All",
-    type: "All",
-    price: "All",
+    location: "Semua",
+    type: "Semua",
+    price: "Semua",
   });
 
   const handleSearch = () => {
     const params = new URLSearchParams();
 
-    if (filters.location !== "All") params.set("location", filters.location);
-    if (filters.type !== "All") params.set("type", filters.type);
-    if (filters.price !== "All") params.set("price", filters.price);
+    if (filters.location !== "Semua") params.set("location", filters.location);
+    if (filters.type !== "Semua") params.set("type", filters.type);
+    if (filters.price !== "Semua") params.set("price", filters.price);
 
     router.push(`/bookings?${params.toString()}`);
   };
@@ -89,7 +89,7 @@ export default function FilterMethodLandingPage() {
             onClick={handleSearch}
             className="h-12 px-6 rounded-md bg-black text-white cursor-pointer w-full md:w-auto"
           >
-            Search Hotel
+            Cari Hotel
           </button>
         </div>
       </div>
