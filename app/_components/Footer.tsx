@@ -8,24 +8,24 @@ export default function Footer() {
   return (
     <footer className="min-h-fit w-full md:max-w-[1500px] lg:max-w-[1800px] mx-auto mt-30 mb-8">
       <h2 className=" text-center text-3xl md:text-[9rem] font-black leading-none tracking-tighter uppercase">
-        NGINAPIN- CONTACT
+        NGINAPIN- KONTAK
       </h2>
       <div className="flex flex-col items-center mt-8">
         <div className="flex gap-8 text-lg sm:gap-20 items-center flex-row font-semibold">
           <p className="flex flex-row items-center">
-            About us <TiArrowRight size={20} className="ml-2" />
+            Tentang Kami <TiArrowRight size={20} className="ml-2" />
           </p>
           <p className="flex flex-row items-center">
             FAQ <TiArrowRight size={20} className="ml-2" />
           </p>
           <p className="flex flex-row items-center">
-            Contact us <TiArrowRight size={20} className="ml-2" />
+            Hubungi Kami <TiArrowRight size={20} className="ml-2" />
           </p>
         </div>
         <p className="text-sm font-normal text-gray-500 text-center leading-relaxed max-w-xs mt-8">
-          with our dedication and expertise in hospitality, we strive to offer
-          stays that go beyond just a room, providing a comforting journey
-          toward relaxation and unforgettable experiences
+          dengan dedikasi dan keahlian kami dalam perhotelan, kami berusaha
+          menawarkan penginapan yang melampaui sekadar kamar, memberikan
+          perjalanan nyaman menuju relaksasi dan pengalaman tak terlupakan
         </p>
         <div className="grid grid-cols-3 w-full items-center mt-8 text-xs sm:text-sm">
           <a href="#" className="justify-self-start">
@@ -78,7 +78,7 @@ export default function Footer() {
           </nav>
 
           <p className="justify-self-end">
-            © {new Date().getFullYear()} Lokastay. All rights reserved.
+            © {new Date().getFullYear()} Lokastay. Hak cipta dilindungi.
           </p>
         </div>
       </div>

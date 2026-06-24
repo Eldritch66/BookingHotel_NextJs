@@ -112,14 +112,14 @@ export default function WhyChoseUs() {
               </div>
               <div className="p-2 sm:p-6 flex flex-col justify-around sm:justify-between">
                 <h2 className="text-3xl font-light leading-tight text-white">
-                  Comfortable Rooms with excellent care
+                  Kamar Nyaman dengan Perawatan Terbaik
                 </h2>
                 <p className="text-lg text-neutral-300 mb-3">
-                  Experience serene spaces crafted with attention to detail,
-                  ensuring every moment feels personal and refined.
+                  Rasakan ruang tenang yang dirancang dengan perhatian pada
+                  detail, memastikan setiap momen terasa personal dan elegan.
                 </p>
                 <div className="flex items-center justify-between bg-black text-white rounded-full px-4 py-1.5 w-36 cursor-pointer hover:bg-gray-800">
-                  <span className="font-extralight text-base">See Details</span>
+                  <span className="font-extralight text-base">Lihat Detail</span>
                   <BsArrowUpRightCircleFill className="-mr-2" size={30} />
                 </div>
                 <div className="font-extralight p-2">
@@ -145,7 +145,7 @@ export default function WhyChoseUs() {
         </div>
         <div className="w-full h-full mr-2 mt-10 sm:mt-0">
           <h2 className="text-4xl sm:text-5xl leading-tight">
-            Discover Excellence in Hospitality. Trusted Hotels You Can Rely On
+            Temukan Keunggulan dalam Perhotelan. Hotel Terpercaya yang Bisa Anda Andalkan
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 h-full w-full gap-6 mt-10">
             <Image
@@ -157,10 +157,10 @@ export default function WhyChoseUs() {
               {/* <div className="w-full flex flex-col justify-center gap-4"> */}
               <FaStarOfLife size={20} className="mb-4" />
               <p className="self-center font-extralight mr-2">
-                Discover thoughtfully designed spaces where elegance meets
-                tranquility. From private villas to refined resort suites, every
-                stay is crafted to offer warmth, serenity, and exceptional
-                hospitality.
+                Temukan ruang yang dirancang dengan cermat di mana keanggunan
+                bertemu ketenangan. Dari vila pribadi hingga suite resor yang
+                elegan, setiap menginap dirancang untuk menawarkan kehangatan,
+                ketenangan, dan keramahtamahan yang luar biasa.
               </p>
             </div>
           </div>
@@ -168,26 +168,26 @@ export default function WhyChoseUs() {
         <div className="col-span-1 lg:col-span-2 w-full h-full bg-[#f6f6f6] grid grid-cols-1 gap-6 md:grid-cols-3 items-center rounded-4xl mt-30 sm:mt-20">
           <div className="flex flex-col items-center">
             <GoShieldCheck size={30} />
-            <p className="font-bold text-xl my-4">Trusted Booking</p>
+            <p className="font-bold text-xl my-4">Pemesanan Terpercaya</p>
             <p className="text-sm font-extralight text-center">
-              Secure reservations with top-rated indonesian <br /> hospitality
-              partners verified by our experts
+              Reservasi aman dengan mitra perhotelan Indonesia <br /> terbaik
+              yang diverifikasi oleh ahli kami
             </p>
           </div>
           <div className="flex flex-col items-center">
             <FaMoneyBillWave size={30} />
-            <p className="font-bold text-xl my-4">Best Price Guarantee</p>
+            <p className="font-bold text-xl my-4">Garansi Harga Terbaik</p>
             <p className="text-sm font-extralight text-center max-w-2/3">
-              Find the same room cheaper elsewhere and we`&apos;ll match the
-              price plus 5% discount.
+              Temukan kamar yang sama lebih murah di tempat lain dan kami akan
+              menyamai harga plus diskon 5%.
             </p>
           </div>
           <div className="flex flex-col items-center">
             <RiCustomerService2Fill size={30} />
-            <p className="font-bold text-xl my-4">24/7 Support</p>
+            <p className="font-bold text-xl my-4">Dukungan 24/7</p>
             <p className="text-sm font-extralight text-center max-w-2/3">
-              Our local travel concierge is available around the colock for any
-              assistance you need
+              Koncier perjalanan lokal kami tersedia 24 jam untuk bantuan apa
+              pun yang Anda butuhkan
             </p>
           </div>
         </div>

@@ -89,9 +89,9 @@ export default async function Page({
               label={item.label}
               options={item.options}
               paramKey={
-                item.label === "Location"
+                item.label === "Lokasi"
                   ? "location"
-                  : item.label === "Budget Range"
+                  : item.label === "Rentang Harga"
                     ? "price"
                     : "type"
               }

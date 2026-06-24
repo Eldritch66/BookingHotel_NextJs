@@ -1,26 +1,16 @@
-import { IoStar } from "react-icons/io5";
 import { formatRupiah } from "../_lib/currency";
 
 export default function PricePerNightAndRating({
   price,
-  rating,
 }: {
   price: number;
-  rating?: number;
 }) {
   return (
-    <div className="flex justify-between items-center px-2">
-      <p className="font-semibold text-2xl">
+    <div>
+      <p className="font-bold text-2xl text-gray-900">
         {formatRupiah(price)}
-        <span className="text-gray-400 font-light text-lg">/ night</span>
+        <span className="text-gray-400 font-normal text-base"> / night</span>
       </p>
-
-      {rating && (
-        <div className="flex items-center gap-1 text-sm">
-          <IoStar className="text-[#a67f71]" />
-          <span>{rating}</span>
-        </div>
-      )}
     </div>
   );
 }

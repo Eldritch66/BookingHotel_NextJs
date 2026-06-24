@@ -13,8 +13,8 @@ export async function generateMetadata({
   const { id } = await params;
 
   const rooms = await getRooms(id);
-  const name = rooms?.[0]?.name ?? "Room";
-  return { title: `Room ${name}` };
+  const title = rooms?.[0]?.properties?.title ?? "Room";
+  return { title: `${title}` };
 }
 
 export async function generateStaticParams() {

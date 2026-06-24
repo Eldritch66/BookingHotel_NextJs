@@ -5,24 +5,24 @@ import { MdKeyboardArrowDown, MdKeyboardArrowRight } from "react-icons/md";
 
 const faqList = [
   {
-    h3: "How do I modify or cancel my booking?",
-    p: "You can easily manage your reservation through your account dashboard. Simply go to 'My Bookings', select your stay, and choose modify or cancel. Please note that cancellation policies may vary depending on the property.",
+    h3: "Bagaimana cara mengubah atau membatalkan pemesanan saya?",
+    p: "Anda dapat dengan mudah mengelola reservasi Anda melalui dasbor akun. Cukup buka 'Pemesanan Saya', pilih penginapan Anda, dan pilih ubah atau batalkan. Harap diperhatikan bahwa kebijakan pembatalan dapat bervariasi tergantung pada properti.",
   },
   {
-    h3: "What payment methods are accepted?",
-    p: "We accept major credit and debit cards, bank transfers, and selected Indonesian payment gateways. All transactions are securely processed to ensure your safety and privacy.",
+    h3: "Metode pembayaran apa yang diterima?",
+    p: "Kami menerima kartu kredit dan debit utama, transfer bank, dan gerbang pembayaran Indonesia terpilih. Semua transaksi diproses dengan aman untuk memastikan keamanan dan privasi Anda.",
   },
   {
-    h3: "When will I receive my booking confirmation?",
-    p: "Booking confirmations are sent instantly to your registered email after successful payment. You can also view your reservation details anytime in your account.",
+    h3: "Kapan saya akan menerima konfirmasi pemesanan?",
+    p: "Konfirmasi pemesanan dikirim secara instan ke email terdaftar Anda setelah pembayaran berhasil. Anda juga dapat melihat detail reservasi kapan saja di akun Anda.",
   },
   {
-    h3: "Is there a cancellation fee?",
-    p: "Cancellation fees depend on the property’s individual policy. Some stays offer free cancellation within a specific time frame, while others may apply a partial charge.",
+    h3: "Apakah ada biaya pembatalan?",
+    p: "Biaya pembatalan tergantung pada kebijakan masing-masing properti. Beberapa penginapan menawarkan pembatalan gratis dalam jangka waktu tertentu, sementara yang lain mungkin menerapkan biaya parsial.",
   },
   {
-    h3: "Do you offer a best price guarantee?",
-    p: "Yes. If you find a lower publicly available price for the same property and dates, we will review and match it according to our best price guarantee policy.",
+    h3: "Apakah Anda menawarkan garansi harga terbaik?",
+    p: "Ya. Jika Anda menemukan harga yang lebih rendah yang tersedia untuk umum untuk properti dan tanggal yang sama, kami akan meninjau dan menyamakannya sesuai dengan kebijakan garansi harga terbaik kami.",
   },
 ];
 
@@ -39,11 +39,11 @@ export default function Faq() {
     <section className="min-h-screen w-full md:max-w-[1400px] lg:max-w-[1600px] grid grid-rows-none md:grid-cols-3 mt-10 sm:mt-30 mx-auto text-black md:gap-20">
       <div className="md:col-span-1">
         <h2 className="text-6xl text-center mt-20 mb-8 mx-4 md:text-left md:ml-8">
-          General <br /> FAQ <br /> By Clients
+          FAQ <br /> Umum <br /> oleh Klien
         </h2>
         <p className="text-gray-400 text-center mx-4 md:text-left md:ml-8">
-          Here is a list of frequently asked questions (FAQ) titles that you can
-          use as a reference
+          Berikut adalah daftar pertanyaan yang sering diajukan (FAQ) yang dapat
+          Anda gunakan sebagai referensi
         </p>
       </div>
       <div className="md:col-span-2">

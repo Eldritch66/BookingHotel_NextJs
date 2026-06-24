@@ -1,26 +1,29 @@
 import SignInButton from "@/app/_components/SignInButton";
+import RegisterForm from "@/app/_components/RegisterForm";
 import Link from "next/link";
 import { FiShield, FiLock, FiMessageCircle } from "react-icons/fi";
-export default function LoginPage() {
+export default function RegisterPage() {
   return (
     <div className="relative min-h-screen overflow-hidden">
       <div className="relative min-h-screen grid grid-rows-[1fr_auto]">
         <section className="flex flex-col items-center justify-center px-6 pt-28 pb-20 lg:px-16">
           <h1 className="font-serif text-4xl lg:text-5xl font-bold text-[#3b2314] text-center leading-tight mb-4 animate-fade-up">
-            Welcome to Nginapin
+            Create Your Account
           </h1>
           <p className="text-sm font-light text-[#9b8b7a] text-center leading-relaxed max-w-xs mb-10 animate-fade-up [animation-delay:100ms]">
-            Sign in to manage your premium stays across Indonesia.
+            Join Nginapin and start booking your premium stays across Indonesia.
           </p>
 
           <div className="bg-white rounded-3xl p-9 w-full max-w-sm shadow-[0_8px_48px_rgba(107,62,38,0.10)] flex flex-col gap-6 animate-fade-up [animation-delay:200ms]">
-            <SignInButton />
+            <RegisterForm />
 
             <div className="flex items-center gap-3 text-[10px] font-medium tracking-widest text-[#9b8b7a] uppercase">
               <span className="flex-1 h-px bg-[#e8e1d9]" />
-              Secure Authentication
+              or continue with
               <span className="flex-1 h-px bg-[#e8e1d9]" />
             </div>
+
+            <SignInButton />
 
             <div className="flex gap-2">
               <TrustBadge
@@ -39,28 +42,15 @@ export default function LoginPage() {
           </div>
 
           <p className="mt-6 text-sm text-[#9b8b7a] animate-fade-up [animation-delay:300ms]">
-            New to Nginapin?
+            Already have an account?
             <Link
-              href="/register"
+              href="/login"
               className="text-[#8b5e3c] font-medium border-b border-transparent hover:border-[#8b5e3c] transition-all duration-200"
             >
-              Create an account
+              Sign in
             </Link>
           </p>
         </section>
-
-        {/* ── RIGHT: Hero image blob ── */}
-        {/* <aside className="hidden lg:flex items-center py-20 pr-10">
-          <div className="relative w-full max-w-[360px] aspect-[3/4] overflow-hidden shadow-[0_24px_80px_rgba(107,62,38,0.18)] animate-blob-in [border-radius:50%_50%_50%_50%_/_60%_60%_40%_40%]">
-            <Image
-              src="/room3.jpg"
-              alt="Premium Indonesian villa"
-              fill
-              priority
-              className="object-cover object-center"
-            />
-          </div>
-        </aside> */}
 
         <footer className="col-span-full flex flex-col sm:flex-row items-center justify-between px-12 py-5 text-[10px] tracking-widest uppercase text-[#9b8b7a] gap-3">
           <span>© 2026 Nginapin. Digital Concierge Experience.</span>

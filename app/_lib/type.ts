@@ -15,9 +15,11 @@ export type Property = {
   rooms: {
     id: number;
     name: string;
+    price_per_night?: number;
   }[];
   isBooked?: boolean;
   bookedUntil?: string;
+  facilities?: string[];
 };
 
 export type PropertyPreview = Pick<
@@ -60,10 +62,12 @@ export type Room = {
     title: string;
     city: string;
     province: string;
+    address: string;
     property_images: {
       id: string;
       image_url: string;
     }[];
+    facilities?: string[];
   };
   bookedRanges?: { start_date: string; end_date: string }[];
 };
@@ -87,6 +91,14 @@ export type Booking = {
   total_price: number;
   status: string;
   rooms: Room;
+};
+
+export type Guest = {
+  guest_id: string;
+  email: string;
+  full_name?: string;
+  password_hash?: string | null;
+  no_telp?: string;
 };
 
 export type Payment = {

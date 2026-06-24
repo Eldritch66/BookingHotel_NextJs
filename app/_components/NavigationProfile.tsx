@@ -1,6 +1,6 @@
 "use client";
 
-import { FiHome, FiCalendar, FiLogOut } from "react-icons/fi";
+import { FiHome, FiCalendar, FiUser, FiLogOut } from "react-icons/fi";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 
@@ -24,6 +24,15 @@ export default function NavigationProfile() {
           >
             <FiCalendar size={20} className="mr-2" />
             Reservation
+          </Link>
+        </li>
+        <li>
+          <Link
+            href="/account/edit-profile"
+            className="flex flex-row items-center text-sm sm:text-base font-medium"
+          >
+            <FiUser size={20} className="mr-2" />
+            Edit Profile
           </Link>
         </li>
       </ul>

@@ -10,19 +10,27 @@ export default async function Login() {
       className="flex gap-2
       justify-end items-center text-sm z-50"
     >
-      {session?.user?.image ? (
+      {session?.user ? (
         <Link
           href="/account"
           className="hover:text-accent-400 transition-colors flex items-center gap-4"
         >
-          <Image
-            className="h-8 w-8 rounded-full"
-            src={session.user.image}
-            width={20}
-            height={20}
-            alt={session.user.name || "User avatar"}
-            referrerPolicy="no-referrer"
-          />
+          {session.user.image ? (
+            <Image
+              className="h-8 w-8 rounded-full"
+              src={session.user.image}
+              width={20}
+              height={20}
+              alt={session.user.name || "User avatar"}
+              referrerPolicy="no-referrer"
+            />
+          ) : (
+            <div className="h-8 w-8 rounded-full bg-[#8b5e3c] flex items-center justify-center">
+              <span className="text-white text-xs font-medium">
+                {(session.user.name || "U").charAt(0).toUpperCase()}
+              </span>
+            </div>
+          )}
           <span className="text-base font-extralight">Guest area</span>
         </Link>
       ) : (

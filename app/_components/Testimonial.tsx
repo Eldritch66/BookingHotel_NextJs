@@ -8,28 +8,28 @@ import Image from "next/image";
 const testimonials = [
   {
     comment:
-      "With our dedication and expertise in hospitality, we strive to provide stays that are not just accommodations, but a comforting journey toward relaxation and memorable experiences.",
+      "Dengan dedikasi dan keahlian kami dalam perhotelan, kami berusaha menyediakan penginapan yang bukan sekadar akomodasi, tetapi perjalanan nyaman menuju relaksasi dan pengalaman tak terlupakan.",
     name: "Azan Mohammad",
     role: "Product Manager at JMK Studio",
     avatar: "/avatar2.jpg",
   },
   {
     comment:
-      "Booking was seamless and the resort exceeded expectations. Highly recommended for families.",
+      "Pemesanan berjalan lancar dan resortnya melebihi ekspektasi. Sangat direkomendasikan untuk keluarga.",
     name: "Rina Putri",
     role: "Travel Blogger",
     avatar: "/avatar1.jpg",
   },
   {
     comment:
-      "We’ve stayed in many resorts across Indonesia, but this one stood out. The atmosphere was calm, the rooms were comfortable, and the service felt sincere. It created a memorable stay that we would gladly experience again.",
+      "Kami telah menginap di banyak resor di seluruh Indonesia, tetapi yang ini menonjol. Suasananya tenang, kamarnya nyaman, dan layanannya terasa tulus. Ini menciptakan pengalaman menginap yang tak terlupakan.",
     name: "Clara Wijaya",
     role: "Lifestyle Content Creator",
     avatar: "/avatar5.jpg",
   },
   {
     comment:
-      "The entire experience was effortless from start to finish. The platform helped us find the perfect villa, and the property matched the photos beautifully. Every detail reflected comfort, quality, and genuine hospitality.",
+      "Seluruh pengalaman berjalan mulus dari awal hingga akhir. Platform ini membantu kami menemukan vila yang sempurna, dan propertinya sesuai dengan foto-fotonya. Setiap detail mencerminkan kenyamanan, kualitas, dan keramahtamahan yang tulus.",
 
     name: "Rizky Mahendra",
     role: "Business Consultant",

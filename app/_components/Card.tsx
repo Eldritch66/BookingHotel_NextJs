@@ -13,15 +13,17 @@ export default function Card({ property }: { property: Property }) {
   // console.log(property.id, property.rooms);
   return (
     <div className="bg-white col-span-1 row-span-1 rounded-2xl shadow-md grid grid-rows-2 mx-2 sm:mx-0">
-      <div className="row-span-1 relative">
-        <Image
-          src={image}
-          alt={property.title}
-          fill
-          quality={75}
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-cover rounded-tr-2xl rounded-tl-2xl"
-        />
+      <div className="row-span-1 relative bg-gray-100">
+        {image && (
+          <Image
+            src={image}
+            alt={property.title}
+            fill
+            quality={75}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-cover rounded-tr-2xl rounded-tl-2xl"
+          />
+        )}
         <span className="absolute top-4 left-4 text-white uppercase text-xs font-extralight bg-orange-600 p-1.5 rounded-lg">
           {typeProperty}
         </span>

@@ -54,6 +54,7 @@ export default function DateRangePicker({
       >
         <Calendar
           mode="range"
+          showOutsideDays={false}
           selected={range}
           onSelect={(value) => {
             onRangeChange(value);

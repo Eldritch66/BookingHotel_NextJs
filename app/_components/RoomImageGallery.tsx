@@ -16,40 +16,62 @@ export default function RoomImageGallery({
   const img4 = images[4]?.image_url;
   return (
     <section className="hidden w-full lg:max-w-[1750px] mx-auto px-2 relative h-[60vh] md:grid grid-cols-2 gap-2 overflow-hidden">
-      <div className="relative">
-        <Image
-          src={mainImage}
-          alt={title ?? ""}
-          fill
-          className="object-cover rounded-tl-4xl rounded-bl-4xl"
-        />
+      <div className="relative bg-gray-100">
+        {mainImage ? (
+          <Image
+            src={mainImage}
+            alt={title ?? ""}
+            fill
+            className="object-cover rounded-tl-4xl rounded-bl-4xl"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center text-gray-300 text-sm">
+            No image
+          </div>
+        )}
       </div>
 
       <div className="grid grid-cols-2 grid-rows-2 gap-1">
-        <div className="relative">
-          <Image src={img1 ?? ""} alt="" fill className="object-cover" />
+        <div className="relative bg-gray-100">
+          {img1 ? (
+            <Image src={img1} alt="" fill className="object-cover" />
+          ) : (
+            <div className="w-full h-full" />
+          )}
         </div>
 
-        <div className="relative">
-          <Image
-            src={img2 ?? ""}
-            alt=""
-            fill
-            className="object-cover rounded-tr-4xl"
-          />
+        <div className="relative bg-gray-100">
+          {img2 ? (
+            <Image
+              src={img2}
+              alt=""
+              fill
+              className="object-cover rounded-tr-4xl"
+            />
+          ) : (
+            <div className="w-full h-full" />
+          )}
         </div>
 
-        <div className="relative">
-          <Image src={img3 ?? ""} alt="" fill className="object-cover " />
+        <div className="relative bg-gray-100">
+          {img3 ? (
+            <Image src={img3} alt="" fill className="object-cover" />
+          ) : (
+            <div className="w-full h-full" />
+          )}
         </div>
 
-        <div className="relative">
-          <Image
-            src={img4 ?? ""}
-            alt=""
-            fill
-            className="object-cover rounded-br-4xl"
-          />
+        <div className="relative bg-gray-100">
+          {img4 ? (
+            <Image
+              src={img4}
+              alt=""
+              fill
+              className="object-cover rounded-br-4xl"
+            />
+          ) : (
+            <div className="w-full h-full" />
+          )}
         </div>
       </div>
     </section>

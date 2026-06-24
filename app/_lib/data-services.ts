@@ -1,5 +1,5 @@
 import { supabase } from "./supabase";
-import { Room, BookingWithPayment } from "./type";
+import { Room, BookingWithPayment, Guest, Property } from "./type";
 
 export async function getGuest(email: string) {
   const { data, error } = await supabase
@@ -30,11 +30,64 @@ export async function createGuest(guestData: { email: string }) {
   return data;
 }
 
+export async function createGuestWithPassword(guestData: {
+  email: string;
+  full_name: string;
+  password_hash: string;
+}) {
+  const { data, error } = await supabase
+    .from("guests")
+    .insert([guestData])
+    .select()
+    .single();
+
+  if (error) {
+    console.error(error);
+    throw new Error("Guest could not be created");
+  }
+
+  return data as Guest;
+}
+
+export async function updateGuest(
+  email: string,
+  updates: { full_name?: string; no_telp?: string },
+) {
+  const { data, error } = await supabase
+    .from("guests")
+    .update(updates)
+    .eq("email", email)
+    .select()
+    .single();
+
+  if (error) {
+    console.error(error);
+    throw new Error("Guest could not be updated");
+  }
+
+  return data;
+}
+
+export async function getGuestByEmail(email: string) {
+  const { data, error } = await supabase
+    .from("guests")
+    .select("*")
+    .eq("email", email)
+    .single();
+
+  if (error && error.code !== "PGRST116") {
+    console.error(error);
+    throw new Error("Guest could not be loaded");
+  }
+
+  return data as Guest | null;
+}
+
 export async function properties() {
   const { data, error } = await supabase
     .from("properties")
     .select(
-      `id, title, type, price_per_night, city, province, address, created_at, description,
+      `id, title, type, city, province, address, created_at, description,
         property_images (
           id,
           image_url
@@ -110,7 +163,6 @@ export async function getFilteredProperties({
       id,
       title,
       type,
-      price_per_night,
       city,
       province,
       address,
@@ -122,7 +174,8 @@ export async function getFilteredProperties({
       ),
       rooms (
         id,
-        name
+        name,
+        price_per_night
       )
     `,
     )
@@ -135,18 +188,6 @@ export async function getFilteredProperties({
     query = query.eq("type", type.toLowerCase());
   }
 
-  if (price && price !== "Semua") {
-    if (price === "Ekonomis") {
-      query = query.lte("price_per_night", 500000);
-    } else if (price === "Menengah") {
-      query = query
-        .gte("price_per_night", 500000)
-        .lte("price_per_night", 1500000);
-    } else if (price === "Mewah") {
-      query = query.gte("price_per_night", 1500000);
-    }
-  }
-
   const { data, error } = await query;
 
   if (error) {
@@ -154,7 +195,30 @@ export async function getFilteredProperties({
     throw new Error("Properties could not be loaded");
   }
 
-  return data;
+  const properties = data as Property[];
+
+  const enriched = properties.map((p) => {
+    const prices = p.rooms
+      .map((r) => r.price_per_night)
+      .filter((v): v is number => v != null);
+    const minPrice = prices.length > 0 ? Math.min(...prices) : 0;
+    return { ...p, price_per_night: minPrice };
+  });
+
+  if (price && price !== "Semua") {
+    if (price === "Ekonomis") {
+      return enriched.filter((p) => p.price_per_night <= 500000);
+    } else if (price === "Menengah") {
+      return enriched.filter(
+        (p) =>
+          p.price_per_night >= 500000 && p.price_per_night <= 1500000,
+      );
+    } else if (price === "Mewah") {
+      return enriched.filter((p) => p.price_per_night >= 1500000);
+    }
+  }
+
+  return enriched;
 }
 
 export async function getRooms(propertyId: string) {
@@ -162,7 +226,7 @@ export async function getRooms(propertyId: string) {
     .from("rooms")
 
     .select(
-      `id, property_id, name, price_per_night, bed_type, quantity,created_at, description_full, size,properties(id,title,city, province, property_images(
+      `id, property_id, name, price_per_night, bed_type, quantity,created_at, description_full, size,properties(id,title,city, province, address, facilities, property_images(
           id,
           image_url
         ) )`,
@@ -230,6 +294,23 @@ export async function getBookingWithDetails(bookingId: string) {
   return data as unknown as BookingWithPayment;
 }
 
+export async function getRoomById(roomId: string) {
+  const { data, error } = await supabase
+    .from("rooms")
+    .select(
+      `id, name, price_per_night, properties(id, title, city, province, property_images(id, image_url))`,
+    )
+    .eq("id", roomId)
+    .single();
+
+  if (error) {
+    console.error(error);
+    throw new Error("Room could not be loaded");
+  }
+
+  return data;
+}
+
 export async function getBookedRangesForRooms(roomIds: string[]) {
   if (roomIds.length === 0) return [];
 
@@ -239,7 +320,7 @@ export async function getBookedRangesForRooms(roomIds: string[]) {
     .from("bookings")
     .select("room_id, start_date, end_date")
     .in("room_id", roomIds)
-    .in("status", ["confirmed", "pending"])
+    .neq("status", "cancelled")
     .lte("start_date", today)
     .gte("end_date", today);
 
@@ -256,7 +337,7 @@ export async function getBookedDatesForRoom(roomId: string) {
     .from("bookings")
     .select("start_date, end_date")
     .eq("room_id", roomId)
-    .in("status", ["confirmed", "pending"])
+    .neq("status", "cancelled")
     .gte("end_date", new Date().toISOString().split("T")[0]);
 
   if (error) {

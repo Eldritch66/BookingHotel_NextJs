@@ -10,12 +10,15 @@
   },
   "dependencies": {
     "@heroui/dropdown": "^2.3.31",
+    "@heroui/select": "^2.4.33",
     "@supabase/supabase-js": "^2.99.2",
+    "bcryptjs": "^3.0.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "^4.4.0",
     "embla-carousel-autoplay": "^8.6.0",
     "embla-carousel-react": "^8.6.0",
+    "framer-motion": "^12.40.0",
     "lucide-react": "^1.11.0",
     "midtrans-client": "^1.4.3",
     "next": "16.1.6",
@@ -31,6 +34,7 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@types/bcryptjs": "^2.4.6",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
