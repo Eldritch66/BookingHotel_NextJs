@@ -44,7 +44,7 @@ const statusConfig: Record<
   { label: string; color: string; cancelable: boolean }
 > = {
   pending: {
-    label: "Pending",
+    label: "Tertunda",
     color: "bg-yellow-50 text-yellow-700 border-yellow-200",
     cancelable: true,
   },
@@ -91,7 +91,7 @@ export default async function Page({
   return (
     <div className="animate-fade-up max-w-2xl mx-auto">
       <Link
-        href="/account/reservation"
+        href="/account/bookings"
         className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-800 transition-colors duration-200 mb-6"
       >
         <FiArrowLeft size={16} />
@@ -245,7 +245,7 @@ export default async function Page({
           {status === "aktif" && (
             <p className="text-xs text-gray-400 text-center flex items-center justify-center gap-1">
               <FiClock size={12} />
-              Reservasi aktif tidak dapat dibatalkan
+              Booking aktif tidak dapat dibatalkan
             </p>
           )}
           {status === "dibatalkan" && booking.refund_amount != null && (

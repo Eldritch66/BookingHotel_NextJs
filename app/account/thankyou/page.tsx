@@ -53,11 +53,11 @@ export default async function Page({
           </div>
 
           <h1 className="text-3xl font-bold text-gray-900">
-            Payment Successful!
+            Pembayaran Berhasil!
           </h1>
           <p className="text-gray-500 mt-2 max-w-md">
-            Your booking has been confirmed. You will receive a confirmation
-            email shortly.
+            Booking Anda telah dikonfirmasi. Anda akan menerima email
+            konfirmasi dalam waktu singkat.
           </p>
         </div>
 
@@ -67,7 +67,7 @@ export default async function Page({
               <PaymentIcon method={payment?.payment_method ?? ""} />
             </div>
             <div>
-              <p className="text-xs text-gray-500">Payment Method</p>
+              <p className="text-xs text-gray-500">Metode Pembayaran</p>
               <p className="font-semibold text-gray-900">
                 {formatPaymentMethod(payment?.payment_method ?? "")}
               </p>
@@ -75,7 +75,7 @@ export default async function Page({
           </div>
 
           <div className="flex justify-between text-sm">
-            <span className="text-gray-500">Transaction ID</span>
+            <span className="text-gray-500">ID Transaksi</span>
             <span className="font-mono text-gray-900 font-medium">
               {payment?.transaction_id}
             </span>
@@ -83,7 +83,7 @@ export default async function Page({
 
           {payment?.paid_at && (
             <div className="flex justify-between text-sm">
-              <span className="text-gray-500">Paid at</span>
+              <span className="text-gray-500">Dibayar pada</span>
               <span className="text-gray-900 font-medium">
                 {format(new Date(payment.paid_at), "MMM dd, yyyy HH:mm")}
               </span>
@@ -91,7 +91,7 @@ export default async function Page({
           )}
 
           <div className="flex justify-between text-sm">
-            <span className="text-gray-500">Booking ID</span>
+            <span className="text-gray-500">ID Booking</span>
             <span className="font-mono text-gray-900 font-medium text-xs">
               {booking.id}
             </span>
@@ -122,7 +122,7 @@ export default async function Page({
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-500">Nights</span>
+              <span className="text-gray-500">Malam</span>
               <span className="font-medium text-gray-900">
                 {booking.num_nights}
               </span>
@@ -130,17 +130,17 @@ export default async function Page({
           </div>
 
           <div className="border-t border-gray-200 pt-3 flex justify-between text-base font-semibold text-gray-900">
-            <span>Total Paid</span>
+            <span>Total Dibayar</span>
             <span>{formatRupiah(payment?.amount ?? booking.total_price)}</span>
           </div>
         </div>
 
         <div className="flex items-center gap-4 mt-8 justify-center">
           <Link
-            href="/account/reservation"
+            href="/account/bookings"
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#a67f71] text-white font-medium text-sm hover:bg-[#8e6b5f] transition"
           >
-            View My Reservations
+            Lihat Booking Saya
             <ArrowRight size={16} />
           </Link>
         </div>

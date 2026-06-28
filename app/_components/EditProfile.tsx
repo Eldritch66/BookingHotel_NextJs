@@ -40,7 +40,7 @@ export default function EditProfile({ guest, defaultOpen = false }: { guest: Gue
         onClick={() => setIsOpen(!isOpen)}
       >
         <FiEdit2 className="text-gray-400" size={16} />
-        <span>Edit Profile</span>
+        <span>Edit Profil</span>
         <motion.span
           animate={{ rotate: isOpen ? 180 : 0 }}
           transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}

@@ -30,19 +30,19 @@ export default async function Page() {
     bookings.map((b) => b.rooms.properties.title),
   ).size;
 
-  const firstName = session?.user?.name?.split(" ")[0] || "Guest";
+  const firstName = session?.user?.name?.split(" ")[0] || "Tamu";
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between animate-fade-up">
         <div>
           <h2 className="font-semibold text-2xl text-accent-400">
-            Welcome back, {firstName}!
+            Selamat datang kembali, {firstName}!
           </h2>
           <p className="text-sm text-gray-400 mt-1">
             {bookings.length > 0
-              ? `You have ${upcomingCount} upcoming booking${upcomingCount !== 1 ? "s" : ""}`
-              : "Start planning your next stay"}
+              ? `Anda memiliki ${upcomingCount} booking mendatang`
+              : "Mulai rencanakan liburan Anda"}
           </p>
         </div>
         <Link
@@ -50,7 +50,7 @@ export default async function Page() {
           className="hidden sm:inline-flex items-center gap-2 text-sm text-gray-500 rounded-lg px-3 py-2 transition-all duration-300 hover:bg-stone-50 hover:text-gray-800 hover:shadow-sm"
         >
           <FiEdit2 size={14} className="transition-transform duration-300 group-hover:rotate-12" />
-          Edit Profile
+          Edit Profil
         </Link>
       </div>
 
@@ -71,7 +71,7 @@ export default async function Page() {
           </h3>
           {bookings.length > 0 && (
             <Link
-              href="/account/reservation"
+              href="/account/bookings"
               className="group text-sm text-primary-1000 hover:text-orange-700 flex items-center gap-1 transition-all duration-300 hover:gap-2"
             >
               Lihat Semua <FiArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-0.5" />
@@ -87,7 +87,7 @@ export default async function Page() {
           className="group flex items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-600 transition-all duration-300 hover:bg-stone-50 hover:border-gray-400 hover:shadow-sm hover:-translate-y-0.5"
         >
           <FiEdit2 size={15} className="transition-transform duration-300 group-hover:rotate-12" />
-          Edit Profile
+          Edit Profil
         </Link>
       </div>
     </div>

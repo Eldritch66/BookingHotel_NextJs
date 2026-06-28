@@ -217,7 +217,7 @@ export async function deleteBooking(bookingId: string) {
 
   if (error) throw new Error("Booking could not be deleted");
 
-  revalidatePath("/account/reservation");
+  revalidatePath("/account/bookings");
 }
 
 export async function cancelBooking(bookingId: string) {
@@ -241,5 +241,5 @@ export async function cancelBooking(bookingId: string) {
 
   if (error) throw new Error("Booking could not be cancelled");
 
-  revalidatePath("/account/reservation");
+  revalidatePath("/account/bookings");
 }

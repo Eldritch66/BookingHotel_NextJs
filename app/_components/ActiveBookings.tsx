@@ -76,7 +76,7 @@ export default function ActiveBookings({
       ))}
       {bookings.length > 3 && (
         <Link
-          href="/account/reservation"
+          href="/account/bookings"
           className="block text-center text-sm text-primary-1000 hover:underline pt-1 transition-all duration-300 hover:translate-x-1 animate-fade-up"
           style={{ animationDelay: `${active.length * 80}ms` }}
         >

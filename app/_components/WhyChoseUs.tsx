@@ -170,7 +170,7 @@ export default function WhyChoseUs() {
             <GoShieldCheck size={30} />
             <p className="font-bold text-xl my-4">Pemesanan Terpercaya</p>
             <p className="text-sm font-extralight text-center">
-              Reservasi aman dengan mitra perhotelan Indonesia <br /> terbaik
+              Booking aman dengan mitra perhotelan Indonesia <br /> terbaik
               yang diverifikasi oleh ahli kami
             </p>
           </div>

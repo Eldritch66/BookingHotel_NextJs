@@ -6,7 +6,7 @@ import { MdKeyboardArrowDown, MdKeyboardArrowRight } from "react-icons/md";
 const faqList = [
   {
     h3: "Bagaimana cara mengubah atau membatalkan pemesanan saya?",
-    p: "Anda dapat dengan mudah mengelola reservasi Anda melalui dasbor akun. Cukup buka 'Pemesanan Saya', pilih penginapan Anda, dan pilih ubah atau batalkan. Harap diperhatikan bahwa kebijakan pembatalan dapat bervariasi tergantung pada properti.",
+    p: "Anda dapat dengan mudah mengelola booking Anda melalui dasbor akun. Cukup buka 'Pemesanan Saya', pilih penginapan Anda, dan pilih ubah atau batalkan. Harap diperhatikan bahwa kebijakan pembatalan dapat bervariasi tergantung pada properti.",
   },
   {
     h3: "Metode pembayaran apa yang diterima?",
@@ -14,7 +14,7 @@ const faqList = [
   },
   {
     h3: "Kapan saya akan menerima konfirmasi pemesanan?",
-    p: "Konfirmasi pemesanan dikirim secara instan ke email terdaftar Anda setelah pembayaran berhasil. Anda juga dapat melihat detail reservasi kapan saja di akun Anda.",
+    p: "Konfirmasi pemesanan dikirim secara instan ke email terdaftar Anda setelah pembayaran berhasil. Anda juga dapat melihat detail booking kapan saja di akun Anda.",
   },
   {
     h3: "Apakah ada biaya pembatalan?",

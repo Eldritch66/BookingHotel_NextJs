@@ -35,7 +35,7 @@ function ReservationForm({
         disabled={!range?.from || !range?.to}
         className="w-full text-lg font-semibold bg-primary-1000 text-white py-3 rounded-xl hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
       >
-        Reserve Now
+        Book Now
       </button>
     </form>
   );

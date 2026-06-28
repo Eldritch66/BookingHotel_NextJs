@@ -4,7 +4,7 @@ import EditProfile from "@/app/_components/EditProfile";
 import { redirect } from "next/navigation";
 
 export const metadata = {
-  title: "Edit Profile",
+  title: "Edit Profil",
 };
 
 export default async function Page() {

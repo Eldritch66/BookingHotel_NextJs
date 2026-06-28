@@ -11,14 +11,14 @@ export default function CancelButton({ bookingId }: { bookingId: string }) {
   const router = useRouter();
 
   function handleCancel() {
-    const toastId = toast.loading("Membatalkan reservasi...");
+    const toastId = toast.loading("Membatalkan booking...");
     startTransition(async () => {
       try {
         await cancelBooking(bookingId);
-        toast.success("Reservasi berhasil dibatalkan", { id: toastId });
+        toast.success("Booking berhasil dibatalkan", { id: toastId });
         router.refresh();
       } catch (e) {
-        toast.error((e as Error).message || "Gagal membatalkan reservasi", {
+        toast.error((e as Error).message || "Gagal membatalkan booking", {
           id: toastId,
         });
       }
@@ -36,7 +36,7 @@ export default function CancelButton({ bookingId }: { bookingId: string }) {
       ) : (
         <>
           <FiXCircle size={16} />
-          Batalkan Reservasi
+          Batalkan Booking
         </>
       )}
     </button>

@@ -6,9 +6,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const navItems = [
-  { href: "/account", label: "Home", icon: FiHome },
-  { href: "/account/reservation", label: "Reservation", icon: FiCalendar },
-  { href: "/account/edit-profile", label: "Edit Profile", icon: FiUser },
+  { href: "/account", label: "Beranda", icon: FiHome },
+  { href: "/account/bookings", label: "Booking", icon: FiCalendar },
+  { href: "/account/edit-profile", label: "Edit Profil", icon: FiUser },
 ];
 
 export default function NavigationProfile() {
@@ -54,7 +54,7 @@ export default function NavigationProfile() {
           size={18}
           className="text-stone-400 transition-all duration-300 group-hover:text-red-500 group-hover:scale-110"
         />
-        Sign Out
+        Keluar
       </div>
     </nav>
   );

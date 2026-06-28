@@ -87,14 +87,14 @@ function ReservationCard({ booking }: { booking: Booking }) {
   const canDelete = status === "selesai" || status === "dibatalkan";
 
   function handleDelete() {
-    const toastId = toast.loading("Menghapus reservasi...");
+    const toastId = toast.loading("Menghapus booking...");
     startTransition(async () => {
       try {
         await deleteBooking(id);
-        toast.success("Reservasi berhasil dihapus", { id: toastId });
+        toast.success("Booking berhasil dihapus", { id: toastId });
         router.refresh();
       } catch (e) {
-        toast.error((e as Error).message || "Gagal menghapus reservasi", {
+        toast.error((e as Error).message || "Gagal menghapus booking", {
           id: toastId,
         });
       }
@@ -159,7 +159,7 @@ function ReservationCard({ booking }: { booking: Booking }) {
         {/* ── Desktop ── */}
         <div className="hidden sm:flex flex-col border-l border-primary-800 flex-shrink-0 self-stretch">
           <Link
-            href={`/account/reservation/${id}`}
+            href={`/account/bookings/${id}`}
             className="flex flex-1 flex-col items-center justify-center gap-2 w-[100px] uppercase text-xs font-bold text-primary-300 px-3 hover:bg-accent-600 transition-all duration-200 hover:text-primary-900 cursor-pointer"
           >
             <FiEye className="h-5 w-5 text-primary-600 group-hover:text-primary-800 transition-all duration-200 group-hover:scale-110" />
@@ -180,7 +180,7 @@ function ReservationCard({ booking }: { booking: Booking }) {
       {/* ── Mobile ── */}
       <div className="flex sm:hidden border-t border-primary-800">
         <Link
-          href={`/account/reservation/${id}`}
+          href={`/account/bookings/${id}`}
           className="flex-1 flex items-center justify-center gap-2 py-2.5 uppercase text-xs font-bold text-primary-300 hover:bg-accent-600 transition-all duration-200 hover:text-primary-900 cursor-pointer"
         >
           <FiEye className="h-4 w-4 text-primary-600" />

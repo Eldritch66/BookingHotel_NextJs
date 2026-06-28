@@ -87,7 +87,7 @@ export async function properties() {
   const { data, error } = await supabase
     .from("properties")
     .select(
-      `id, title, type, city, province, address, created_at, description,
+      `id, title, type, city, province, address, price_per_night, created_at, description,
         property_images (
           id,
           image_url
@@ -166,6 +166,7 @@ export async function getFilteredProperties({
       city,
       province,
       address,
+      price_per_night,
       created_at,
       description,
       property_images (
@@ -174,8 +175,7 @@ export async function getFilteredProperties({
       ),
       rooms (
         id,
-        name,
-        price_per_night
+        name
       )
     `,
     )
@@ -197,28 +197,20 @@ export async function getFilteredProperties({
 
   const properties = data as Property[];
 
-  const enriched = properties.map((p) => {
-    const prices = p.rooms
-      .map((r) => r.price_per_night)
-      .filter((v): v is number => v != null);
-    const minPrice = prices.length > 0 ? Math.min(...prices) : 0;
-    return { ...p, price_per_night: minPrice };
-  });
-
   if (price && price !== "Semua") {
     if (price === "Ekonomis") {
-      return enriched.filter((p) => p.price_per_night <= 500000);
+      return properties.filter((p) => p.price_per_night <= 500000);
     } else if (price === "Menengah") {
-      return enriched.filter(
+      return properties.filter(
         (p) =>
           p.price_per_night >= 500000 && p.price_per_night <= 1500000,
       );
     } else if (price === "Mewah") {
-      return enriched.filter((p) => p.price_per_night >= 1500000);
+      return properties.filter((p) => p.price_per_night >= 1500000);
     }
   }
 
-  return enriched;
+  return properties;
 }
 
 export async function getRooms(propertyId: string) {
