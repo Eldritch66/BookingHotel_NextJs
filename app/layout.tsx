@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Poppins } from "next/font/google";
+import { Toaster } from "react-hot-toast";
 
 import "./globals.css";
 import Header from "./_components/Header";
@@ -45,6 +46,17 @@ export default function RootLayout({
       > */}
         <Header />
         <main className="pt-4">{children}</main>
+        <Toaster
+          position="top-center"
+          toastOptions={{
+            duration: 3000,
+            style: {
+              borderRadius: "12px",
+              padding: "12px 20px",
+              fontSize: "14px",
+            },
+          }}
+        />
       </body>
     </html>
   );

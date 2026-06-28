@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { TiArrowRight } from "react-icons/ti";
 import { SlSocialLinkedin } from "react-icons/sl";
 import { SlSocialGithub } from "react-icons/sl";
@@ -12,9 +13,12 @@ export default function Footer() {
       </h2>
       <div className="flex flex-col items-center mt-8">
         <div className="flex gap-8 text-lg sm:gap-20 items-center flex-row font-semibold">
-          <p className="flex flex-row items-center">
+          <Link
+            href="/about"
+            className="flex flex-row items-center hover:text-stone-600 transition-colors"
+          >
             Tentang Kami <TiArrowRight size={20} className="ml-2" />
-          </p>
+          </Link>
           <p className="flex flex-row items-center">
             FAQ <TiArrowRight size={20} className="ml-2" />
           </p>

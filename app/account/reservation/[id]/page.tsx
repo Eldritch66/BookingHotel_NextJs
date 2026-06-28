@@ -230,7 +230,7 @@ export default async function Page({
         </div>
       )}
 
-      {/* Total & Cancel */}
+      {/* Total & Actions */}
       <div className="bg-white border border-gray-200 rounded-xl p-5">
         <div className="flex justify-between items-center mb-4">
           <span className="text-gray-500">Total Harga</span>
@@ -238,15 +238,25 @@ export default async function Page({
             {formatRupiah(booking.total_price)}
           </span>
         </div>
-        {cancelable && (
-          <CancelButton bookingId={booking.id} />
-        )}
-        {!cancelable && status === "aktif" && (
-          <p className="text-xs text-gray-400 text-center flex items-center justify-center gap-1">
-            <FiClock size={12} />
-            Reservasi aktif tidak dapat dibatalkan
-          </p>
-        )}
+        <div className="space-y-3">
+          {cancelable && (
+            <CancelButton bookingId={booking.id} />
+          )}
+          {status === "aktif" && (
+            <p className="text-xs text-gray-400 text-center flex items-center justify-center gap-1">
+              <FiClock size={12} />
+              Reservasi aktif tidak dapat dibatalkan
+            </p>
+          )}
+          {status === "dibatalkan" && booking.refund_amount != null && (
+            <div className="bg-green-50 border border-green-200 rounded-lg p-3 text-sm text-center">
+              <p className="font-semibold text-green-700">Refund Berhasil</p>
+              <p className="text-green-600">
+                Dana sebesar {formatRupiah(booking.refund_amount)} telah dikembalikan
+              </p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

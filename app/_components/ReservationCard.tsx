@@ -1,6 +1,12 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
-import { FiEye } from "react-icons/fi";
+import { FiEye, FiTrash2 } from "react-icons/fi";
+import { useTransition } from "react";
+import { useRouter } from "next/navigation";
+import { deleteBooking } from "../_lib/action";
+import toast from "react-hot-toast";
 import {
   endOfDay,
   format,
@@ -59,6 +65,9 @@ const statusConfig: Record<
 };
 
 function ReservationCard({ booking }: { booking: Booking }) {
+  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
+
   const {
     id,
     start_date,
@@ -75,6 +84,22 @@ function ReservationCard({ booking }: { booking: Booking }) {
   const image = property_images?.[0]?.image_url;
   const status = getStatus(start_date, end_date, dbStatus);
   const { label, color } = statusConfig[status];
+  const canDelete = status === "selesai" || status === "dibatalkan";
+
+  function handleDelete() {
+    const toastId = toast.loading("Menghapus reservasi...");
+    startTransition(async () => {
+      try {
+        await deleteBooking(id);
+        toast.success("Reservasi berhasil dihapus", { id: toastId });
+        router.refresh();
+      } catch (e) {
+        toast.error((e as Error).message || "Gagal menghapus reservasi", {
+          id: toastId,
+        });
+      }
+    });
+  }
 
   return (
     <div className="group flex flex-col border border-primary-800 transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5 animate-fade-up">
@@ -124,26 +149,53 @@ function ReservationCard({ booking }: { booking: Booking }) {
               {num_guests} tamu{num_guests > 1 && ""}
             </p>
           </div>
+          {status === "dibatalkan" && booking.refund_amount != null && (
+            <p className="text-xs text-green-600 font-medium mt-1">
+              Refund {formatRupiah(booking.refund_amount)}
+            </p>
+          )}
         </div>
 
         {/* ── Desktop ── */}
-        <Link
-          href={`/account/reservation/${id}`}
-          className="hidden sm:flex flex-col items-center justify-center gap-2 border-l border-primary-800 w-[100px] uppercase text-xs font-bold text-primary-300 px-3 hover:bg-accent-600 transition-all duration-200 hover:text-primary-900 flex-shrink-0 self-stretch"
-        >
-          <FiEye className="h-5 w-5 text-primary-600 group-hover:text-primary-800 transition-all duration-200 group-hover:scale-110" />
-          <span>Detail</span>
-        </Link>
+        <div className="hidden sm:flex flex-col border-l border-primary-800 flex-shrink-0 self-stretch">
+          <Link
+            href={`/account/reservation/${id}`}
+            className="flex flex-1 flex-col items-center justify-center gap-2 w-[100px] uppercase text-xs font-bold text-primary-300 px-3 hover:bg-accent-600 transition-all duration-200 hover:text-primary-900 cursor-pointer"
+          >
+            <FiEye className="h-5 w-5 text-primary-600 group-hover:text-primary-800 transition-all duration-200 group-hover:scale-110" />
+            <span>Detail</span>
+          </Link>
+          <button
+            onClick={handleDelete}
+            disabled={isPending || !canDelete}
+            className="flex items-center justify-center gap-2 w-[100px] py-2.5 border-t border-primary-800 uppercase text-xs font-bold px-3 transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer data-[enabled=true]:text-red-400 data-[enabled=true]:hover:bg-red-50 data-[enabled=true]:hover:text-red-600 text-stone-400"
+            data-enabled={canDelete}
+          >
+            <FiTrash2 className="h-4 w-4" />
+            <span>{isPending ? "..." : "Hapus"}</span>
+          </button>
+        </div>
       </div>
 
       {/* ── Mobile ── */}
-      <Link
-        href={`/account/reservation/${id}`}
-        className="flex sm:hidden items-center justify-center gap-2 border-t border-primary-800 py-2.5 uppercase text-xs font-bold text-primary-300 hover:bg-accent-600 transition-all duration-200 hover:text-primary-900"
-      >
-        <FiEye className="h-4 w-4 text-primary-600" />
-        <span>Detail</span>
-      </Link>
+      <div className="flex sm:hidden border-t border-primary-800">
+        <Link
+          href={`/account/reservation/${id}`}
+          className="flex-1 flex items-center justify-center gap-2 py-2.5 uppercase text-xs font-bold text-primary-300 hover:bg-accent-600 transition-all duration-200 hover:text-primary-900 cursor-pointer"
+        >
+          <FiEye className="h-4 w-4 text-primary-600" />
+          <span>Detail</span>
+        </Link>
+        <button
+          onClick={handleDelete}
+          disabled={isPending || !canDelete}
+          className="flex-1 flex items-center justify-center gap-2 py-2.5 border-l border-primary-800 uppercase text-xs font-bold px-3 transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer data-[enabled=true]:text-red-400 data-[enabled=true]:hover:bg-red-50 data-[enabled=true]:hover:text-red-600 text-stone-400"
+          data-enabled={canDelete}
+        >
+          <FiTrash2 className="h-4 w-4" />
+          <span>{isPending ? "..." : "Hapus"}</span>
+        </button>
+      </div>
     </div>
   );
 }

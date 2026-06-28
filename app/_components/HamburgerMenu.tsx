@@ -86,7 +86,7 @@ export default function HumburgerMenu({
         <nav className="px-6 py-6 flex flex-col gap-1">
           {[
             { label: "Booking", href: "/bookings" },
-            { label: "About Us", href: "#" },
+            { label: "About Us", href: "/about" },
             { label: "Services", href: "#" },
           ].map((item, i) => (
             <Link

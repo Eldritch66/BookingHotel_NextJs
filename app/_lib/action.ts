@@ -184,6 +184,42 @@ export async function updateProfileAction(formData: FormData) {
   revalidatePath("/account");
 }
 
+export async function deleteBooking(bookingId: string) {
+  const session = await auth();
+  if (!session) throw new Error("You must be logged in");
+  if (!session?.user?.email) redirect("/login");
+
+  const guest = await getGuest(session.user.email);
+  if (!guest) throw new Error("Guest record not found");
+
+  const guestBookings = await getBookings(guest.guest_id);
+  const guestBookingIds = guestBookings.map((b) => b.id);
+
+  if (!guestBookingIds.includes(bookingId))
+    throw new Error("You are not allowed to delete this booking");
+
+  const booking = guestBookings.find((b) => b.id === bookingId);
+  if (!booking) throw new Error("Booking not found");
+
+  const now = new Date();
+  const start = new Date(booking.start_date);
+  const end = new Date(booking.end_date);
+  const dbStatus = booking.status;
+  const isCancelled = dbStatus === "dibatalkan" || dbStatus === "cancelled";
+  const isPast = now > end;
+  const isPending = !isCancelled && !isPast && now < start;
+
+  if (!isPast && !isCancelled) {
+    throw new Error("Booking cannot be deleted");
+  }
+
+  const { error } = await supabase.from("bookings").delete().eq("id", bookingId);
+
+  if (error) throw new Error("Booking could not be deleted");
+
+  revalidatePath("/account/reservation");
+}
+
 export async function cancelBooking(bookingId: string) {
   const session = await auth();
   if (!session) throw new Error("You must be logged in");

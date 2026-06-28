@@ -110,6 +110,11 @@ html,
 body {
   overflow-x: hidden;
   max-width: 100%;
+  cursor: url("/about_Us/cursor-sm.png?v=4") 18 18, auto;
+}
+
+a, button, [role="button"], input, select, textarea, label, summary {
+  cursor: url("/about_Us/cursor-sm.png?v=4") 18 18, pointer;
 }
 
 @keyframes rotate {

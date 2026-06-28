@@ -90,6 +90,7 @@ export type Booking = {
   num_guests: number;
   total_price: number;
   status: string;
+  refund_amount?: number | null;
   rooms: Room;
 };
 
