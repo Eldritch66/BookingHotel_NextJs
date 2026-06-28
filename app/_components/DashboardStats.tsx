@@ -47,16 +47,20 @@ export default function DashboardStats({ stats }: { stats: Stats }) {
       {cards.map((card) => (
         <div
           key={card.label}
-          className="animate-fade-up rounded-xl border border-gray-200 bg-white p-4 sm:p-5 transition-all hover:shadow-md hover:-translate-y-0.5"
+          className="group animate-fade-up rounded-xl border border-gray-200 bg-white p-4 sm:p-5 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:border-gray-300"
           style={{ animationDelay: `${card.delay}ms` }}
         >
-          <div className={`inline-flex rounded-lg p-2 sm:p-2.5 ${card.color} mb-3`}>
+          <div
+            className={`inline-flex rounded-lg p-2 sm:p-2.5 ${card.color} mb-3 transition-all duration-300 group-hover:scale-110 group-hover:shadow-sm`}
+          >
             <card.icon size={18} />
           </div>
-          <p className="text-xl sm:text-2xl font-bold text-gray-900">
+          <p className="text-xl sm:text-2xl font-bold text-gray-900 transition-colors duration-300 group-hover:text-stone-800">
             {card.value}
           </p>
-          <p className="text-xs sm:text-sm text-gray-500 mt-0.5">{card.label}</p>
+          <p className="text-xs sm:text-sm text-gray-500 mt-0.5 group-hover:text-gray-600 transition-colors duration-300">
+            {card.label}
+          </p>
         </div>
       ))}
     </div>

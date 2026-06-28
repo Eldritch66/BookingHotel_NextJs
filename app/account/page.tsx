@@ -34,15 +34,22 @@ export default async function Page() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h2 className="font-semibold text-2xl text-accent-400">
-          Welcome back, {firstName}!
-        </h2>
+      <div className="flex items-center justify-between animate-fade-up">
+        <div>
+          <h2 className="font-semibold text-2xl text-accent-400">
+            Welcome back, {firstName}!
+          </h2>
+          <p className="text-sm text-gray-400 mt-1">
+            {bookings.length > 0
+              ? `You have ${upcomingCount} upcoming booking${upcomingCount !== 1 ? "s" : ""}`
+              : "Start planning your next stay"}
+          </p>
+        </div>
         <Link
           href="/account/edit-profile"
-          className="hidden sm:inline-flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 transition-colors"
+          className="hidden sm:inline-flex items-center gap-2 text-sm text-gray-500 rounded-lg px-3 py-2 transition-all duration-300 hover:bg-stone-50 hover:text-gray-800 hover:shadow-sm"
         >
-          <FiEdit2 size={14} />
+          <FiEdit2 size={14} className="transition-transform duration-300 group-hover:rotate-12" />
           Edit Profile
         </Link>
       </div>
@@ -56,29 +63,30 @@ export default async function Page() {
         }}
       />
 
-      <div>
+      <div className="animate-fade-up" style={{ animationDelay: "150ms" }}>
         <div className="flex items-center justify-between mb-3">
-          <h3 className="font-semibold text-lg text-gray-800">
+          <h3 className="font-semibold text-lg text-gray-800 flex items-center gap-2">
+            <span className="inline-block w-1 h-5 rounded-full bg-stone-900" />
             Booking Aktif
           </h3>
           {bookings.length > 0 && (
             <Link
               href="/account/reservation"
-              className="text-sm text-primary-1000 hover:underline flex items-center gap-1"
+              className="group text-sm text-primary-1000 hover:text-orange-700 flex items-center gap-1 transition-all duration-300 hover:gap-2"
             >
-              Lihat Semua <FiArrowRight size={14} />
+              Lihat Semua <FiArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-0.5" />
             </Link>
           )}
         </div>
         <ActiveBookings bookings={bookings} />
       </div>
 
-      <div className="sm:hidden pt-2">
+      <div className="sm:hidden pt-2 animate-fade-up" style={{ animationDelay: "300ms" }}>
         <Link
           href="/account/edit-profile"
-          className="flex items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-600 transition-all hover:bg-gray-50"
+          className="group flex items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-600 transition-all duration-300 hover:bg-stone-50 hover:border-gray-400 hover:shadow-sm hover:-translate-y-0.5"
         >
-          <FiEdit2 size={15} />
+          <FiEdit2 size={15} className="transition-transform duration-300 group-hover:rotate-12" />
           Edit Profile
         </Link>
       </div>

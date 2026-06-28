@@ -184,7 +184,7 @@ export async function updateProfileAction(formData: FormData) {
   revalidatePath("/account");
 }
 
-export async function deleteBooking(bookingId: string) {
+export async function cancelBooking(bookingId: string) {
   const session = await auth();
   if (!session) throw new Error("You must be logged in");
   if (!session?.user?.email) redirect("/login");
@@ -196,14 +196,14 @@ export async function deleteBooking(bookingId: string) {
   const guestBookingIds = guestBookings.map((booking) => booking.id);
 
   if (!guestBookingIds.includes(bookingId))
-    throw new Error("You are not allowed to delete this booking");
+    throw new Error("You are not allowed to cancel this booking");
 
   const { error } = await supabase
     .from("bookings")
-    .delete()
+    .update({ status: "dibatalkan" })
     .eq("id", bookingId);
 
-  if (error) throw new Error("Booking could not be deleted");
+  if (error) throw new Error("Booking could not be cancelled");
 
-  revalidatePath("/account/reservations");
+  revalidatePath("/account/reservation");
 }

@@ -11,15 +11,16 @@ export default async function Page() {
   const bookings = await getBookings(guest?.guest_id);
 
   return (
-    <div>
-      <h2 className="font-semibold text-2xl text-accent-400 mb-7">
+    <div className="animate-fade-up">
+      <h2 className="font-semibold text-2xl text-accent-400 mb-7 flex items-center gap-3">
+        <span className="inline-block w-1 h-6 rounded-full bg-stone-900" />
         Your reservations
       </h2>
 
       {bookings.length === 0 ? (
-        <p className="text-lg">
+        <p className="text-lg animate-fade-up" style={{ animationDelay: "100ms" }}>
           You have no reservations yet. Check out our{" "}
-          <Link className="underline text-accent-500" href="/cabins">
+          <Link className="underline text-accent-500 hover:text-orange-700 transition-colors duration-200" href="/cabins">
             luxury cabins &rarr;
           </Link>
         </p>

@@ -21,11 +21,11 @@ function DeleteReservation({
   return (
     <button
       onClick={handleDelete}
-      className="group flex items-center gap-2 uppercase text-xs font-bold text-primary-300 flex-grow px-3 hover:bg-accent-600 transition-colors hover:text-primary-900 cursor-pointer"
+      className="group flex items-center gap-2 uppercase text-xs font-bold text-primary-300 flex-grow px-3 hover:bg-red-50 transition-all duration-200 hover:text-red-600 cursor-pointer"
     >
       {!isPending ? (
         <>
-          <HiOutlineTrash className="h-5 w-5 text-primary-600 group-hover:text-primary-800 transition-colors" />
+          <HiOutlineTrash className="h-5 w-5 text-primary-600 transition-all duration-200 group-hover:text-red-500 group-hover:scale-110" />
           <span className="mt-1">Delete</span>
         </>
       ) : (

@@ -1,58 +1,92 @@
 import Link from "next/link";
 import Image from "next/image";
-import { HiOutlinePencilSquare } from "react-icons/hi2";
+import { FiEye } from "react-icons/fi";
 import {
   endOfDay,
   format,
   formatDistance,
-  isPast,
+  isAfter,
   isToday,
   parseISO,
+  startOfDay,
 } from "date-fns";
 import { Booking } from "../_lib/type";
 import { formatRupiah } from "../_lib/currency";
-import DeleteReservation from "./DeleteReservation";
 
 export const formatDistanceFromNow = (dateStr: string) =>
   formatDistance(parseISO(dateStr), new Date(), {
     addSuffix: true,
   }).replace("about ", "");
 
-function ReservationCard({
-  booking,
-  onDelete,
-}: {
-  booking: Booking;
-  onDelete: (bookingId: string) => void;
-}) {
+type BookingStatus = "pending" | "aktif" | "selesai" | "dibatalkan";
+
+function getStatus(
+  start: string,
+  end: string,
+  dbStatus?: string,
+): BookingStatus {
+  if (dbStatus === "dibatalkan" || dbStatus === "cancelled") return "dibatalkan";
+
+  const now = new Date();
+  const startDate = startOfDay(parseISO(start));
+  const endDate = endOfDay(parseISO(end));
+
+  if (isAfter(now, endDate)) return "selesai";
+  if (isAfter(now, startDate) || isToday(parseISO(start))) return "aktif";
+  return "pending";
+}
+
+const statusConfig: Record<
+  BookingStatus,
+  { label: string; color: string }
+> = {
+  pending: {
+    label: "Pending",
+    color: "bg-yellow-100 text-yellow-800 border-yellow-200",
+  },
+  aktif: {
+    label: "Aktif",
+    color: "bg-green-100 text-green-800 border-green-200",
+  },
+  selesai: {
+    label: "Selesai",
+    color: "bg-gray-100 text-gray-600 border-gray-200",
+  },
+  dibatalkan: {
+    label: "Dibatalkan",
+    color: "bg-red-50 text-red-500 border-red-200",
+  },
+};
+
+function ReservationCard({ booking }: { booking: Booking }) {
   const {
     id,
-    guest_id,
     start_date,
     end_date,
     num_nights,
     total_price,
     num_guests,
+    status: dbStatus,
     rooms: {
-      name: roomName,
       properties: { title, property_images },
     },
   } = booking;
 
   const image = property_images?.[0]?.image_url;
-  // const isUpcoming = !isPast(new Date(end_date));
-  const isUpcoming = !isPast(endOfDay(parseISO(end_date)));
+  const status = getStatus(start_date, end_date, dbStatus);
+  const { label, color } = statusConfig[status];
+
   return (
-    <div className="flex flex-col border border-primary-800">
+    <div className="group flex flex-col border border-primary-800 transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5 animate-fade-up">
       <div className="flex items-center">
-        <div className="relative h-28 sm:h-32 aspect-square flex-shrink-0 bg-gray-100">
+        <div className="relative h-28 sm:h-32 aspect-square flex-shrink-0 bg-gray-100 overflow-hidden">
           {image ? (
             <Image
               src={image}
               alt={`Property ${title}`}
               quality={40}
               fill
-              className="object-cover border-r border-primary-800"
+              className="object-cover border-r border-primary-800 transition-all duration-500 group-hover:scale-110"
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-gray-400 text-xs">
@@ -64,30 +98,21 @@ function ReservationCard({
         <div className="flex-grow px-3 sm:px-6 py-3 flex flex-col min-w-0">
           <div className="flex items-start justify-between gap-2">
             <h3 className="text-base sm:text-xl font-semibold leading-snug">
-              {num_nights} nights in {title}
+              {num_nights} malam di {title}
             </h3>
-            {isUpcoming ? (
-              <span className="bg-green-800 text-green-200 h-6 px-2 sm:h-7 sm:px-3 uppercase text-[10px] sm:text-xs font-bold flex items-center rounded-sm flex-shrink-0">
-                upcoming
-              </span>
-            ) : (
-              <span className="bg-yellow-800 text-yellow-200 h-6 px-2 sm:h-7 sm:px-3 uppercase text-[10px] sm:text-xs font-bold flex items-center rounded-sm flex-shrink-0">
-                past
-              </span>
-            )}
+            <span
+              className={`h-6 px-2 sm:h-7 sm:px-3 text-[10px] sm:text-xs font-bold flex items-center rounded-full border ${color} flex-shrink-0`}
+            >
+              {label}
+            </span>
           </div>
 
-          <p className="text-xs sm:text-lg text-primary-300 mt-1 leading-snug">
-            {/* {format(new Date(start_date), "EEE, MMM dd yyyy")} (
-            {isToday(new Date(start_date))
-              ? "Today"
-              : formatDistanceFromNow(start_date)}
-            ) &mdash; {format(new Date(end_date), "EEE, MMM dd yyyy")} */}
-            {format(parseISO(start_date), "EEE, MMM dd yyyy")} (
+          <p className="text-xs sm:text-sm text-primary-300 mt-1 leading-snug">
+            {format(parseISO(start_date), "EEE, dd MMM yyyy")} (
             {isToday(parseISO(start_date))
-              ? "Today"
+              ? "Hari ini"
               : formatDistanceFromNow(start_date)}
-            ) &mdash; {format(parseISO(end_date), "EEE, MMM dd yyyy")}
+            ) &mdash; {format(parseISO(end_date), "EEE, dd MMM yyyy")}
           </p>
 
           <div className="flex gap-3 mt-auto items-baseline pt-2">
@@ -96,44 +121,29 @@ function ReservationCard({
             </p>
             <p className="text-primary-300">&bull;</p>
             <p className="text-sm sm:text-lg text-primary-300">
-              {num_guests} guest{num_guests > 1 && "s"}
+              {num_guests} tamu{num_guests > 1 && ""}
             </p>
           </div>
         </div>
 
-        {/* ── Desktop-only right panel (unchanged) ── */}
-        <div className="hidden sm:flex flex-col border-l border-primary-800 w-[100px]">
-          {isUpcoming && (
-            <Link
-              href={`/account/reservations/edit/${id}`}
-              className="group flex items-center gap-2 uppercase text-xs font-bold text-primary-300 border-b border-primary-800 flex-grow px-3 hover:bg-accent-600 transition-colors hover:text-primary-900"
-            >
-              <HiOutlinePencilSquare className="h-5 w-5 text-primary-600 group-hover:text-primary-800 transition-colors" />
-              <span className="my-2">Edit</span>
-            </Link>
-          )}
-          <div className="mt-1.5"></div>
-          <DeleteReservation bookingId={id} onDelete={onDelete} />
-        </div>
+        {/* ── Desktop ── */}
+        <Link
+          href={`/account/reservation/${id}`}
+          className="hidden sm:flex flex-col items-center justify-center gap-2 border-l border-primary-800 w-[100px] uppercase text-xs font-bold text-primary-300 px-3 hover:bg-accent-600 transition-all duration-200 hover:text-primary-900 flex-shrink-0 self-stretch"
+        >
+          <FiEye className="h-5 w-5 text-primary-600 group-hover:text-primary-800 transition-all duration-200 group-hover:scale-110" />
+          <span>Detail</span>
+        </Link>
       </div>
 
-      {/* ── Mobile-only bottom action bar ── */}
-      <div className="flex sm:hidden border-t border-primary-800">
-        {isUpcoming && (
-          <Link
-            href={`/account/reservations/edit/${id}`}
-            className="group flex items-center justify-center gap-2 flex-1 uppercase text-xs font-bold text-primary-300 border-r border-primary-800 py-2.5 hover:bg-accent-600 transition-colors hover:text-primary-900"
-          >
-            <HiOutlinePencilSquare className="h-4 w-4 text-primary-600 group-hover:text-primary-800 transition-colors" />
-            <span>Edit</span>
-          </Link>
-        )}
-        <div
-          className={`${isUpcoming ? "flex-1" : "w-full"} flex [&>*]:flex-1 [&>*]:flex [&>*]:items-center [&>*]:justify-center`}
-        >
-          <DeleteReservation bookingId={id} onDelete={onDelete} />
-        </div>
-      </div>
+      {/* ── Mobile ── */}
+      <Link
+        href={`/account/reservation/${id}`}
+        className="flex sm:hidden items-center justify-center gap-2 border-t border-primary-800 py-2.5 uppercase text-xs font-bold text-primary-300 hover:bg-accent-600 transition-all duration-200 hover:text-primary-900"
+      >
+        <FiEye className="h-4 w-4 text-primary-600" />
+        <span>Detail</span>
+      </Link>
     </div>
   );
 }

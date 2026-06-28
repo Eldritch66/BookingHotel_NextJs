@@ -31,11 +31,12 @@ export default function ActiveBookings({
 
   return (
     <div className="space-y-3">
-      {active.map((booking) => (
+      {active.map((booking, i) => (
         <Link
           key={booking.id}
           href={`/bookings/${booking.id}`}
-          className="flex items-center gap-3 sm:gap-4 rounded-xl border border-gray-200 bg-white p-3 sm:p-4 transition-all hover:shadow-md hover:-translate-y-0.5"
+          className="group flex items-center gap-3 sm:gap-4 rounded-xl border border-gray-200 bg-white p-3 sm:p-4 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:border-gray-300 animate-fade-up"
+          style={{ animationDelay: `${i * 80}ms` }}
         >
           <div className="relative h-16 w-16 sm:h-20 sm:w-20 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100">
             {booking.rooms.properties.property_images?.[0]?.image_url ? (
@@ -43,7 +44,7 @@ export default function ActiveBookings({
                 src={booking.rooms.properties.property_images[0].image_url}
                 alt={booking.rooms.properties.title}
                 fill
-                className="object-cover"
+                className="object-cover transition-all duration-500 group-hover:scale-110"
                 sizes="80px"
               />
             ) : (
@@ -53,7 +54,7 @@ export default function ActiveBookings({
             )}
           </div>
           <div className="flex-1 min-w-0">
-            <h4 className="text-sm sm:text-base font-semibold text-gray-900 truncate">
+            <h4 className="text-sm sm:text-base font-semibold text-gray-900 truncate transition-colors duration-300 group-hover:text-primary-1000">
               {booking.rooms.properties.title}
             </h4>
             <p className="text-xs sm:text-sm text-gray-500 flex items-center gap-1 mt-0.5">
@@ -65,8 +66,8 @@ export default function ActiveBookings({
               {format(parseISO(booking.end_date), "dd MMM yyyy")}
             </p>
           </div>
-          <div className="text-right flex-shrink-0">
-            <p className="text-sm font-bold text-primary-1000">
+          <div className="text-right flex-shrink-0 transition-all duration-300 group-hover:translate-x-0.5">
+            <p className="text-sm font-bold text-primary-1000 transition-colors duration-300 group-hover:text-orange-700">
               {formatRupiah(booking.total_price)}
             </p>
             <p className="text-xs text-gray-400">{booking.num_nights} malam</p>
@@ -76,7 +77,8 @@ export default function ActiveBookings({
       {bookings.length > 3 && (
         <Link
           href="/account/reservation"
-          className="block text-center text-sm text-primary-1000 hover:underline pt-1"
+          className="block text-center text-sm text-primary-1000 hover:underline pt-1 transition-all duration-300 hover:translate-x-1 animate-fade-up"
+          style={{ animationDelay: `${active.length * 80}ms` }}
         >
           Lihat semua booking &rarr;
         </Link>
